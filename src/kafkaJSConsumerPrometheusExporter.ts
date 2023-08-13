@@ -6,7 +6,8 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly register: Registry
 
   private readonly consumerConnections: Gauge
-  private readonly consumerConnectionsTotal: Counter
+  private readonly consumerConnectionsCreatedTotal: Counter
+  private readonly consumerConnectionsClosedTotal: Counter
 
   constructor (consumer: Consumer, register: Registry) {
     this.consumer = consumer
@@ -18,9 +19,15 @@ export class KafkaJSConsumerPrometheusExporter {
       registers: [this.register]
     })
 
-    this.consumerConnectionsTotal = new Counter({
+    this.consumerConnectionsCreatedTotal = new Counter({
       name: 'kafka_consumer_connection_creation_total',
       help: 'The total number of connections established with a broker',
+      registers: [this.register]
+    })
+
+    this.consumerConnectionsClosedTotal = new Counter({
+      name: 'kafka_consumer_connection_close_total',
+      help: 'The total number of connections closed with a broker',
       registers: [this.register]
     })
   }
@@ -32,10 +39,11 @@ export class KafkaJSConsumerPrometheusExporter {
 
   onConsumerConnect (event: ConnectEvent): void {
     this.consumerConnections.inc()
-    this.consumerConnectionsTotal.inc()
+    this.consumerConnectionsCreatedTotal.inc()
   }
 
   onConsumerDisconnect (event: DisconnectEvent): void {
     this.consumerConnections.dec()
+    this.consumerConnectionsClosedTotal.inc()
   }
 }
