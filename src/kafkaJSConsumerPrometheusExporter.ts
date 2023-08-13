@@ -13,14 +13,14 @@ export class KafkaJSConsumerPrometheusExporter {
     this.register = register
 
     this.consumerConnections = new Gauge({
-      name: 'kafka_consumer_connection_count',
-      help: 'the current connections established with a broker',
+      name: 'kafka_consumer_connections',
+      help: 'The current number of connections established with a broker',
       registers: [this.register]
     })
 
     this.consumerConnectionsTotal = new Counter({
-      name: 'kafka_consumer_connection_total',
-      help: 'the number of connections established with a broker',
+      name: 'kafka_consumer_connection_creation_total',
+      help: 'The total number of connections established with a broker',
       registers: [this.register]
     })
   }
