@@ -49,14 +49,14 @@ export class KafkaJSConsumerPrometheusExporter {
     this.consumerHeartbeats = new Counter({
       name: 'kafka_consumer_heartbeats',
       help: 'The total numer of heartbeats with a broker',
-      labelNames: ['group_id', 'member_id'],
+      labelNames: ['client_id', 'group_id', 'member_id'],
       registers: [this.register]
     })
 
     this.consumerRequestQueueSize = new Gauge({
       name: 'kafka_consumer_request_queue_size',
       help: 'Size of the request queue.',
-      labelNames: ['broker', 'group_id'],
+      labelNames: ['client_id', 'broker', 'group_id'],
       registers: [this.register]
     })
   }
@@ -84,10 +84,10 @@ export class KafkaJSConsumerPrometheusExporter {
   }
 
   onConsumerHeartbeat (event: ConsumerHeartbeatEvent): void {
-    this.consumerHeartbeats.inc({ group_id: event.payload.groupId, member_id: event.payload.memberId })
+    this.consumerHeartbeats.inc({ client_id: this.clientId, group_id: event.payload.groupId, member_id: event.payload.memberId })
   }
 
   onConsumerRequestQueueSize (event: RequestQueueSizeEvent): void {
-    this.consumerRequestQueueSize.set({ broker: event.payload.broker, clientId: event.payload.clientId }, event.payload.queueSize)
+    this.consumerRequestQueueSize.set({ client_id: this.clientId, broker: event.payload.broker, clientId: event.payload.clientId }, event.payload.queueSize)
   }
 }
