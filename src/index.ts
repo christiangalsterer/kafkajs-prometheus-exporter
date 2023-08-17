@@ -1,1 +1,1 @@
-export { monitorKafkaJS } from './monitorKafkaJS'
+export { monitorKafkaJSConsumer } from './monitorKafkaJSConsumer'
