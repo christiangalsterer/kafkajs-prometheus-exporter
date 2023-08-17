@@ -13,8 +13,20 @@ Metrics names follow the same naming convention used by [micrometer](https://git
 ## Available Metrics
 The exporter provides the following metrics.
 
+### Consumer Metrics
+
 |Metric Name|Description|Labels|Since|
 |---|---|---|---|
+|kafka_consumer_connections|The current number of active connections established with a broker|<ul><li>_client_id_:</li><ul>||
+|kafka_consumer_connection_creation_total|The total number of connections established with a broker|<ul><li>_client_id_:</li><ul>||
+|kafka_consumer_connection_close_total|The total number of connections closed with a broker|<ul><li>_client_id_:</li><ul>||
+|kafka_consumer_connection_crashed_total|The total number of crashed connections with a broker|<ul><li>_client_id_:</li><li>_error_:</li><li>_restart_:</li><ul>||
+|kafka_consumer_heartbeats|The total numer of heartbeats with a broker|<ul><li>_client_id_:</li><li>_group_id_:</li><li>_member_id_:</li><ul>||
+|kafka_consumer_request_queue_size|Size of the request queue.|<ul><li>_client_id_:</li><li>_broker_:</li><ul>||
+|kafka_consumer_fetch_latency_max|The max time taken for a fetch request.|<ul><li>_client_id_:</li><ul>||
+|kafka_consumer_fetch_total|The total number of fetch requests.|<ul><li>_client_id_:</li><ul>||
+|kafka_consumer_batch_size_max|The max number of bytes received per partition per request|<ul><li>_client_id_:</li><li>_topic_:</li><li>_partition_:</li><ul>||
+|kafka_consumer_batch_latency_max|The max time taken for processing a batch.|<ul><li>_client_id_:</li><li>_topic_:</li><li>_partition_:</li><ul>||
 
 ## Example Output
 
