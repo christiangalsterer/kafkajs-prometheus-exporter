@@ -15,6 +15,7 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly consumerFetchLatencyMax: Gauge
   private readonly consumerFetchTotal: Counter
   private readonly consumerBatchSizeMax: Gauge
+  private readonly consumerBatchLatencyMax: Gauge
 
   constructor (consumer: Consumer, clientId: string, register: Registry) {
     this.consumer = consumer
@@ -83,6 +84,13 @@ export class KafkaJSConsumerPrometheusExporter {
       labelNames: ['client_id', 'topic', 'partition'],
       registers: [this.register]
     })
+
+    this.consumerBatchLatencyMax = new Gauge({
+      name: 'kafka_consumer_batch_latency_max',
+      help: 'The max time taken for processing a batch.',
+      labelNames: ['client_id', 'topic', 'partition'],
+      registers: [this.register]
+    })
   }
 
   public enableMetrics (): void {
@@ -124,5 +132,6 @@ export class KafkaJSConsumerPrometheusExporter {
 
   onConsumerEndBatch (event: ConsumerEndBatchProcessEvent): void {
     this.consumerBatchSizeMax.set({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, event.payload.batchSize)
+    this.consumerBatchLatencyMax.set({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, event.payload.duration)
   }
 }

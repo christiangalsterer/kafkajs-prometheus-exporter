@@ -21,7 +21,6 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
   test('test if all metrics are registered in registry', () => {
     const exporter = new KafkaJSConsumerPrometheusExporter(consumer, clientId, register)
     exporter.enableMetrics()
-    expect(register.getMetricsAsArray().length).toBe(9)
     expect(register.getSingleMetric('kafka_consumer_connections')).toBeDefined()
     expect(register.getSingleMetric('kafka_consumer_connection_creation_total')).toBeDefined()
     expect(register.getSingleMetric('kafka_consumer_connection_close_total')).toBeDefined()
@@ -31,5 +30,7 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
     expect(register.getSingleMetric('kafka_consumer_fetch_latency_max')).toBeDefined()
     expect(register.getSingleMetric('kafka_consumer_fetch_total')).toBeDefined()
     expect(register.getSingleMetric('kafka_consumer_batch_size_max')).toBeDefined()
+    expect(register.getSingleMetric('kafka_consumer_batch_latency_max')).toBeDefined()
+    expect(register.getMetricsAsArray().length).toBe(10)
   })
 })
