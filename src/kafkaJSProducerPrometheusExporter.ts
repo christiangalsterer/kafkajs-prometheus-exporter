@@ -1,5 +1,5 @@
 import { type Registry, Gauge, Counter } from 'prom-client'
-import type { DisconnectEvent, ConnectEvent, ConsumerCrashEvent, ConsumerHeartbeatEvent, RequestQueueSizeEvent, ConsumerFetchEvent, ConsumerEndBatchProcessEvent, Producer, RequestEvent } from 'kafkajs'
+import type { DisconnectEvent, ConnectEvent, RequestQueueSizeEvent, Producer, RequestEvent } from 'kafkajs'
 
 export class KafkaJSProducerPrometheusExporter {
   private readonly producer: Producer
