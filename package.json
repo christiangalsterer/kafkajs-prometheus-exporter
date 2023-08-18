@@ -26,12 +26,16 @@
   },
   "keywords": [
     "kafkajs",
+    "kafka",
     "prometheus",
     "monitoring",
     "metrics",
     "kafkajs prometheus",
     "kafkajs monitoring",
-    "kafkajs metrics"
+    "kafkajs metrics",
+    "kafka prometheus",
+    "kafka monitoring",
+    "kafka metrics"
   ],
   "author": "Christian Galsterer",
   "license": "MIT",
