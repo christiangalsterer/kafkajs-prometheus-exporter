@@ -41,14 +41,14 @@ export class KafkaJSProducerPrometheusExporter {
 
     this.producerRequestsTotal = new Counter({
       name: 'kafka_producer_requests_total',
-      help: 'Size of the request queue.',
+      help: 'The total number of requests sent.',
       labelNames: ['client_id', 'broker'],
       registers: [this.register]
     })
 
     this.producerRequestSizeMax = new Gauge({
       name: 'kafka_producer_requests_size_max',
-      help: 'Size of the request queue.',
+      help: 'The maximum size of any request sent.',
       labelNames: ['client_id', 'broker'],
       registers: [this.register]
     })

@@ -1,5 +1,5 @@
 import { type Registry, Gauge, Counter } from 'prom-client'
-import type { DisconnectEvent, ConnectEvent, Consumer, ConsumerCrashEvent, ConsumerHeartbeatEvent, RequestQueueSizeEvent, ConsumerFetchEvent, ConsumerEndBatchProcessEvent } from 'kafkajs'
+import type { DisconnectEvent, ConnectEvent, Consumer, ConsumerCrashEvent, ConsumerHeartbeatEvent, RequestQueueSizeEvent, ConsumerFetchEvent, ConsumerEndBatchProcessEvent, RequestEvent } from 'kafkajs'
 
 export class KafkaJSConsumerPrometheusExporter {
   private readonly consumer: Consumer
@@ -16,6 +16,8 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly consumerFetchTotal: Counter
   private readonly consumerBatchSizeMax: Gauge
   private readonly consumerBatchLatencyMax: Gauge
+  private readonly consumerRequestsTotal: Counter
+  private readonly consumerRequestSizeMax: Gauge
 
   constructor (consumer: Consumer, clientId: string, register: Registry) {
     this.consumer = consumer
@@ -54,6 +56,20 @@ export class KafkaJSConsumerPrometheusExporter {
       name: 'kafka_consumer_heartbeats',
       help: 'The total numer of heartbeats with a broker',
       labelNames: ['client_id', 'group_id', 'member_id'],
+      registers: [this.register]
+    })
+
+    this.consumerRequestsTotal = new Counter({
+      name: 'kafka_consumer_requests_total',
+      help: 'The total number of requests sent.',
+      labelNames: ['client_id', 'broker'],
+      registers: [this.register]
+    })
+
+    this.consumerRequestSizeMax = new Gauge({
+      name: 'kafka_consumer_requests_size_max',
+      help: 'The maximum size of any request sent.',
+      labelNames: ['client_id', 'broker'],
       registers: [this.register]
     })
 
@@ -98,6 +114,7 @@ export class KafkaJSConsumerPrometheusExporter {
     this.consumer.on('consumer.disconnect', event => { this.onConsumerDisconnect(event) })
     this.consumer.on('consumer.crash', event => { this.onConsumerCrashed(event) })
     this.consumer.on('consumer.heartbeat', event => { this.onConsumerHeartbeat(event) })
+    this.consumer.on('consumer.network.request', event => { this.onConsumerRequest(event) })
     this.consumer.on('consumer.network.request_queue_size', event => { this.onConsumerRequestQueueSize(event) })
     this.consumer.on('consumer.fetch', event => { this.onConsumerFetch(event) })
     this.consumer.on('consumer.end_batch_process', event => { this.onConsumerEndBatch(event) })
@@ -119,6 +136,11 @@ export class KafkaJSConsumerPrometheusExporter {
 
   onConsumerHeartbeat (event: ConsumerHeartbeatEvent): void {
     this.consumerHeartbeats.inc({ client_id: this.clientId, group_id: event.payload.groupId, member_id: event.payload.memberId })
+  }
+
+  onConsumerRequest (event: RequestEvent): void {
+    this.consumerRequestsTotal.inc({ client_id: event.payload.clientId, broker: event.payload.broker })
+    this.consumerRequestSizeMax.set({ client_id: event.payload.clientId, broker: event.payload.broker }, event.payload.size)
   }
 
   onConsumerRequestQueueSize (event: RequestQueueSizeEvent): void {
