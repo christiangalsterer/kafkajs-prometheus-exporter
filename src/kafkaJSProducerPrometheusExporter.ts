@@ -1,8 +1,8 @@
 import { type Registry, Gauge, Counter } from 'prom-client'
-import type { DisconnectEvent, ConnectEvent, Consumer, ConsumerCrashEvent, ConsumerHeartbeatEvent, RequestQueueSizeEvent, ConsumerFetchEvent, ConsumerEndBatchProcessEvent } from 'kafkajs'
+import type { DisconnectEvent, ConnectEvent, ConsumerCrashEvent, ConsumerHeartbeatEvent, RequestQueueSizeEvent, ConsumerFetchEvent, ConsumerEndBatchProcessEvent, Producer } from 'kafkajs'
 
-export class KafkaJSConsumerPrometheusExporter {
-  private readonly consumer: Consumer
+export class KafkaJSProducerPrometheusExporter {
+  private readonly producer: Producer
   private readonly clientId: string
   private readonly register: Registry
 
@@ -17,8 +17,8 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly consumerBatchSizeMax: Gauge
   private readonly consumerBatchLatencyMax: Gauge
 
-  constructor (consumer: Consumer, clientId: string, register: Registry) {
-    this.consumer = consumer
+  constructor (producer: Producer, clientId: string, register: Registry) {
+    this.producer = producer
     this.clientId = clientId
     this.register = register
 
