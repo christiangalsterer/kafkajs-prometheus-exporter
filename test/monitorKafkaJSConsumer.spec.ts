@@ -8,7 +8,7 @@ import { type Consumer } from 'kafkajs'
 jest.mock('../src/kafkaJSConsumerPrometheusExporter')
 const mockKafkaJSConsumerPrometheusExporter = jest.mocked(KafkaJSConsumerPrometheusExporter)
 
-describe('tests monitorKafkaJS', () => {
+describe('tests monitorKafkaConsumerJS', () => {
   const clientId = 'myTestClientId'
   let kafkaConsumer: Consumer
   let register: Registry
