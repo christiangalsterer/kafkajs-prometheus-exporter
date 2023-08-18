@@ -1,5 +1,5 @@
 import { type Registry, Gauge, Counter } from 'prom-client'
-import type { DisconnectEvent, ConnectEvent, ConsumerCrashEvent, ConsumerHeartbeatEvent, RequestQueueSizeEvent, ConsumerFetchEvent, ConsumerEndBatchProcessEvent, Producer } from 'kafkajs'
+import type { DisconnectEvent, ConnectEvent, ConsumerCrashEvent, ConsumerHeartbeatEvent, RequestQueueSizeEvent, ConsumerFetchEvent, ConsumerEndBatchProcessEvent, Producer, RequestEvent } from 'kafkajs'
 
 export class KafkaJSProducerPrometheusExporter {
   private readonly producer: Producer
@@ -9,6 +9,8 @@ export class KafkaJSProducerPrometheusExporter {
   private readonly producerActiveConnections: Gauge
   private readonly producerConnectionsCreatedTotal: Counter
   private readonly producerConnectionsClosedTotal: Counter
+  private readonly producerRequestsTotal: Counter
+  private readonly producerRequestSizeMax: Gauge
   private readonly producerRequestQueueSize: Gauge
 
   constructor (producer: Producer, clientId: string, register: Registry) {
@@ -37,6 +39,20 @@ export class KafkaJSProducerPrometheusExporter {
       registers: [this.register]
     })
 
+    this.producerRequestsTotal = new Counter({
+      name: 'kafka_producer_requests_total',
+      help: 'Size of the request queue.',
+      labelNames: ['client_id', 'broker'],
+      registers: [this.register]
+    })
+
+    this.producerRequestSizeMax = new Gauge({
+      name: 'kafka_producer_requests_size_max',
+      help: 'Size of the request queue.',
+      labelNames: ['client_id', 'broker'],
+      registers: [this.register]
+    })
+
     this.producerRequestQueueSize = new Gauge({
       name: 'kafka_producer_request_queue_size',
       help: 'Size of the request queue.',
@@ -48,6 +64,7 @@ export class KafkaJSProducerPrometheusExporter {
   public enableMetrics (): void {
     this.producer.on('producer.connect', event => { this.onProducerConnect(event) })
     this.producer.on('producer.disconnect', event => { this.onProducerDisconnect(event) })
+    this.producer.on('producer.network.request', event => { this.onProducerRequest(event) })
     this.producer.on('producer.network.request_queue_size', event => { this.onProducerRequestQueueSize(event) })
   }
 
@@ -61,7 +78,12 @@ export class KafkaJSProducerPrometheusExporter {
     this.producerConnectionsClosedTotal.inc({ client_id: this.clientId })
   }
 
+  onProducerRequest (event: RequestEvent): void {
+    this.producerRequestsTotal.inc({ client_id: event.payload.clientId, broker: event.payload.broker })
+    this.producerRequestSizeMax.set({ client_id: event.payload.clientId, broker: event.payload.broker }, event.payload.size)
+  }
+
   onProducerRequestQueueSize (event: RequestQueueSizeEvent): void {
-    this.producerRequestQueueSize.set({ clientId: event.payload.clientId, broker: event.payload.broker }, event.payload.queueSize)
+    this.producerRequestQueueSize.set({ client_id: event.payload.clientId, broker: event.payload.broker }, event.payload.queueSize)
   }
 }
