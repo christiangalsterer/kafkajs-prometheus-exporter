@@ -17,6 +17,7 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly consumerBatchSizeMax: Gauge
   private readonly consumerBatchLatencyMax: Gauge
   private readonly consumerRequestTotal: Counter
+  private readonly consumerOutgoingByteTotal: Counter
   private readonly consumerRequestSizeMax: Gauge
 
   constructor (consumer: Consumer, clientId: string, register: Registry) {
@@ -69,6 +70,13 @@ export class KafkaJSConsumerPrometheusExporter {
     this.consumerRequestSizeMax = new Gauge({
       name: 'kafka_consumer_request_size_max',
       help: 'The maximum size of any request sent.',
+      labelNames: ['client_id', 'broker'],
+      registers: [this.register]
+    })
+
+    this.consumerOutgoingByteTotal = new Counter({
+      name: 'kafka_consumer_outgoing_byte_total',
+      help: 'The total number of outgoing bytes sent for a node.',
       labelNames: ['client_id', 'broker'],
       registers: [this.register]
     })
@@ -141,6 +149,7 @@ export class KafkaJSConsumerPrometheusExporter {
   onConsumerRequest (event: RequestEvent): void {
     this.consumerRequestTotal.inc({ client_id: event.payload.clientId, broker: event.payload.broker })
     this.consumerRequestSizeMax.set({ client_id: event.payload.clientId, broker: event.payload.broker }, event.payload.size)
+    this.consumerOutgoingByteTotal.inc({ client_id: event.payload.clientId, broker: event.payload.broker }, event.payload.size)
   }
 
   onConsumerRequestQueueSize (event: RequestQueueSizeEvent): void {
