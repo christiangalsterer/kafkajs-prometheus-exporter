@@ -10,7 +10,6 @@ export class KafkaJSProducerPrometheusExporter {
   private readonly producerConnectionsCreatedTotal: Counter
   private readonly producerConnectionsClosedTotal: Counter
   private readonly producerRequestTotal: Counter
-  private readonly producerOutgoingByteTotal: Counter
   private readonly producerRequestSizeMax: Gauge
   private readonly producerRequestQueueSize: Gauge
 
@@ -43,13 +42,6 @@ export class KafkaJSProducerPrometheusExporter {
     this.producerRequestTotal = new Counter({
       name: 'kafka_producer_request_total',
       help: 'The total number of requests sent.',
-      labelNames: ['client_id', 'broker'],
-      registers: [this.register]
-    })
-
-    this.producerOutgoingByteTotal = new Counter({
-      name: 'kafka_producer_outgoing_byte_total',
-      help: 'The total number of outgoing bytes sent for a node.',
       labelNames: ['client_id', 'broker'],
       registers: [this.register]
     })
@@ -88,7 +80,6 @@ export class KafkaJSProducerPrometheusExporter {
 
   onProducerRequest (event: RequestEvent): void {
     this.producerRequestTotal.inc({ client_id: event.payload.clientId, broker: event.payload.broker })
-    this.producerOutgoingByteTotal.inc({ client_id: event.payload.clientId, broker: event.payload.broker }, event.payload.size)
     this.producerRequestSizeMax.set({ client_id: event.payload.clientId, broker: event.payload.broker }, event.payload.size)
   }
 
