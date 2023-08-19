@@ -16,7 +16,7 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly consumerFetchTotal: Counter
   private readonly consumerBatchSizeMax: Gauge
   private readonly consumerBatchLatencyMax: Gauge
-  private readonly consumerRequestsTotal: Counter
+  private readonly consumerRequestTotal: Counter
   private readonly consumerRequestSizeMax: Gauge
 
   constructor (consumer: Consumer, clientId: string, register: Registry) {
@@ -25,7 +25,7 @@ export class KafkaJSConsumerPrometheusExporter {
     this.register = register
 
     this.consumerActiveConnections = new Gauge({
-      name: 'kafka_consumer_connections',
+      name: 'kafka_consumer_connection_count',
       help: 'The current number of active connections established with a broker',
       labelNames: ['client_id'],
       registers: [this.register]
@@ -53,21 +53,21 @@ export class KafkaJSConsumerPrometheusExporter {
     })
 
     this.consumerHeartbeats = new Counter({
-      name: 'kafka_consumer_heartbeats',
+      name: 'kafka_consumer_heartbeat_total',
       help: 'The total numer of heartbeats with a broker',
       labelNames: ['client_id', 'group_id', 'member_id'],
       registers: [this.register]
     })
 
-    this.consumerRequestsTotal = new Counter({
-      name: 'kafka_consumer_requests_total',
+    this.consumerRequestTotal = new Counter({
+      name: 'kafka_consumer_request_total',
       help: 'The total number of requests sent.',
       labelNames: ['client_id', 'broker'],
       registers: [this.register]
     })
 
     this.consumerRequestSizeMax = new Gauge({
-      name: 'kafka_consumer_requests_size_max',
+      name: 'kafka_consumer_request_size_max',
       help: 'The maximum size of any request sent.',
       labelNames: ['client_id', 'broker'],
       registers: [this.register]
@@ -139,7 +139,7 @@ export class KafkaJSConsumerPrometheusExporter {
   }
 
   onConsumerRequest (event: RequestEvent): void {
-    this.consumerRequestsTotal.inc({ client_id: event.payload.clientId, broker: event.payload.broker })
+    this.consumerRequestTotal.inc({ client_id: event.payload.clientId, broker: event.payload.broker })
     this.consumerRequestSizeMax.set({ client_id: event.payload.clientId, broker: event.payload.broker }, event.payload.size)
   }
 

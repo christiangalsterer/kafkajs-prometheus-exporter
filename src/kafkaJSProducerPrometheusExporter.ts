@@ -9,7 +9,7 @@ export class KafkaJSProducerPrometheusExporter {
   private readonly producerActiveConnections: Gauge
   private readonly producerConnectionsCreatedTotal: Counter
   private readonly producerConnectionsClosedTotal: Counter
-  private readonly producerRequestsTotal: Counter
+  private readonly producerRequestTotal: Counter
   private readonly producerRequestSizeMax: Gauge
   private readonly producerRequestQueueSize: Gauge
 
@@ -19,7 +19,7 @@ export class KafkaJSProducerPrometheusExporter {
     this.register = register
 
     this.producerActiveConnections = new Gauge({
-      name: 'kafka_producer_connections',
+      name: 'kafka_producer_connection_count',
       help: 'The current number of active connections established with a broker',
       labelNames: ['client_id'],
       registers: [this.register]
@@ -39,15 +39,15 @@ export class KafkaJSProducerPrometheusExporter {
       registers: [this.register]
     })
 
-    this.producerRequestsTotal = new Counter({
-      name: 'kafka_producer_requests_total',
+    this.producerRequestTotal = new Counter({
+      name: 'kafka_producer_request_total',
       help: 'The total number of requests sent.',
       labelNames: ['client_id', 'broker'],
       registers: [this.register]
     })
 
     this.producerRequestSizeMax = new Gauge({
-      name: 'kafka_producer_requests_size_max',
+      name: 'kafka_producer_request_size_max',
       help: 'The maximum size of any request sent.',
       labelNames: ['client_id', 'broker'],
       registers: [this.register]
@@ -79,7 +79,7 @@ export class KafkaJSProducerPrometheusExporter {
   }
 
   onProducerRequest (event: RequestEvent): void {
-    this.producerRequestsTotal.inc({ client_id: event.payload.clientId, broker: event.payload.broker })
+    this.producerRequestTotal.inc({ client_id: event.payload.clientId, broker: event.payload.broker })
     this.producerRequestSizeMax.set({ client_id: event.payload.clientId, broker: event.payload.broker }, event.payload.size)
   }
 
