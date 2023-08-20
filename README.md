@@ -60,43 +60,61 @@ npm i @christiangalsterer/kafkajs-prometheus-exporter
 
 ## TypeScript
 
-The following example illustrates how to use the exporter to enable monitoring for the MongoDB Node.js driver.
+The following example illustrates how to use the exporter to enable monitoring for the KafkaJS.
 
 ```ts
-import { MongoClient } from "mongodb";
+import { Kafka } from "kafkjs";
 import { Registry, collectDefaultMetrics } from "prom-client";
-import { monitorMongoDBDriver } from "@christiangalsterer/kafkajs-prometheus-exporter";
+import { monitorKafkaJSProducer, monitorKafkaJSConsumer } from "@christiangalsterer/kafkajs-prometheus-exporter";
 
 ...
 
-// set up the MongoDB client, monitorCommands needs to be set to true to enable command monitoring.
-const mongoClient = new MongoClient("mongodb", { monitorCommands: true })
+// set up the KafkaJS client
+const clientId = 'myClientId'
+const kafka = new Kafka({
+    clientId: clientId,
+    brokers: ['localhost:9094'],
+})
+
+const producer = kafka.producer()
+const consumer = kafka.consumer({ groupId: 'myGroupId' })
 
 // set up the prometheus client
 const register = new Registry();
 collectDefaultMetrics({ register });
 
-// monitor KafkaJS
-monitorMongoDBDriver(mongoClient, register);
+// monitor KafkaJS producer
+monitorKafkaJSProducer(producer, clientId, register);
+
+// monitor KafkaJS consumer
+monitorKafkaJSConsumer(consumer, clientId, register);
 
 ...
 
-// connect to Kafka after calling monitorMongoDBDriver()
-mongoClient.connect();
+// connect to Kafka after calling monitorKafkaJSProducer() and/or monitorKafkaJSConsumer
+await producer.connect()
+await consumer.connect()
 ```
 ## JavaScript
 
-The following example illustrates how to use the exporter to enable monitoring for the MongoDB Node.js driver.
+The following example illustrates how to use the exporter to enable monitoring for KafkaJS.
 
 ```js
-const MongoClient = require('mongodb');
+const Kafka = require('kafkajs')
 const promClient = require( 'prom-client');
-const exporter = require('@christiangalsterer/kafkajs-prometheus-exporter')
+const kafkaExporter = require('@christiangalsterer/kafkajs-prometheus-exporter')
 
 ...
 
-// set up the MongoDB client, monitorCommands needs to be set to true to enable command monitoring.
-const mongoClient = new MongoClient("mongodb", { monitorCommands: true })
+// set up the KafkaJS client
+const clientId = 'myClientId'
+const kafka = new Kafka({
+    clientId: clientId,
+    brokers: ['localhost:9094'],
+})
+
+const producer = kafka.producer()
+const consumer = kafka.consumer({ groupId: 'myGroupId' })
 
 // set up the prometheus client
 const collectDefaultMetrics = promClient.collectDefaultMetrics;
@@ -104,13 +122,17 @@ const Registry = promClient.Registry;
 const register = new Registry();
 collectDefaultMetrics({ register });
 
-// monitor KafkaJS
-exporter.monitorMongoDBDriver(client, register);
+// monitor KafkaJS producer
+kafkaExporter.monitorKafkaJSProducer(producer, clientId, register)
+
+// monitor KafkaJS consumer
+kafkaExporter.monitorKafkaJSConsumer(consumer, clientId, register)
 
 ...
 
-// connect to Kafka after calling monitorMongoDBDriver()
-mongoClient.connect();
+// connect to Kafka after calling monitorKafkaJSProducer() and/or monitorKafkaJSConsumer
+await producer.connect()
+await consumer.connect()
 ```
 
 # Configuration
