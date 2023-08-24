@@ -1,62 +1,66 @@
-import { type Registry, Gauge, Counter } from 'prom-client'
+import { type Registry, Gauge, Counter, Summary } from 'prom-client'
 import type { DisconnectEvent, ConnectEvent, RequestQueueSizeEvent, Producer, RequestEvent } from 'kafkajs'
+import { type KafkaJSProducerExporterOptions } from './monitorKafkaJSProducer'
+import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
 
 export class KafkaJSProducerPrometheusExporter {
   private readonly producer: Producer
   private readonly clientId: string
   private readonly register: Registry
+  private readonly options: KafkaJSProducerExporterOptions | undefined
 
   private readonly producerActiveConnections: Gauge
   private readonly producerConnectionsCreatedTotal: Counter
   private readonly producerConnectionsClosedTotal: Counter
   private readonly producerRequestTotal: Counter
-  private readonly producerRequestSizeMax: Gauge
+  private readonly producerRequestSizeMax: Summary
   private readonly producerRequestQueueSize: Gauge
 
-  constructor (producer: Producer, clientId: string, register: Registry) {
+  constructor (producer: Producer, clientId: string, register: Registry, options?: KafkaJSProducerExporterOptions) {
     this.producer = producer
     this.clientId = clientId
     this.register = register
+    this.options = options
 
     this.producerActiveConnections = new Gauge({
       name: 'kafka_producer_connection_count',
       help: 'The current number of active connections established with a broker',
-      labelNames: ['client_id'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.producerConnectionsCreatedTotal = new Counter({
       name: 'kafka_producer_connection_creation_total',
       help: 'The total number of connections established with a broker',
-      labelNames: ['client_id'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.producerConnectionsClosedTotal = new Counter({
       name: 'kafka_producer_connection_close_total',
       help: 'The total number of connections closed with a broker',
-      labelNames: ['client_id'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.producerRequestTotal = new Counter({
       name: 'kafka_producer_request_total',
       help: 'The total number of requests sent.',
-      labelNames: ['client_id', 'broker'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
-    this.producerRequestSizeMax = new Gauge({
+    this.producerRequestSizeMax = new Summary({
       name: 'kafka_producer_request_size_max',
       help: 'The maximum size of any request sent.',
-      labelNames: ['client_id', 'broker'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.producerRequestQueueSize = new Gauge({
       name: 'kafka_producer_request_queue_size',
       help: 'Size of the request queue.',
-      labelNames: ['client_id', 'broker'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options?.defaultLabels),
       registers: [this.register]
     })
   }
@@ -69,21 +73,22 @@ export class KafkaJSProducerPrometheusExporter {
   }
 
   onProducerConnect (event: ConnectEvent): void {
-    this.producerActiveConnections.inc({ client_id: this.clientId })
-    this.producerConnectionsCreatedTotal.inc({ client_id: this.clientId })
+    this.producerActiveConnections.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels))
+    this.producerConnectionsCreatedTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels))
   }
 
   onProducerDisconnect (event: DisconnectEvent): void {
-    this.producerActiveConnections.dec({ client_id: this.clientId })
-    this.producerConnectionsClosedTotal.inc({ client_id: this.clientId })
+    this.producerActiveConnections.dec(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels))
+    this.producerConnectionsClosedTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels))
   }
 
   onProducerRequest (event: RequestEvent): void {
-    this.producerRequestTotal.inc({ client_id: event.payload.clientId, broker: event.payload.broker })
-    this.producerRequestSizeMax.set({ client_id: event.payload.clientId, broker: event.payload.broker }, event.payload.size)
+    this.producerRequestTotal.inc(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options?.defaultLabels))
+    // this.producerRequestSizeMax.set(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options?.defaultLabels), event.payload.size)
+    this.producerRequestSizeMax.observe(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options?.defaultLabels), event.payload.size)
   }
 
   onProducerRequestQueueSize (event: RequestQueueSizeEvent): void {
-    this.producerRequestQueueSize.set({ client_id: event.payload.clientId, broker: event.payload.broker }, event.payload.queueSize)
+    this.producerRequestQueueSize.set(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options?.defaultLabels), event.payload.queueSize)
   }
 }

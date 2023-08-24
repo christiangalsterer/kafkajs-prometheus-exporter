@@ -30,4 +30,18 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
     expect(register.getSingleMetric('kafka_producer_request_queue_size')).toBeDefined()
     expect(register.getMetricsAsArray().length).toBe(6)
   })
+
+  test('test if all metrics are registered in registry with defaultLabels', () => {
+    const options = { defaultLabels: { foo: 'bar', alice: 2 } }
+    const exporter = new KafkaJSProducerPrometheusExporter(producer, clientId, register, options)
+    exporter.enableMetrics()
+    expect(register.getSingleMetric('kafka_producer_connection_count')).toBeDefined()
+    expect(register.getSingleMetric('kafka_producer_connection_creation_total')).toBeDefined()
+    expect(register.getSingleMetric('kafka_producer_connection_close_total')).toBeDefined()
+    expect(register.getSingleMetric('kafka_producer_request_queue_size')).toBeDefined()
+    expect(register.getSingleMetric('kafka_producer_request_total')).toBeDefined()
+    expect(register.getSingleMetric('kafka_producer_request_size_max')).toBeDefined()
+    expect(register.getSingleMetric('kafka_producer_request_queue_size')).toBeDefined()
+    expect(register.getMetricsAsArray().length).toBe(6)
+  })
 })

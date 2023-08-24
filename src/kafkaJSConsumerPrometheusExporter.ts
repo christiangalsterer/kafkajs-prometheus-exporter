@@ -1,10 +1,13 @@
 import { type Registry, Gauge, Counter } from 'prom-client'
 import type { DisconnectEvent, ConnectEvent, Consumer, ConsumerCrashEvent, ConsumerHeartbeatEvent, RequestQueueSizeEvent, ConsumerFetchEvent, ConsumerEndBatchProcessEvent, RequestEvent } from 'kafkajs'
+import { type KafkaJSConsumerExporterOptions } from './monitorKafkaJSConsumer'
+import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
 
 export class KafkaJSConsumerPrometheusExporter {
   private readonly consumer: Consumer
   private readonly clientId: string
   private readonly register: Registry
+  private readonly options: KafkaJSConsumerExporterOptions | undefined
 
   private readonly consumerActiveConnections: Gauge
   private readonly consumerConnectionsCreatedTotal: Counter
@@ -19,92 +22,93 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly consumerRequestTotal: Counter
   private readonly consumerRequestSizeMax: Gauge
 
-  constructor (consumer: Consumer, clientId: string, register: Registry) {
+  constructor (consumer: Consumer, clientId: string, register: Registry, options?: KafkaJSConsumerExporterOptions) {
     this.consumer = consumer
     this.clientId = clientId
     this.register = register
+    this.options = options
 
     this.consumerActiveConnections = new Gauge({
       name: 'kafka_consumer_connection_count',
       help: 'The current number of active connections established with a broker',
-      labelNames: ['client_id'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerConnectionsCreatedTotal = new Counter({
       name: 'kafka_consumer_connection_creation_total',
       help: 'The total number of connections established with a broker',
-      labelNames: ['client_id'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerConnectionsClosedTotal = new Counter({
       name: 'kafka_consumer_connection_close_total',
       help: 'The total number of connections closed with a broker',
-      labelNames: ['client_id'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerConnectionsCrashedTotal = new Counter({
       name: 'kafka_consumer_connection_crashed_total',
       help: 'The total number of crashed connections with a broker',
-      labelNames: ['client_id', 'error', 'restart'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'error', 'restart'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerHeartbeats = new Counter({
       name: 'kafka_consumer_heartbeat_total',
       help: 'The total numer of heartbeats with a broker',
-      labelNames: ['client_id', 'group_id', 'member_id'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'group_id', 'member_id'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerRequestTotal = new Counter({
       name: 'kafka_consumer_request_total',
       help: 'The total number of requests sent.',
-      labelNames: ['client_id', 'broker'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerRequestSizeMax = new Gauge({
       name: 'kafka_consumer_request_size_max',
       help: 'The maximum size of any request sent.',
-      labelNames: ['client_id', 'broker'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerRequestQueueSize = new Gauge({
       name: 'kafka_consumer_request_queue_size',
       help: 'Size of the request queue.',
-      labelNames: ['client_id', 'broker'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerFetchLatencyMax = new Gauge({
       name: 'kafka_consumer_fetch_latency_max',
       help: 'The max time taken for a fetch request.',
-      labelNames: ['client_id'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerFetchTotal = new Counter({
       name: 'kafka_consumer_fetch_total',
       help: 'The total number of fetch requests.',
-      labelNames: ['client_id'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerBatchSizeMax = new Gauge({
       name: 'kafka_consumer_batch_size_max',
       help: 'The max number of bytes received per partition per request',
-      labelNames: ['client_id', 'topic', 'partition'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'topic', 'partition'], this.options?.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerBatchLatencyMax = new Gauge({
       name: 'kafka_consumer_batch_latency_max',
       help: 'The max time taken for processing a batch.',
-      labelNames: ['client_id', 'topic', 'partition'],
+      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'topic', 'partition'], this.options?.defaultLabels),
       registers: [this.register]
     })
   }
@@ -121,39 +125,39 @@ export class KafkaJSConsumerPrometheusExporter {
   }
 
   onConsumerConnect (event: ConnectEvent): void {
-    this.consumerActiveConnections.inc({ client_id: this.clientId })
-    this.consumerConnectionsCreatedTotal.inc({ client_id: this.clientId })
+    this.consumerActiveConnections.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels))
+    this.consumerConnectionsCreatedTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels))
   }
 
   onConsumerDisconnect (event: DisconnectEvent): void {
-    this.consumerActiveConnections.dec({ client_id: this.clientId })
-    this.consumerConnectionsClosedTotal.inc({ client_id: this.clientId })
+    this.consumerActiveConnections.dec(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels))
+    this.consumerConnectionsClosedTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels))
   }
 
   onConsumerCrashed (event: ConsumerCrashEvent): void {
-    this.consumerConnectionsCrashedTotal.inc({ client_id: event.payload.groupId, error: event.payload.error.name, restart: event.payload.restart.valueOf().toString() })
+    this.consumerConnectionsCrashedTotal.inc(mergeLabelsWithStandardLabels({ client_id: event.payload.groupId, error: event.payload.error.name, restart: event.payload.restart.valueOf().toString() }, this.options?.defaultLabels))
   }
 
   onConsumerHeartbeat (event: ConsumerHeartbeatEvent): void {
-    this.consumerHeartbeats.inc({ client_id: this.clientId, group_id: event.payload.groupId, member_id: event.payload.memberId })
+    this.consumerHeartbeats.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId, group_id: event.payload.groupId, member_id: event.payload.memberId }, this.options?.defaultLabels))
   }
 
   onConsumerRequest (event: RequestEvent): void {
-    this.consumerRequestTotal.inc({ client_id: event.payload.clientId, broker: event.payload.broker })
-    this.consumerRequestSizeMax.set({ client_id: event.payload.clientId, broker: event.payload.broker }, event.payload.size)
+    this.consumerRequestTotal.inc(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options?.defaultLabels))
+    this.consumerRequestSizeMax.set(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options?.defaultLabels), event.payload.size)
   }
 
   onConsumerRequestQueueSize (event: RequestQueueSizeEvent): void {
-    this.consumerRequestQueueSize.set({ clientId: event.payload.clientId, broker: event.payload.broker }, event.payload.queueSize)
+    this.consumerRequestQueueSize.set(mergeLabelsWithStandardLabels({ clientId: event.payload.clientId, broker: event.payload.broker }, this.options?.defaultLabels), event.payload.queueSize)
   }
 
   onConsumerFetch (event: ConsumerFetchEvent): void {
-    this.consumerFetchLatencyMax.set({ client_id: this.clientId }, event.payload.duration)
-    this.consumerFetchTotal.inc({ client_id: this.clientId })
+    this.consumerFetchLatencyMax.set(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels), event.payload.duration)
+    this.consumerFetchTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels))
   }
 
   onConsumerEndBatch (event: ConsumerEndBatchProcessEvent): void {
-    this.consumerBatchSizeMax.set({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, event.payload.batchSize)
-    this.consumerBatchLatencyMax.set({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, event.payload.duration)
+    this.consumerBatchSizeMax.set(mergeLabelsWithStandardLabels({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, this.options?.defaultLabels), event.payload.batchSize)
+    this.consumerBatchLatencyMax.set(mergeLabelsWithStandardLabels({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, this.options?.defaultLabels), event.payload.duration)
   }
 }

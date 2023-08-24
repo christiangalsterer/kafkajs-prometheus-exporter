@@ -35,4 +35,23 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
     expect(register.getSingleMetric('kafka_consumer_batch_latency_max')).toBeDefined()
     expect(register.getMetricsAsArray().length).toBe(12)
   })
+
+  test('test if all metrics are registered in registry with defaultLabels', () => {
+    const options = { defaultLabels: { foo: 'bar', alice: 2 } }
+    const exporter = new KafkaJSConsumerPrometheusExporter(consumer, clientId, register, options)
+    exporter.enableMetrics()
+    expect(register.getSingleMetric('kafka_consumer_connection_count')).toBeDefined()
+    expect(register.getSingleMetric('kafka_consumer_connection_creation_total')).toBeDefined()
+    expect(register.getSingleMetric('kafka_consumer_connection_close_total')).toBeDefined()
+    expect(register.getSingleMetric('kafka_consumer_connection_crashed_total')).toBeDefined()
+    expect(register.getSingleMetric('kafka_consumer_heartbeat_total')).toBeDefined()
+    expect(register.getSingleMetric('kafka_consumer_request_total')).toBeDefined()
+    expect(register.getSingleMetric('kafka_consumer_request_size_max')).toBeDefined()
+    expect(register.getSingleMetric('kafka_consumer_request_queue_size')).toBeDefined()
+    expect(register.getSingleMetric('kafka_consumer_fetch_latency_max')).toBeDefined()
+    expect(register.getSingleMetric('kafka_consumer_fetch_total')).toBeDefined()
+    expect(register.getSingleMetric('kafka_consumer_batch_size_max')).toBeDefined()
+    expect(register.getSingleMetric('kafka_consumer_batch_latency_max')).toBeDefined()
+    expect(register.getMetricsAsArray().length).toBe(12)
+  })
 })

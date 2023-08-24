@@ -130,7 +130,7 @@ kafkaExporter.monitorKafkaJSConsumer(consumer, clientId, register)
 
 ...
 
-// connect to Kafka after calling monitorKafkaJSProducer() and/or monitorKafkaJSConsumer
+// connect to Kafka *after* calling monitorKafkaJSProducer() and/or monitorKafkaJSConsumer
 await producer.connect()
 await consumer.connect()
 ```
@@ -138,23 +138,29 @@ await consumer.connect()
 # Configuration
 
 The exporter can be configured via properties specified on the optional parameter of type 
-_MongoDBDriverExporterOptions_.
+_KafkaJSProducerExporterOptions_ and _KafkaJSConsumerExporterOptions_ respectively.
+
+## KafkaJSProducerExporterOptions
 
 |property|Description|Example|Since |
 |---|---|---|---|
-| mongodbDriverCommandsSecondsHistogramBuckets | Buckets for the mongodb_driver_commands_seconds_bucket metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 1.0.0|
-| defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} | 1.1.0 |
+| defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} |  |
 
+## KafkaJSConsumerExporterOptions
+
+|property|Description|Example|Since |
+|---|---|---|---|
+| defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} |  |
 
 # Grafana Dashboard
 
 An example dashboard for Grafana is available [here](/docs/grafana/dashbaord.json) displaying the provided metrics by the exporter.
 
-Here an example for collection metrics:
-![Grafana:Collection Metrics](/docs/images/grafana_mongodb_driver_collections_1.png "Grafana: Collection Metrics")
+Here an example for KafkaJS producer metrics:
+![Grafana:KafkaJS Producer Metrics](/docs/images/grafana_kafkajs_producer_1.png "Grafana: KafkaJS Producer Metrics")
 
-Here an example for command metrics:
-![Grafana:Commands Metrics](/docs/images/grafana_mongodb_driver_commands_1.png "Grafana: Command Metrics")
+Here an example for KafkaJS consumer metrics:
+![Grafana:KafkaJS Consumer Metrics](/docs/images/grafana_kafkajs_consumer_1.png "Grafana: KafkaJS Consumers Metrics")
 
 
 # Changelog

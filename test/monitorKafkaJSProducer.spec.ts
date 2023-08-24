@@ -21,7 +21,14 @@ describe('tests monitorKafkaProducerJS', () => {
   test('tests if monitorKafkaJSProducer called KafkaJSProducerPrometheusExporter with mandatory parameter', () => {
     monitorKafkaJSProducer(kafkaProducer, clientId, register)
     expect(mockKafkaJSProducerPrometheusExporter).toHaveBeenCalledTimes(1)
-    expect(mockKafkaJSProducerPrometheusExporter).toBeCalledWith(kafkaProducer, clientId, register)
+    expect(mockKafkaJSProducerPrometheusExporter).toBeCalledWith(kafkaProducer, clientId, register, undefined)
+  })
+
+  test('tests if monitorKafkaJSProducer called KafkaJSProducerPrometheusExporter with optional parameter', () => {
+    const options = { defaultLabels: { foo: 'bar', alice: 2 } }
+    monitorKafkaJSProducer(kafkaProducer, clientId, register, options)
+    expect(mockKafkaJSProducerPrometheusExporter).toHaveBeenCalledTimes(1)
+    expect(mockKafkaJSProducerPrometheusExporter).toBeCalledWith(kafkaProducer, clientId, register, options)
   })
 
   test('tests if monitorKafkaJSProducer called methods of KafkaJSProducerPrometheusExporter instance', () => {
