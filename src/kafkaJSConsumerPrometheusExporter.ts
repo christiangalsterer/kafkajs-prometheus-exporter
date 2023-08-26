@@ -156,7 +156,6 @@ export class KafkaJSConsumerPrometheusExporter {
   onConsumerFetch (event: ConsumerFetchEvent): void {
     this.consumerFetchLatency.observe(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels), event.payload.duration / 1000)
     this.consumerFetchTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels))
-    console.log('fetchlatency:', event.payload.duration)
   }
 
   onConsumerEndBatch (event: ConsumerEndBatchProcessEvent): void {
