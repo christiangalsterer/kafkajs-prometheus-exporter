@@ -150,6 +150,8 @@ _KafkaJSProducerExporterOptions_ and _KafkaJSConsumerExporterOptions_ respective
 
 |property|Description|Example|Since |
 |---|---|---|---|
+| consumerBatchLatencyHistogramBuckets | Buckets for the kafka_consumer_batch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 1.0.0|
+| consumerFetchLatencyHistogramBuckets | Buckets for the kafka_consumer_fetch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 1.0.0|
 | defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} |  |
 
 # Grafana Dashboard

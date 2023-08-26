@@ -1,4 +1,4 @@
-import { type Registry, Gauge, Counter } from 'prom-client'
+import { type Registry, Gauge, Counter, Histogram } from 'prom-client'
 import type { DisconnectEvent, ConnectEvent, Consumer, ConsumerCrashEvent, ConsumerHeartbeatEvent, RequestQueueSizeEvent, ConsumerFetchEvent, ConsumerEndBatchProcessEvent, RequestEvent } from 'kafkajs'
 import { type KafkaJSConsumerExporterOptions } from './monitorKafkaJSConsumer'
 import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
@@ -15,10 +15,10 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly consumerConnectionsCrashedTotal: Counter
   private readonly consumerHeartbeats: Counter
   private readonly consumerRequestQueueSize: Gauge
-  private readonly consumerFetchLatencyMax: Gauge
+  private readonly consumerFetchLatency: Histogram
   private readonly consumerFetchTotal: Counter
   private readonly consumerBatchSizeMax: Gauge
-  private readonly consumerBatchLatencyMax: Gauge
+  private readonly consumerBatchLatency: Histogram
   private readonly consumerRequestTotal: Counter
   private readonly consumerRequestSizeMax: Gauge
 
@@ -84,10 +84,11 @@ export class KafkaJSConsumerPrometheusExporter {
       registers: [this.register]
     })
 
-    this.consumerFetchLatencyMax = new Gauge({
-      name: 'kafka_consumer_fetch_latency_max',
-      help: 'The max time taken for a fetch request.',
+    this.consumerFetchLatency = new Histogram({
+      name: 'kafka_consumer_fetch_latency',
+      help: 'The time taken for a fetch request.',
       labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options?.defaultLabels),
+      buckets: this.fetchLatencyHistogramBuckets(),
       registers: [this.register]
     })
 
@@ -105,10 +106,11 @@ export class KafkaJSConsumerPrometheusExporter {
       registers: [this.register]
     })
 
-    this.consumerBatchLatencyMax = new Gauge({
-      name: 'kafka_consumer_batch_latency_max',
-      help: 'The max time taken for processing a batch.',
+    this.consumerBatchLatency = new Histogram({
+      name: 'kafka_consumer_batch_latency',
+      help: 'The time taken for processing a batch.',
       labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'topic', 'partition'], this.options?.defaultLabels),
+      buckets: this.batchLatencyHistogramBuckets(),
       registers: [this.register]
     })
   }
@@ -148,16 +150,25 @@ export class KafkaJSConsumerPrometheusExporter {
   }
 
   onConsumerRequestQueueSize (event: RequestQueueSizeEvent): void {
-    this.consumerRequestQueueSize.set(mergeLabelsWithStandardLabels({ clientId: event.payload.clientId, broker: event.payload.broker }, this.options?.defaultLabels), event.payload.queueSize)
+    this.consumerRequestQueueSize.set(mergeLabelsWithStandardLabels({ client_Id: event.payload.clientId, broker: event.payload.broker }, this.options?.defaultLabels), event.payload.queueSize)
   }
 
   onConsumerFetch (event: ConsumerFetchEvent): void {
-    this.consumerFetchLatencyMax.set(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels), event.payload.duration)
+    this.consumerFetchLatency.observe(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels), event.payload.duration / 1000)
     this.consumerFetchTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options?.defaultLabels))
+    console.log('fetchlatency:', event.payload.duration)
   }
 
   onConsumerEndBatch (event: ConsumerEndBatchProcessEvent): void {
     this.consumerBatchSizeMax.set(mergeLabelsWithStandardLabels({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, this.options?.defaultLabels), event.payload.batchSize)
-    this.consumerBatchLatencyMax.set(mergeLabelsWithStandardLabels({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, this.options?.defaultLabels), event.payload.duration)
+    this.consumerBatchLatency.observe(mergeLabelsWithStandardLabels({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, this.options?.defaultLabels), event.payload.duration / 1000)
+  }
+
+  private fetchLatencyHistogramBuckets (): number[] {
+    return this.options?.consumerFetchLatencyHistogramBuckets != null ? this.options.consumerFetchLatencyHistogramBuckets : [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10]
+  }
+
+  private batchLatencyHistogramBuckets (): number[] {
+    return this.options?.consumerBatchLatencyHistogramBuckets != null ? this.options.consumerBatchLatencyHistogramBuckets : [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10]
   }
 }
