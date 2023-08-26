@@ -61,7 +61,7 @@ kafka_consumer_connection_creation_total{client_id="nodejs-example-app",alice="b
 
 # HELP kafka_consumer_heartbeat_total The total numer of heartbeats with a broker
 # TYPE kafka_consumer_heartbeat_total counter
-kafka_consumer_heartbeat_total{client_id="nodejs-example-app",group_id="group-1",member_id="nodejs-example-app-e8962841-acad-4c88-a076-f4f4fa9f27bd",alice="bob"} 7
+kafka_consumer_heartbeat_total{client_id="nodejs-example-app",group_id="myGroupId",member_id="nodejs-example-app-e8962841-acad-4c88-a076-f4f4fa9f27bd",alice="bob"} 7
 
 # HELP kafka_consumer_request_total The total number of requests sent.
 # TYPE kafka_consumer_request_total counter
