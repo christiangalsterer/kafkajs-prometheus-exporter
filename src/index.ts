@@ -1,2 +1,2 @@
-export { monitorKafkaJSConsumer, type KafkaJSConsumerExporterOptions } from './monitorKafkaJSConsumer'
-export { monitorKafkaJSProducer, type KafkaJSProducerExporterOptions } from './monitorKafkaJSProducer'
+export { monitorKafkaJSConsumer } from './monitorKafkaJSConsumer'
+export { monitorKafkaJSProducer } from './monitorKafkaJSProducer'

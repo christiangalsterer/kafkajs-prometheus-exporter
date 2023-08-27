@@ -1,6 +1,6 @@
 import { type Registry, Gauge, Counter, Summary } from 'prom-client'
 import type { DisconnectEvent, ConnectEvent, RequestQueueSizeEvent, Producer, RequestEvent } from 'kafkajs'
-import { type KafkaJSProducerExporterOptions } from './monitorKafkaJSProducer'
+import { type KafkaJSProducerExporterOptions } from './kafkaJSProducerExporterOptions'
 import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
 
 export class KafkaJSProducerPrometheusExporter {
