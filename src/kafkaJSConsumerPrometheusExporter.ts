@@ -62,7 +62,7 @@ export class KafkaJSConsumerPrometheusExporter {
 
     this.consumerHeartbeats = new Counter({
       name: 'kafka_consumer_heartbeat_total',
-      help: 'The total numer of heartbeats with a broker',
+      help: 'The total number of heartbeats with a broker',
       labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'group_id', 'member_id'], this.options.defaultLabels),
       registers: [this.register]
     })
