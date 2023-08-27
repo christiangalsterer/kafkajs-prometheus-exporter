@@ -154,7 +154,7 @@ export class KafkaJSConsumerPrometheusExporter {
   }
 
   onConsumerRequestQueueSize (event: RequestQueueSizeEvent): void {
-    this.consumerRequestQueueSize.set(mergeLabelsWithStandardLabels({ client_Id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels), event.payload.queueSize)
+    this.consumerRequestQueueSize.set(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels), event.payload.queueSize)
   }
 
   onConsumerFetch (event: ConsumerFetchEvent): void {
