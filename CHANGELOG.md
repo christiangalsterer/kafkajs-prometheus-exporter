@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.9.0] 2023-08-28
+## [0.9.0] 2023-08-29
 
 ### Added
 
-- suppert for new metrics. For details see [README.md](/README.md).
+- suppert for new metrics kafka_consumer_batch_size_total, kafka_consumer_request_size_total and kafka_producer_request_size_total.
 
 ## [0.8.1] 2023-08-27
 
