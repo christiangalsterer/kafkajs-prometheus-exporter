@@ -21,10 +21,10 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly consumerRequestQueueSize: Gauge
   private readonly consumerFetchLatency: Histogram
   private readonly consumerFetchTotal: Counter
-  private readonly consumerBatchSizeMax: Gauge
+  private readonly consumerBatchSizeTotal: Counter
   private readonly consumerBatchLatency: Histogram
   private readonly consumerRequestTotal: Counter
-  private readonly consumerRequestSizeMax: Gauge
+  private readonly consumerRequestSizeTotal: Counter
 
   constructor (consumer: Consumer, clientId: string, register: Registry, options?: KafkaJSConsumerExporterOptions) {
     this.consumer = consumer
@@ -74,9 +74,9 @@ export class KafkaJSConsumerPrometheusExporter {
       registers: [this.register]
     })
 
-    this.consumerRequestSizeMax = new Gauge({
-      name: 'kafka_consumer_request_size_max',
-      help: 'The maximum size of any request sent.',
+    this.consumerRequestSizeTotal = new Gauge({
+      name: 'kafka_consumer_request_size_total',
+      help: 'The size of any request sent.',
       labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options.defaultLabels),
       registers: [this.register]
     })
@@ -103,9 +103,9 @@ export class KafkaJSConsumerPrometheusExporter {
       registers: [this.register]
     })
 
-    this.consumerBatchSizeMax = new Gauge({
-      name: 'kafka_consumer_batch_size_max',
-      help: 'The max number of bytes received per partition per request',
+    this.consumerBatchSizeTotal = new Counter({
+      name: 'kafka_consumer_batch_size_total',
+      help: 'The number of bytes received per partition per request',
       labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'topic', 'partition'], this.options.defaultLabels),
       registers: [this.register]
     })
@@ -150,7 +150,7 @@ export class KafkaJSConsumerPrometheusExporter {
 
   onConsumerRequest (event: RequestEvent): void {
     this.consumerRequestTotal.inc(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels))
-    this.consumerRequestSizeMax.set(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
+    this.consumerRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
   }
 
   onConsumerRequestQueueSize (event: RequestQueueSizeEvent): void {
@@ -163,7 +163,7 @@ export class KafkaJSConsumerPrometheusExporter {
   }
 
   onConsumerEndBatch (event: ConsumerEndBatchProcessEvent): void {
-    this.consumerBatchSizeMax.set(mergeLabelsWithStandardLabels({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels), event.payload.batchSize)
+    this.consumerBatchSizeTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels), event.payload.batchSize)
     this.consumerBatchLatency.observe(mergeLabelsWithStandardLabels({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels), event.payload.duration / 1000)
   }
 }

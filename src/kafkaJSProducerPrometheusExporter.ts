@@ -14,7 +14,7 @@ export class KafkaJSProducerPrometheusExporter {
   private readonly producerConnectionsCreatedTotal: Counter
   private readonly producerConnectionsClosedTotal: Counter
   private readonly producerRequestTotal: Counter
-  private readonly producerRequestSizeMax: Summary
+  private readonly producerRequestSizeTotal: Counter
   private readonly producerRequestQueueSize: Gauge
 
   constructor (producer: Producer, clientId: string, register: Registry, options?: KafkaJSProducerExporterOptions) {
@@ -51,9 +51,9 @@ export class KafkaJSProducerPrometheusExporter {
       registers: [this.register]
     })
 
-    this.producerRequestSizeMax = new Summary({
-      name: 'kafka_producer_request_size_max',
-      help: 'The maximum size of any request sent.',
+    this.producerRequestSizeTotal = new Counter({
+      name: 'kafka_producer_request_size_total',
+      help: 'The size of any request sent.',
       labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options.defaultLabels),
       registers: [this.register]
     })
@@ -85,8 +85,7 @@ export class KafkaJSProducerPrometheusExporter {
 
   onProducerRequest (event: RequestEvent): void {
     this.producerRequestTotal.inc(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels))
-    // this.producerRequestSizeMax.set(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
-    this.producerRequestSizeMax.observe(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
+    this.producerRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
   }
 
   onProducerRequestQueueSize (event: RequestQueueSizeEvent): void {
