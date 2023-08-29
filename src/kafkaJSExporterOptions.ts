@@ -1,7 +1,6 @@
 /**
  * Optional parameter to configure the exporter.
  */
-
 export interface KafkaJSExporterOptions {
 
   /**
