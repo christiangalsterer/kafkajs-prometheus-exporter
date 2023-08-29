@@ -6,7 +6,7 @@ import { type KafkaJSConsumerExporterOptions } from './kafkaJSConsumerExporterOp
 /**
  * Exposes metrics for a KafkaJS consumer in prometheus format.
  *
- * @param consumer The KafkaS consumer to monitor.
+ * @param consumer The KafkaJS consumer to monitor.
  * @param clientId The client id for the application. The client id is identical across different instances of the same application.
  * @param register The prometheus registry used to expose the metrics.
  * @param options Optional parameter to configure the exporter
