@@ -42,6 +42,17 @@ The exporter provides the following metrics.
 |kafka_consumer_batch_size_total|The number of bytes received per partition per request|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.9.0|
 |kafka_consumer_batch_latency|The time taken for processing a batch.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.8.0|
 
+### Admin Metrics
+
+|Metric Name|Description|Labels|Since|
+|---|---|---|---|
+|kafka_admin_connection_count|The current number of active connections established with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|1.0.0|
+|kafka_admin_connection_creation_total|The total number of connections established with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|1.0.0|
+|kafka_admin_connection_close_total|The total number of connections closed with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|1.0.0|
+|kafka_admin_request_total|The total number of requests sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|1.0.0|
+|kafka_admin_request_size_total|The size of any request sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|1.0.0|
+|kafka_admin_request_queue_size|Size of the request queue.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|1.0.0|
+
 ## Example Output
 
 Here an example output in the prometheus format of the provided metrics.
@@ -225,6 +236,33 @@ kafka_producer_request_size_total{client_id="nodejs-example-app",broker="broker1
 
 # HELP kafka_producer_request_queue_size Size of the request queue.
 # TYPE kafka_producer_request_queue_size gauge
+
+# HELP kafka_admin_connection_count The current number of active connections established with a broker
+# TYPE kafka_admin_connection_count gauge
+kafka_admin_connection_count{client_id="nodejs-example-app",foo="bar"} 0
+
+# HELP kafka_admin_connection_creation_total The total number of connections established with a broker
+# TYPE kafka_admin_connection_creation_total counter
+kafka_admin_connection_creation_total{client_id="nodejs-example-app",foo="bar"} 11
+
+# HELP kafka_admin_connection_close_total The total number of connections closed with a broker
+# TYPE kafka_admin_connection_close_total counter
+kafka_admin_connection_close_total{client_id="nodejs-example-app",foo="bar"} 11
+
+# HELP kafka_admin_request_total The total number of requests sent.
+# TYPE kafka_admin_request_total counter
+kafka_admin_request_total{client_id="nodejs-example-app",broker="broker2:9094",foo="bar"} 32
+kafka_admin_request_total{client_id="nodejs-example-app",broker="broker3:9094",foo="bar"} 4
+kafka_admin_request_total{client_id="nodejs-example-app",broker="broker1:9094",foo="bar"} 8
+
+# HELP kafka_admin_request_size_total The size of any request sent.
+# TYPE kafka_admin_request_size_total counter
+kafka_admin_request_size_total{client_id="nodejs-example-app",broker="broker2:9094",foo="bar"} 5499
+kafka_admin_request_size_total{client_id="nodejs-example-app",broker="broker3:9094",foo="bar"} 687
+kafka_admin_request_size_total{client_id="nodejs-example-app",broker="broker1:9094",foo="bar"} 1376
+
+# HELP kafka_admin_request_queue_size Size of the request queue.
+# TYPE kafka_admin_request_queue_size gauge
 ```
 
 # Usage
@@ -342,6 +380,9 @@ Here an example for KafkaJS producer metrics:
 
 Here an example for KafkaJS consumer metrics:
 ![Grafana:KafkaJS Consumer Metrics](/docs/images/grafana_kafkajs_consumer_1.png "Grafana: KafkaJS Consumers Metrics")
+
+Here an example for KafkaJS admin metrics:
+![Grafana:KafkaJS Admin Metrics](/docs/images/grafana_kafkajs_admin_1.png "Grafana: KafkaJS Admin Metrics")
 
 
 # Changelog
