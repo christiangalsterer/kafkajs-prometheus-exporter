@@ -373,7 +373,7 @@ _KafkaJSProducerExporterOptions_ and _KafkaJSConsumerExporterOptions_ respective
 
 # Grafana Dashboard
 
-An example dashboard for Grafana is available [here](/docs/grafana/dashbaord.json) displaying the provided metrics by the exporter.
+An example dashboard for Grafana is available [here](/docs/grafana/dashboard.json) displaying the provided metrics by the exporter.
 
 Here an example for KafkaJS producer metrics:
 ![Grafana:KafkaJS Producer Metrics](/docs/images/grafana_kafkajs_producer_1.png "Grafana: KafkaJS Producer Metrics")
