@@ -5,7 +5,6 @@ import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from
 
 export class KafkaJSProducerPrometheusExporter {
   private readonly producer: Producer
-  private readonly clientId: string
   private readonly register: Registry
   private readonly options: KafkaJSProducerExporterOptions
   private readonly defaultOptions: KafkaJSProducerExporterOptions = {}
@@ -17,30 +16,29 @@ export class KafkaJSProducerPrometheusExporter {
   private readonly producerRequestSizeTotal: Counter
   private readonly producerRequestQueueSize: Gauge
 
-  constructor (producer: Producer, clientId: string, register: Registry, options?: KafkaJSProducerExporterOptions) {
+  constructor (producer: Producer, register: Registry, options?: KafkaJSProducerExporterOptions) {
     this.producer = producer
-    this.clientId = clientId
     this.register = register
     this.options = { ...this.defaultOptions, ...options }
 
     this.producerActiveConnections = new Gauge({
       name: 'kafka_producer_connection_count',
       help: 'The current number of active connections established with a broker',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.producerConnectionsCreatedTotal = new Counter({
       name: 'kafka_producer_connection_creation_total',
       help: 'The total number of connections established with a broker',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.producerConnectionsClosedTotal = new Counter({
       name: 'kafka_producer_connection_close_total',
       help: 'The total number of connections closed with a broker',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
       registers: [this.register]
     })
 
@@ -74,13 +72,13 @@ export class KafkaJSProducerPrometheusExporter {
   }
 
   onProducerConnect (event: ConnectEvent): void {
-    this.producerActiveConnections.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options.defaultLabels))
-    this.producerConnectionsCreatedTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options.defaultLabels))
+    this.producerActiveConnections.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
+    this.producerConnectionsCreatedTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
   onProducerDisconnect (event: DisconnectEvent): void {
-    this.producerActiveConnections.dec(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options.defaultLabels))
-    this.producerConnectionsClosedTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options.defaultLabels))
+    this.producerActiveConnections.dec(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
+    this.producerConnectionsClosedTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
   onProducerRequest (event: RequestEvent): void {

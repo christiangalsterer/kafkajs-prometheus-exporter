@@ -17,9 +17,9 @@ The exporter provides the following metrics.
 
 |Metric Name|Description|Labels|Since|
 |---|---|---|---|
-|kafka_producer_connection_count|The current number of active connections established with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|0.8.0|
-|kafka_producer_connection_creation_total|The total number of connections established with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|0.8.0|
-|kafka_producer_connection_close_total|The total number of connections closed with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|0.8.0|
+|kafka_producer_connection_count|The current number of active connections established with a broker||0.8.0|
+|kafka_producer_connection_creation_total|The total number of connections established with a broker||0.8.0|
+|kafka_producer_connection_close_total|The total number of connections closed with a broker||0.8.0|
 |kafka_producer_request_total|The total number of requests sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_producer_request_size_total|The size of any request sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.9.0|
 |kafka_producer_request_queue_size|Size of the request queue.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.8.0|
@@ -29,29 +29,39 @@ The exporter provides the following metrics.
 
 |Metric Name|Description|Labels|Since|
 |---|---|---|---|
-|kafka_consumer_connection_count|The current number of active connections established with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|0.8.0|
-|kafka_consumer_connection_creation_total|The total number of connections established with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|0.8.0|
-|kafka_consumer_connection_close_total|The total number of connections closed with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|0.8.0|
-|kafka_consumer_connection_crashed_total|The total number of crashed connections with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_error_: The error which caused the connection crash.</li><li>_restart_: Determines of the connection was automatically restarted.</li><ul>|0.8.0|
-|kafka_consumer_heartbeat_total|The total number of heartbeats with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_group_id_: The id of the consumer group.</li><li>_member_id_: The member of the consumer group.</li><ul>|0.8.0|
-|kafka_consumer_request_queue_size|Size of the request queue.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.8.0|
-|kafka_consumer_request_total|The total number of requests sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.8.0|
-|kafka_consumer_request_size_total|The size of any request sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.9.0|
-|kafka_consumer_fetch_latency|The time taken for a fetch request.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|0.8.0|
-|kafka_consumer_fetch_total|The total number of fetch requests.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|0.8.0|
-|kafka_consumer_batch_size_total|The number of bytes received per partition per request|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.9.0|
-|kafka_consumer_batch_latency|The time taken for processing a batch.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.8.0|
+|kafka_consumer_connection_count|The current number of active connections established with a broker||0.8.0|
+|kafka_consumer_connection_creation_total|The total number of connections established with a broker||0.8.0|
+|kafka_consumer_connection_close_total|The total number of connections closed with a broker||0.8.0|
+|kafka_consumer_connection_crashed_total|The total number of crashed connections with a broker|<ul><li>_error_: The error which caused the connection crash.</li><li>_restart_: Determines of the connection was automatically restarted.</li><ul>|0.8.0|
+|kafka_consumer_heartbeat_total|The total number of heartbeats with a broker|<ul><li>_group_id_: The id of the consumer group.</li><li>_member_id_: The member of the consumer group.</li><ul>|0.8.0|
+|kafka_consumer_request_queue_size|Size of the request queue.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
+|kafka_consumer_request_total|The total number of requests sent.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
+|kafka_consumer_request_size_total|The size of any request sent.|<ul><li>_broker_: The broker</li><ul>|0.9.0|
+|kafka_consumer_fetch_latency|The time taken for a fetch request.||0.8.0|
+|kafka_consumer_fetch_total|The total number of fetch requests.||0.8.0|
+|kafka_consumer_batch_size_total|The number of bytes received per partition per request|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.9.0|
+|kafka_consumer_batch_latency|The time taken for processing a batch.|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.8.0|
 
 ### Admin Metrics
 
 |Metric Name|Description|Labels|Since|
 |---|---|---|---|
-|kafka_admin_connection_count|The current number of active connections established with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|1.0.0|
-|kafka_admin_connection_creation_total|The total number of connections established with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|1.0.0|
-|kafka_admin_connection_close_total|The total number of connections closed with a broker|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><ul>|1.0.0|
-|kafka_admin_request_total|The total number of requests sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|1.0.0|
-|kafka_admin_request_size_total|The size of any request sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|1.0.0|
-|kafka_admin_request_queue_size|Size of the request queue.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|1.0.0|
+|kafka_admin_connection_count|The current number of active connections established with a broker||1.0.0|
+|kafka_admin_connection_creation_total|The total number of connections established with a broker||1.0.0|
+|kafka_admin_connection_close_total|The total number of connections closed with a broker||1.0.0|
+|kafka_admin_request_total|The total number of requests sent.|<ul><li>_broker_: The broker</li><ul>|1.0.0|
+|kafka_admin_request_size_total|The size of any request sent.|<ul><li>_broker_: The broker</li><ul>|1.0.0|
+|kafka_admin_request_queue_size|Size of the request queue.|<ul><li>_broker_: The broker</li><ul>|1.0.0|
+
+## Client Id
+
+As documented in the [KafkaJS documentation](https://kafka.js.org/docs/configuration#client-id) the client-id is a logical identifier for an application which is shared across multiple instances of the same application. Until v2.0.0 of the exporter the client_id was a dedicated parameter for _monitorKafkaJSProducer_, _monitorKafkaJSConsumer_ and _monitorKafkaJSAdmin_ respectively, but was removed starting with v2.0.0, see [changelog](/CHANGELOG.md) for details.
+
+Until KafkaJS instrumentation events](https://kafka.js.org/docs/instrumentation-events) don't provide the client_id for all events it is **strongly** recommended to add the client_id as a default label as in the following example.
+
+```ts
+    kafkaExporter.monitorKafkaJSProducer(producer, register, { defaultLabels: {client_id:'nodejs-example-app'} })
+```
 
 ## Example Output
 

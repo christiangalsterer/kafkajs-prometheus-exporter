@@ -9,7 +9,6 @@ jest.mock('../src/kafkaJSConsumerPrometheusExporter')
 const mockKafkaJSConsumerPrometheusExporter = jest.mocked(KafkaJSConsumerPrometheusExporter)
 
 describe('tests monitorKafkaConsumerJS', () => {
-  const clientId = 'myTestClientId'
   let kafkaConsumer: Consumer
   let register: Registry
 
@@ -19,20 +18,20 @@ describe('tests monitorKafkaConsumerJS', () => {
   })
 
   test('tests if monitorKafkaJSConsumer called KafkaJSConsumerPrometheusExporter with mandatory parameter', () => {
-    monitorKafkaJSConsumer(kafkaConsumer, clientId, register)
+    monitorKafkaJSConsumer(kafkaConsumer, register)
     expect(mockKafkaJSConsumerPrometheusExporter).toHaveBeenCalledTimes(1)
-    expect(mockKafkaJSConsumerPrometheusExporter).toBeCalledWith(kafkaConsumer, clientId, register, undefined)
+    expect(mockKafkaJSConsumerPrometheusExporter).toBeCalledWith(kafkaConsumer, register, undefined)
   })
 
   test('tests if monitorKafkaJSConsumer called KafkaJSConsumerPrometheusExporter with optional parameter', () => {
     const options = { defaultLabels: { foo: 'bar', alice: 2 } }
-    monitorKafkaJSConsumer(kafkaConsumer, clientId, register, options)
+    monitorKafkaJSConsumer(kafkaConsumer, register, options)
     expect(mockKafkaJSConsumerPrometheusExporter).toHaveBeenCalledTimes(1)
-    expect(mockKafkaJSConsumerPrometheusExporter).toBeCalledWith(kafkaConsumer, clientId, register, options)
+    expect(mockKafkaJSConsumerPrometheusExporter).toBeCalledWith(kafkaConsumer, register, options)
   })
 
   test('tests if monitorKafkaJSConsumer called methods of KafkaJSConsumerPrometheusExporter instance', () => {
-    monitorKafkaJSConsumer(kafkaConsumer, clientId, register)
+    monitorKafkaJSConsumer(kafkaConsumer, register)
     const mockKafkaJSConsumerPrometheusExporterInstance = mockKafkaJSConsumerPrometheusExporter.mock.instances[0]
     const monitorEnableMetrics = mockKafkaJSConsumerPrometheusExporterInstance.enableMetrics as jest.Mock
     expect(monitorEnableMetrics).toHaveBeenCalledTimes(1)

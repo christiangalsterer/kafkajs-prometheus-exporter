@@ -7,11 +7,10 @@ import { type KafkaJSProducerExporterOptions } from './kafkaJSProducerExporterOp
  * Exposes metrics for a KafkaJS producer in prometheus format.
  *
  * @param producer The KafkaJS producer to monitor.
- * @param clientId The client id for the application. The client id is identical across different instances of the same application.
  * @param register The prometheus registry used to expose the metrics.
  * @param options Optional parameter to configure the exporter
  */
-export function monitorKafkaJSProducer (producer: Producer, clientId: string, register: Registry, options?: KafkaJSProducerExporterOptions): void {
-  const exporter = new KafkaJSProducerPrometheusExporter(producer, clientId, register, options)
+export function monitorKafkaJSProducer (producer: Producer, register: Registry, options?: KafkaJSProducerExporterOptions): void {
+  const exporter = new KafkaJSProducerPrometheusExporter(producer, register, options)
   exporter.enableMetrics()
 }

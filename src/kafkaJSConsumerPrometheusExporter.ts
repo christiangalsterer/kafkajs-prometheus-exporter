@@ -5,7 +5,6 @@ import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from
 
 export class KafkaJSConsumerPrometheusExporter {
   private readonly consumer: Consumer
-  private readonly clientId: string
   private readonly register: Registry
   private readonly options: KafkaJSConsumerExporterOptions
   private readonly defaultOptions: KafkaJSConsumerExporterOptions = {
@@ -26,72 +25,71 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly consumerRequestTotal: Counter
   private readonly consumerRequestSizeTotal: Counter
 
-  constructor (consumer: Consumer, clientId: string, register: Registry, options?: KafkaJSConsumerExporterOptions) {
+  constructor (consumer: Consumer, register: Registry, options?: KafkaJSConsumerExporterOptions) {
     this.consumer = consumer
-    this.clientId = clientId
     this.register = register
     this.options = { ...this.defaultOptions, ...options }
 
     this.consumerActiveConnections = new Gauge({
       name: 'kafka_consumer_connection_count',
       help: 'The current number of active connections established with a broker',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerConnectionsCreatedTotal = new Counter({
       name: 'kafka_consumer_connection_creation_total',
       help: 'The total number of connections established with a broker',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerConnectionsClosedTotal = new Counter({
       name: 'kafka_consumer_connection_close_total',
       help: 'The total number of connections closed with a broker',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerConnectionsCrashedTotal = new Counter({
       name: 'kafka_consumer_connection_crashed_total',
       help: 'The total number of crashed connections with a broker',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'error', 'restart'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels(['error', 'restart'], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerHeartbeats = new Counter({
       name: 'kafka_consumer_heartbeat_total',
       help: 'The total number of heartbeats with a broker',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'group_id', 'member_id'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels(['group_id', 'member_id'], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerRequestTotal = new Counter({
       name: 'kafka_consumer_request_total',
       help: 'The total number of requests sent.',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerRequestSizeTotal = new Gauge({
       name: 'kafka_consumer_request_size_total',
       help: 'The size of any request sent.',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerRequestQueueSize = new Gauge({
       name: 'kafka_consumer_request_queue_size',
       help: 'Size of the request queue.',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerFetchLatency = new Histogram({
       name: 'kafka_consumer_fetch_latency',
       help: 'The time taken for a fetch request.',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
       buckets: this.options.consumerFetchLatencyHistogramBuckets,
       registers: [this.register]
     })
@@ -99,21 +97,21 @@ export class KafkaJSConsumerPrometheusExporter {
     this.consumerFetchTotal = new Counter({
       name: 'kafka_consumer_fetch_total',
       help: 'The total number of fetch requests.',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerBatchSizeTotal = new Counter({
       name: 'kafka_consumer_batch_size_total',
       help: 'The number of bytes received per partition per request',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'topic', 'partition'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels(['topic', 'partition'], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.consumerBatchLatency = new Histogram({
       name: 'kafka_consumer_batch_latency',
       help: 'The time taken for processing a batch.',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'topic', 'partition'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels(['topic', 'partition'], this.options.defaultLabels),
       buckets: this.options.consumerBatchLatencyHistogramBuckets,
       registers: [this.register]
     })
@@ -131,39 +129,39 @@ export class KafkaJSConsumerPrometheusExporter {
   }
 
   onConsumerConnect (event: ConnectEvent): void {
-    this.consumerActiveConnections.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options.defaultLabels))
-    this.consumerConnectionsCreatedTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options.defaultLabels))
+    this.consumerActiveConnections.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
+    this.consumerConnectionsCreatedTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
   onConsumerDisconnect (event: DisconnectEvent): void {
-    this.consumerActiveConnections.dec(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options.defaultLabels))
-    this.consumerConnectionsClosedTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options.defaultLabels))
+    this.consumerActiveConnections.dec(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
+    this.consumerConnectionsClosedTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
   onConsumerCrashed (event: ConsumerCrashEvent): void {
-    this.consumerConnectionsCrashedTotal.inc(mergeLabelsWithStandardLabels({ client_id: event.payload.groupId, error: event.payload.error.name, restart: event.payload.restart.valueOf().toString() }, this.options.defaultLabels))
+    this.consumerConnectionsCrashedTotal.inc(mergeLabelsWithStandardLabels({ group_id: event.payload.groupId, error: event.payload.error.name, restart: event.payload.restart.valueOf().toString() }, this.options.defaultLabels))
   }
 
   onConsumerHeartbeat (event: ConsumerHeartbeatEvent): void {
-    this.consumerHeartbeats.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId, group_id: event.payload.groupId, member_id: event.payload.memberId }, this.options.defaultLabels))
+    this.consumerHeartbeats.inc(mergeLabelsWithStandardLabels({ group_id: event.payload.groupId, member_id: event.payload.memberId }, this.options.defaultLabels))
   }
 
   onConsumerRequest (event: RequestEvent): void {
-    this.consumerRequestTotal.inc(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels))
-    this.consumerRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
+    this.consumerRequestTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels))
+    this.consumerRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
   }
 
   onConsumerRequestQueueSize (event: RequestQueueSizeEvent): void {
-    this.consumerRequestQueueSize.set(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels), event.payload.queueSize)
+    this.consumerRequestQueueSize.set(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.queueSize)
   }
 
   onConsumerFetch (event: ConsumerFetchEvent): void {
-    this.consumerFetchLatency.observe(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options.defaultLabels), event.payload.duration / 1000)
-    this.consumerFetchTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId }, this.options.defaultLabels))
+    this.consumerFetchLatency.observe(mergeLabelsWithStandardLabels({}, this.options.defaultLabels), event.payload.duration / 1000)
+    this.consumerFetchTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
   onConsumerEndBatch (event: ConsumerEndBatchProcessEvent): void {
-    this.consumerBatchSizeTotal.inc(mergeLabelsWithStandardLabels({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels), event.payload.batchSize)
-    this.consumerBatchLatency.observe(mergeLabelsWithStandardLabels({ client_id: this.clientId, topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels), event.payload.duration / 1000)
+    this.consumerBatchSizeTotal.inc(mergeLabelsWithStandardLabels({ topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels), event.payload.batchSize)
+    this.consumerBatchLatency.observe(mergeLabelsWithStandardLabels({ topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels), event.payload.duration / 1000)
   }
 }

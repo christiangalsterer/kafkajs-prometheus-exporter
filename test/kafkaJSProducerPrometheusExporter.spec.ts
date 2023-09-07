@@ -19,7 +19,7 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
   })
 
   test('test if all metrics are registered in registry', () => {
-    const exporter = new KafkaJSProducerPrometheusExporter(producer, clientId, register)
+    const exporter = new KafkaJSProducerPrometheusExporter(producer, register)
     exporter.enableMetrics()
     expect(register.getSingleMetric('kafka_producer_connection_count')).toBeDefined()
     expect(register.getSingleMetric('kafka_producer_connection_creation_total')).toBeDefined()
@@ -32,7 +32,7 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
 
   test('test if all metrics are registered in registry with defaultLabels', () => {
     const options = { defaultLabels: { foo: 'bar', alice: 2 } }
-    const exporter = new KafkaJSProducerPrometheusExporter(producer, clientId, register, options)
+    const exporter = new KafkaJSProducerPrometheusExporter(producer, register, options)
     exporter.enableMetrics()
     expect(register.getSingleMetric('kafka_producer_connection_count')).toBeDefined()
     expect(register.getSingleMetric('kafka_producer_connection_creation_total')).toBeDefined()

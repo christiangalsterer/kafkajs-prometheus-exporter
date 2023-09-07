@@ -5,11 +5,9 @@ import { KafkaJSConsumerPrometheusExporter } from '../src/kafkaJSConsumerPrometh
 import { Kafka, type Consumer } from 'kafkajs'
 
 describe('tests kafkaJSConsumerPrometheusExporter', () => {
-  const clientId = 'myTestClientId'
   let register: Registry
   let consumer: Consumer
   const kafka = new Kafka({
-    clientId,
     brokers: ['localhost:9094']
   })
 
@@ -19,7 +17,7 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
   })
 
   test('test if all metrics are registered in registry', () => {
-    const exporter = new KafkaJSConsumerPrometheusExporter(consumer, clientId, register)
+    const exporter = new KafkaJSConsumerPrometheusExporter(consumer, register)
     exporter.enableMetrics()
     expect(register.getSingleMetric('kafka_consumer_connection_count')).toBeDefined()
     expect(register.getSingleMetric('kafka_consumer_connection_creation_total')).toBeDefined()
@@ -38,7 +36,7 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
 
   test('test if all metrics are registered in registry with defaultLabels', () => {
     const options = { defaultLabels: { foo: 'bar', alice: 2 } }
-    const exporter = new KafkaJSConsumerPrometheusExporter(consumer, clientId, register, options)
+    const exporter = new KafkaJSConsumerPrometheusExporter(consumer, register, options)
     exporter.enableMetrics()
     expect(register.getSingleMetric('kafka_consumer_connection_count')).toBeDefined()
     expect(register.getSingleMetric('kafka_consumer_connection_creation_total')).toBeDefined()
