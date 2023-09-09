@@ -45,21 +45,21 @@ export class KafkaJSProducerPrometheusExporter {
     this.producerRequestTotal = new Counter({
       name: 'kafka_producer_request_total',
       help: 'The total number of requests sent.',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.producerRequestSizeTotal = new Counter({
       name: 'kafka_producer_request_size_total',
       help: 'The size of any request sent.',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
       registers: [this.register]
     })
 
     this.producerRequestQueueSize = new Gauge({
       name: 'kafka_producer_request_queue_size',
       help: 'Size of the request queue.',
-      labelNames: mergeLabelNamesWithStandardLabels(['client_id', 'broker'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
       registers: [this.register]
     })
   }
@@ -82,11 +82,11 @@ export class KafkaJSProducerPrometheusExporter {
   }
 
   onProducerRequest (event: RequestEvent): void {
-    this.producerRequestTotal.inc(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels))
-    this.producerRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
+    this.producerRequestTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels))
+    this.producerRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
   }
 
   onProducerRequestQueueSize (event: RequestQueueSizeEvent): void {
-    this.producerRequestQueueSize.set(mergeLabelsWithStandardLabels({ client_id: event.payload.clientId, broker: event.payload.broker }, this.options.defaultLabels), event.payload.queueSize)
+    this.producerRequestQueueSize.set(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.queueSize)
   }
 }
