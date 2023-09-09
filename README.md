@@ -305,22 +305,27 @@ const kafka = new Kafka({
 
 const producer = kafka.producer()
 const consumer = kafka.consumer({ groupId: 'myGroupId' })
+const admin = kafka.admin()
 
 // set up the prometheus client
 const register = new Registry();
-collectDefaultMetrics({ register });
+collectDefaultMetrics({ register })
 
 // monitor KafkaJS producer
-monitorKafkaJSProducer(producer, clientId, register);
+monitorKafkaJSProducer(producer, register, { defaultLabels: {client_id: clientId} })
 
 // monitor KafkaJS consumer
-monitorKafkaJSConsumer(consumer, clientId, register);
+monitorKafkaJSConsumer(consumer, register, { defaultLabels: {client_id: clientId} })
+
+// monitor KafkaJS admin
+kafkaExporter.monitorKafkaJSAdmin(admin, register, { defaultLabels: {client_id: clientId} })
 
 ...
 
-// connect to Kafka after calling monitorKafkaJSProducer() and/or monitorKafkaJSConsumer
+// connect to Kafka *after* calling monitorKafkaJSProducer() / monitorKafkaJSConsumer / monitorKafkaJSAdmin
 await producer.connect()
 await consumer.connect()
+await admin.connect()
 ```
 ## JavaScript
 
@@ -342,6 +347,7 @@ const kafka = new Kafka({
 
 const producer = kafka.producer()
 const consumer = kafka.consumer({ groupId: 'myGroupId' })
+const admin = kafka.admin()
 
 // set up the prometheus client
 const collectDefaultMetrics = promClient.collectDefaultMetrics;
@@ -350,16 +356,20 @@ const register = new Registry();
 collectDefaultMetrics({ register });
 
 // monitor KafkaJS producer
-kafkaExporter.monitorKafkaJSProducer(producer, clientId, register)
+kafkaExporter.monitorKafkaJSProducer(producer, register, { defaultLabels: {client_id: clientId} })
 
 // monitor KafkaJS consumer
-kafkaExporter.monitorKafkaJSConsumer(consumer, clientId, register)
+kafkaExporter.monitorKafkaJSConsumer(consumer, register, { defaultLabels: {client_id: clientId} })
+
+// monitor KafkaJS admin
+kafkaExporter.monitorKafkaJSAdmin(admin, register, { defaultLabels: {client_id: clientId} })
 
 ...
 
-// connect to Kafka *after* calling monitorKafkaJSProducer() and/or monitorKafkaJSConsumer
+// connect to Kafka *after* calling monitorKafkaJSProducer() / monitorKafkaJSConsumer / monitorKafkaJSAdmin
 await producer.connect()
 await consumer.connect()
+await admin.connect()
 ```
 
 # Configuration
