@@ -36,12 +36,12 @@ jobs:
         with:
           sarif_file: snyk.sarif
       - name: Snyk Code Test 
-        run: snyk code test --sarif-file-output=snyk.sarif
+        run: snyk code test --sarif-file-output=snyk_code_test
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Upload code test result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
-          sarif_file: snyk.sarif
+          sarif_file: snyk_code_test.sarif
           category: snyk_code_test
           
