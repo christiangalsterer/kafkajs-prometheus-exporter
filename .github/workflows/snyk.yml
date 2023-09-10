@@ -26,10 +26,10 @@ jobs:
           node-version: '20'
           cache: 'npm'
       - run: npm i
-      - name: Snyk monitor 
-        run: snyk monitor --file=package.json --project-name=package.json
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
+      # - name: Snyk monitor 
+      #   run: snyk monitor --file=package.json --project-name=package.json
+      #   env:
+      #     SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         continue-on-error: true # To make sure that SARIF upload gets called
