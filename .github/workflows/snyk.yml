@@ -31,11 +31,15 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=snyk.sarif
-      - name: Upload result to GitHub Code Scanning
+      - name: Upload test result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk.sarif
       - name: Snyk Code Test 
-        run: snyk code test
+        run: snyk code test --sarif-file-output=snyk.sarif
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}    
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Upload code test result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif    
