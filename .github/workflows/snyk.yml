@@ -20,6 +20,12 @@ jobs:
       - uses: actions/checkout@v3
       - name: Set up Snyk CLI to check for security issues
         uses: snyk/actions/setup@master
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm i
       - name: Snyk monitor 
         run: snyk monitor --file=package.json
         env:
