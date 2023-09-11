@@ -42,7 +42,7 @@ jobs:
         with:
           sarif_file: snyk.sarif
       - name: Snyk Code Test 
-        run: snyk code test --sarif-file-output=snyk_code_test.sarif
+        run: snyk code test --json --sarif-file-output=snyk_code_test.sarif
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Upload code test result to GitHub Code Scanning
