@@ -1,9 +1,9 @@
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/christiangalsterer/kafkajs-prometheus-exporter/build.yaml)
+![Known Vulnerabilities](https://snyk.io/test/github/christiangalsterer/kafkajs-prometheus-exporter/badge.svg)
 ![npm downloads](https://img.shields.io/npm/dt/@christiangalsterer/kafkajs-prometheus-exporter.svg)
 ![npm version](https://img.shields.io/npm/v/@christiangalsterer/kafkajs-prometheus-exporter.svg)
 ![npm licence](https://img.shields.io/npm/l/@christiangalsterer/kafkajs-prometheus-exporter.svg)
 ![github stars](https://img.shields.io/github/stars/christiangalsterer/kafkajs-prometheus-exporter.svg)
-![Known Vulnerabilities](https://snyk.io/test/github/christiangalsterer/kafkajs-prometheus-exporter/badge.svg)
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/christiangalsterer/kafkajs-prometheus-exporter/build.yaml)
 
 # Prometheus Exporter for KafkaJS
 
