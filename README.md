@@ -280,7 +280,7 @@ kafka_admin_request_size_total{client_id="nodejs-example-app",broker="broker1:90
 
 ## Add Dependency
 
-Add the following dependency to your project.
+Add the following dependency to your project to download the packge from [npm](https://www.npmjs.com/package/@christiangalsterer/kafkajs-prometheus-exporter).
 
 ```sh
 npm i @christiangalsterer/kafkajs-prometheus-exporter
