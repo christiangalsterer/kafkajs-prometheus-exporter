@@ -13,7 +13,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "ci": "npm run lint && npm run build && npm run test",
+    "ci": "npm run lint && npm run build && npm run test && npm run renovate:config",
     "clean": "rm -rf ./dist",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -24,7 +24,8 @@
     "release:minor": "npm run release && npm version minor",
     "release:patch": "npm run release && npm version patch",
     "publish": "npm publish --access=public",
-    "publish:dry-run": "npm publish --access=public --dry-run"
+    "publish:dry-run": "npm publish --access=public --dry-run",
+    "renovate:config": "npx renovate-config-validator"
   },
   "keywords": [
     "kafkajs",
