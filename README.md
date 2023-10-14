@@ -417,6 +417,16 @@ Here an example for KafkaJS admin metrics:
 
 The changes to project can be found in the [changelog](/CHANGELOG.md).
 
+# Compatibility
+The following table list the compatibility of exporter versions with different KafkaJS and prom-client versions.
+
+|Exporter Version|KafkaJS Version|prom-client version|
+|---|---|---|
+|^1.0.0|^2.2.4|^14.2.0|
+|^2.0.0|^2.2.4|^14.2.0|
+|^3.0.0|^2.2.4|^15.0.0|
+
+
 # Contributions
 
 Contributions are highly welcomed. If you want to contribute to this project please create a github issue and/or provide a pull request for review.
