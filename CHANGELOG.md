@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] 2023-10-16
+
+The detailed changelog can be found [here](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/compare/v2.0.0...v3.0.0).
+
+### Changed
+
+- upgraded prom-client from 14.2.0 to 15.0.0
+- added compatibility matrix to documentation
+- introduced Github actions for complete build process
+- added Github actions for build and snyk
+- added renovate to build process
+
 ## [2.0.0] 2023-09-10
 
 ### Changed
