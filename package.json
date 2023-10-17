@@ -1,6 +1,6 @@
 {
   "name": "@christiangalsterer/kafkajs-prometheus-exporter",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A prometheus exporter for kafkajs",
   "repository": {
     "type": "git",
@@ -46,7 +46,7 @@
   "license": "MIT",
   "dependencies": {
     "kafkajs": "^2.2.4",
-    "prom-client": "^15.0.0"  
+    "prom-client": "^15.0.0"
   },
   "devDependencies": {
     "@jest/globals": "29.7.0",
