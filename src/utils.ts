@@ -1,7 +1,7 @@
 /**
  * Merges an array of label names with the label names of the default labels into a new array.
  * @param labelNames array of label names to merge with the default labels
- * @param defaultLabels  default labels to merge with
+ * @param defaultLabels default labels to merge with
  * @returns array of merged label names
  */
 export function mergeLabelNamesWithStandardLabels (labelNames: string[], defaultLabels?: Record<string, string | number>): string[] {
@@ -10,6 +10,12 @@ export function mergeLabelNamesWithStandardLabels (labelNames: string[], default
   return merged
 }
 
+/**
+ * Merges Labels with default labels
+ * @param labels labels to merge with the default labels
+ * @param defaultLabels default labels to merge with
+ * @returns merged labels
+ */
 export function mergeLabelsWithStandardLabels (labels: Record<string, string | number>, defaultLabels?: Record<string, string | number>): Record<string, string | number> {
   let merged: Record<string, string | number>
   defaultLabels !== undefined ? merged = { ...labels, ...defaultLabels } : merged = labels
