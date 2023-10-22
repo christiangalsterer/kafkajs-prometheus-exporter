@@ -3,6 +3,9 @@ import type { DisconnectEvent, ConnectEvent, RequestQueueSizeEvent, Admin, Reque
 import { type KafkaJSAdminExporterOptions } from './kafkaJSAdminExporterOptions'
 import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
 
+/**
+ * Exports metrics for a Kafka admin client
+ */
 export class KafkaJSAdminPrometheusExporter {
   private readonly admin: Admin
   private readonly register: Registry
