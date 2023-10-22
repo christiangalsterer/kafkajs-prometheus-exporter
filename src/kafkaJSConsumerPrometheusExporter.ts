@@ -3,6 +3,9 @@ import type { DisconnectEvent, ConnectEvent, Consumer, ConsumerCrashEvent, Consu
 import { type KafkaJSConsumerExporterOptions } from './kafkaJSConsumerExporterOptions'
 import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
 
+/**
+ * Exports metrics for a Kafka consumer
+ */
 export class KafkaJSConsumerPrometheusExporter {
   private readonly consumer: Consumer
   private readonly register: Registry
