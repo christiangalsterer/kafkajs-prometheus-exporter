@@ -18,7 +18,12 @@ export class KafkaJSAdminPrometheusExporter {
   private readonly adminRequestTotal: Counter
   private readonly adminRequestSizeTotal: Counter
   private readonly adminRequestQueueSize: Gauge
-
+  /**
+   * Creates a new exporter
+   * @param admin the admin client to monitor
+   * @param register the register to use to export the metrics
+   * @param options optional configuration options
+   */
   constructor (admin: Admin, register: Registry, options?: KafkaJSAdminExporterOptions) {
     this.admin = admin
     this.register = register
