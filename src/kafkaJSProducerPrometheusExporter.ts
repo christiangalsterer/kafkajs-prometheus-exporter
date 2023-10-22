@@ -3,6 +3,9 @@ import type { DisconnectEvent, ConnectEvent, RequestQueueSizeEvent, Producer, Re
 import { type KafkaJSProducerExporterOptions } from './kafkaJSProducerExporterOptions'
 import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
 
+/**
+ * Exports metrics for a Kafka producer
+ */
 export class KafkaJSProducerPrometheusExporter {
   private readonly producer: Producer
   private readonly register: Registry
