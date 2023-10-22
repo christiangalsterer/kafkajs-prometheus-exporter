@@ -28,8 +28,6 @@ jobs:
             packagae.json
             packagae-lock.json
             .github/workflows/snyk.yaml
-      - name: echo
-        run: echo 'Output [${{steps.changed-files.outputs.any_changed}}]'     
   snyk:
     needs: pre_snyk
     if: ${{ needs.pre_snyk.outputs.any_changed == 'true' }}
@@ -47,9 +45,8 @@ jobs:
         uses: tj-actions/changed-files@v39
         with:
           files_yaml: |
-            src:
+            code:
               - 'src/**/*.ts'
-            test:
               - 'test/**/*.ts'
             package:
               - packagae.json
@@ -80,12 +77,12 @@ jobs:
         with:
           sarif_file: snyk.sarif    
       - name: Snyk Code Test
-        if: ${{ ! (github.event_name == 'pull_request' && github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.labels.*.name, 'renovate')) && (steps.changed-files.outputs.src_any_changed == 'true' || steps.changed-files.outputs.test_any_changed == 'true') }}
+        if: ${{ ! (github.event_name == 'pull_request' && github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.labels.*.name, 'renovate')) && (steps.changed-files.outputs.code_any_changed == 'true') }}
         run: snyk code test --org=christiangalsterer --sarif-file-output=snyk_code_test.sarif
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       - name: Upload code test result to GitHub Code Scanning
-        if: ${{ ! (github.event_name == 'pull_request' && github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.labels.*.name, 'renovate')) && (steps.changed-files.outputs.src_any_changed == 'true' || steps.changed-files.outputs.test_any_changed == 'true') }}
+        if: ${{ ! (github.event_name == 'pull_request' && github.event.pull_request.user.login == 'renovate[bot]' && contains(github.event.pull_request.labels.*.name, 'renovate')) && (steps.changed-files.outputs.code_any_changed == 'true') }}
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk_code_test.sarif
