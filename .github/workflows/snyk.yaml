@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: echo
-        run: echo ${{ needs.pre_snyk.outputs.any_changed }}
+        run: echo "Output [${{needs.pre_snyk.outputs.any_changed}}]"
       - uses: actions/checkout@v4
       - name: Get all files that have changed
         id: changed-files
