@@ -29,7 +29,7 @@ jobs:
               - packagae.json
               - packagae-lock.json
             snyk:
-              -  '.github/workflows/snyk.yaml'
+              - '.github/workflows/snyk.yaml'
   snyk:
     needs: pre_snyk
     if: ${{ needs.changed-files.outputs.package_any_changed == 'true' }}
