@@ -25,9 +25,8 @@ jobs:
           files: |
             src/**/*.ts
             test/**/*.ts
-            packagae.json
-            packagae-lock.json
-            .github/workflows/snyk.yaml
+            package.json
+            package-lock.json
   snyk:
     needs: pre_snyk
     if: ${{ needs.pre_snyk.outputs.any_changed == 'true' }}
@@ -49,8 +48,8 @@ jobs:
               - 'src/**/*.ts'
               - 'test/**/*.ts'
             package:
-              - packagae.json
-              - packagae-lock.json
+              - package.json
+              - package-lock.json
       - name: Set up Snyk CLI to check for security issues
         uses: snyk/actions/setup@master
       - name: Setup Node
@@ -58,7 +57,8 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - run: npm ci        
+      # - run: npm ci
+      #   if: ${{ steps.changed-files.outputs.code_any_changed == 'true' }}
       # - name: Snyk monitor 
       #   run: snyk monitor --file=package.json --org=christiangalsterer --project-name='christiangalsterer/kafkajs-prometheus-exporter:package.json' --project-environment=backend --project-lifecycle=production 
       #   env:
