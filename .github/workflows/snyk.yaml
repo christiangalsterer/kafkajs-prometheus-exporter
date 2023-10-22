@@ -28,8 +28,11 @@ jobs:
             package:
               - packagae.json
               - packagae-lock.json
+            snyk:
+              -  '.github/workflows/snyk.yaml'
   snyk:
     needs: pre_snyk
+    if: ${{ needs.changed-files.outputs.package_any_changed == 'true' }}
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
