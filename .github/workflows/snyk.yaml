@@ -23,11 +23,11 @@ jobs:
         uses: tj-actions/changed-files@v39
         with:
           files: |
-            'src/**/*.ts'
-            'test/**/*.ts'
+            src/**/*.ts
+            test/**/*.ts
             packagae.json
             packagae-lock.json
-            '.github/workflows/snyk.yaml'
+            .github/workflows/snyk.yaml
       - name: echo
         run: echo 'Output [${{steps.changed-files.outputs.any_changed}}]'     
   snyk:
