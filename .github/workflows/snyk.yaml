@@ -64,7 +64,7 @@ jobs:
       - name: Run Snyk to check for vulnerabilities
         if: ${{ steps.changed-files.outputs.package_any_changed == 'true' }}
         uses: snyk/actions/node@master
-        continue-on-error: true # To make sure that SARIF upload gets called
+        continue-on-error: true # to make sure that SARIF upload gets called
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
