@@ -57,8 +57,6 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      # - run: npm ci
-      #   if: ${{ steps.changed-files.outputs.code_any_changed == 'true' }}
       # - name: Snyk monitor 
       #   run: snyk monitor --file=package.json --org=christiangalsterer --project-name='christiangalsterer/kafkajs-prometheus-exporter:package.json' --project-environment=backend --project-lifecycle=production 
       #   env:
