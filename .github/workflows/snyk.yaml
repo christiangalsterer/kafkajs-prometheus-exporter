@@ -33,7 +33,7 @@ jobs:
             snyk:
               - '.github/workflows/snyk.yaml'
       - name: echo
-        run: echo "Output $steps.changed-files.outputs.any_changed"       
+        run: echo "Output [${{steps.changed-files.outputs.any_changed}}]"       
   snyk:
     needs: pre_snyk
     # if: ${{ needs.pre_snyk.outputs.any_changed == 'true' }}
