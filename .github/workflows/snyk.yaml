@@ -31,6 +31,7 @@ jobs:
             test/**/*.ts
             package.json
             package-lock.json
+            .github/workflows/**.yaml
   snyk:
     needs: pre_snyk
     if: ${{ needs.pre_snyk.outputs.any_changed == 'true' }}
@@ -51,7 +52,7 @@ jobs:
               - 'test/**/*.ts'
             package:
               - package.json
-              - package-lock.json
+              - package-lock.json  
       - name: Set up Snyk CLI to check for security issues
         uses: snyk/actions/setup@master
       - name: Setup Node
