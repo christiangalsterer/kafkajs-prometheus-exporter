@@ -17,8 +17,8 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
   })
 
   test('test if all metrics are registered in registry', () => {
-    const exporter = new KafkaJSConsumerPrometheusExporter(consumer, register)
-    exporter.enableMetrics()
+    // eslint-disable-next-line no-new
+    new KafkaJSConsumerPrometheusExporter(consumer, register)
     expect(register.getSingleMetric('kafka_consumer_connection_count')).toBeDefined()
     expect(register.getSingleMetric('kafka_consumer_connection_creation_total')).toBeDefined()
     expect(register.getSingleMetric('kafka_consumer_connection_close_total')).toBeDefined()
@@ -36,8 +36,8 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
 
   test('test if all metrics are registered in registry with defaultLabels', () => {
     const options = { defaultLabels: { foo: 'bar', alice: 2 } }
-    const exporter = new KafkaJSConsumerPrometheusExporter(consumer, register, options)
-    exporter.enableMetrics()
+    // eslint-disable-next-line no-new
+    new KafkaJSConsumerPrometheusExporter(consumer, register, options)
     expect(register.getSingleMetric('kafka_consumer_connection_count')).toBeDefined()
     expect(register.getSingleMetric('kafka_consumer_connection_creation_total')).toBeDefined()
     expect(register.getSingleMetric('kafka_consumer_connection_close_total')).toBeDefined()

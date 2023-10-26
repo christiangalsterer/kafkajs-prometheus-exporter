@@ -19,8 +19,8 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
   })
 
   test('test if all metrics are registered in registry', () => {
-    const exporter = new KafkaJSAdminPrometheusExporter(admin, register)
-    exporter.enableMetrics()
+    // eslint-disable-next-line no-new
+    new KafkaJSAdminPrometheusExporter(admin, register)
     expect(register.getSingleMetric('kafka_admin_connection_count')).toBeDefined()
     expect(register.getSingleMetric('kafka_admin_connection_creation_total')).toBeDefined()
     expect(register.getSingleMetric('kafka_admin_connection_close_total')).toBeDefined()
@@ -32,8 +32,8 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
 
   test('test if all metrics are registered in registry with defaultLabels', () => {
     const options = { defaultLabels: { foo: 'bar', alice: 2 } }
-    const exporter = new KafkaJSAdminPrometheusExporter(admin, register, options)
-    exporter.enableMetrics()
+    // eslint-disable-next-line no-new
+    new KafkaJSAdminPrometheusExporter(admin, register, options)
     expect(register.getSingleMetric('kafka_admin_connection_count')).toBeDefined()
     expect(register.getSingleMetric('kafka_admin_connection_creation_total')).toBeDefined()
     expect(register.getSingleMetric('kafka_admin_connection_close_total')).toBeDefined()
