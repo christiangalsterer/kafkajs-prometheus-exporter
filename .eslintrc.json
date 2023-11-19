@@ -3,7 +3,11 @@
         "commonjs": true,
         "es2021": true
     },
-    "extends": "standard-with-typescript",
+    "extends": [
+        "standard-with-typescript",
+        "plugin:@typescript-eslint/strict-type-checked",
+        "plugin:@typescript-eslint/stylistic-type-checked"
+    ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
