@@ -33,6 +33,7 @@ describe('tests monitorKafkaConsumerJS', () => {
   test('tests if monitorKafkaJSConsumer called methods of KafkaJSConsumerPrometheusExporter instance', () => {
     monitorKafkaJSConsumer(kafkaConsumer, register)
     const mockKafkaJSConsumerPrometheusExporterInstance = mockKafkaJSConsumerPrometheusExporter.mock.instances[0]
+    // eslint-disable-next-line jest/unbound-method
     const monitorEnableMetrics = mockKafkaJSConsumerPrometheusExporterInstance.enableMetrics as jest.Mock
     expect(monitorEnableMetrics).toHaveBeenCalledTimes(1)
   })
