@@ -294,7 +294,7 @@ The following example illustrates how to use the exporter to enable monitoring f
 ```ts
 import { Kafka } from "kafkjs";
 import { Registry, collectDefaultMetrics } from "prom-client";
-import { monitorKafkaJSProducer, monitorKafkaJSConsumer } from "@christiangalsterer/kafkajs-prometheus-exporter";
+import { monitorKafkaJSProducer, monitorKafkaJSConsumer, monitorKafkaJSAdmin } from "@christiangalsterer/kafkajs-prometheus-exporter";
 
 ...
 
