@@ -1,6 +1,6 @@
 {
   "name": "@christiangalsterer/kafkajs-prometheus-exporter",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A prometheus exporter for kafkajs",
   "repository": {
     "type": "git",
