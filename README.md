@@ -34,7 +34,7 @@ The exporter provides the following metrics.
 |kafka_consumer_connection_count|The current number of active connections established with a broker||0.8.0|
 |kafka_consumer_connection_creation_total|The total number of connections established with a broker||0.8.0|
 |kafka_consumer_connection_close_total|The total number of connections closed with a broker||0.8.0|
-|kafka_consumer_connection_crashed_total|The total number of crashed connections with a broker|<ul><li>_group_id_: The id of the consumer group.</li><li>_error_: The error which caused the connection crash.</li><li>_restart_: Determines of the connection was automatically restarted.</li><ul>|0.8.0|
+|kafka_consumer_connection_crashed_total|The total number of crashed connections with a broker|<ul><li>_group_id_: The id of the consumer group.</li><li>_error_: The error which caused the connection crash.</li><li>_restart_: Determines if the connection was automatically restarted.</li><ul>|0.8.0|
 |kafka_consumer_heartbeat_total|The total number of heartbeats with a broker|<ul><li>_group_id_: The id of the consumer group.</li><li>_member_id_: The member of the consumer group.</li><ul>|0.8.0|
 |kafka_consumer_request_queue_size|Size of the request queue.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_consumer_request_total|The total number of requests sent.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
