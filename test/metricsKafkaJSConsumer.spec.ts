@@ -65,7 +65,7 @@ describe('test if all metrics are created with the correct parameters', () => {
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_consumer_connection_crashed_total',
       help: 'The total number of crashed connections with a broker',
-      labelNames: ['error', 'restart'],
+      labelNames: ['group_id', 'error', 'restart'],
       registers: [register]
     })
 
@@ -160,7 +160,7 @@ describe('test if all metrics are created with the correct parameters', () => {
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_consumer_connection_crashed_total',
       help: 'The total number of crashed connections with a broker',
-      labelNames: ['error', 'restart', 'foo', 'alice'],
+      labelNames: ['group_id', 'error', 'restart', 'foo', 'alice'],
       registers: [register]
     })
 

@@ -57,7 +57,7 @@ export class KafkaJSConsumerPrometheusExporter {
     this.consumerConnectionsCrashedTotal = new Counter({
       name: 'kafka_consumer_connection_crashed_total',
       help: 'The total number of crashed connections with a broker',
-      labelNames: mergeLabelNamesWithStandardLabels(['error', 'restart'], this.options.defaultLabels),
+      labelNames: mergeLabelNamesWithStandardLabels(['group_id', 'error', 'restart'], this.options.defaultLabels),
       registers: [this.register]
     })
 
