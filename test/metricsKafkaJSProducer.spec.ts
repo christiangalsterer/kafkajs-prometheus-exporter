@@ -30,7 +30,7 @@ describe('test if all metrics are created with the correct parameters', () => {
   let producer: Producer
 
   beforeEach(() => {
-    jest.resetAllMocks()
+    jest.clearAllMocks()
     producer = kafka.producer()
   })
 

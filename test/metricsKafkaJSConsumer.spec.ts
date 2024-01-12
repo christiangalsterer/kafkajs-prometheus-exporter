@@ -36,7 +36,7 @@ describe('test if all metrics are created with the correct parameters', () => {
   let consumer: Consumer
 
   beforeEach(() => {
-    jest.resetAllMocks()
+    jest.clearAllMocks()
     consumer = kafka.consumer({ groupId: 'group1' })
   })
 

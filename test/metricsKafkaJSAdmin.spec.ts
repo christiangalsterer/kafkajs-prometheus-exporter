@@ -30,7 +30,7 @@ describe('test if all metrics are created with the correct parameters', () => {
   let admin: Admin
 
   beforeEach(() => {
-    jest.resetAllMocks()
+    jest.clearAllMocks()
     admin = kafka.admin()
   })
 
