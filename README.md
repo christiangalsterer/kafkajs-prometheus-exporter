@@ -437,4 +437,6 @@ If you want to support this project, please add a link to your project and/or co
 
 # Related Projects
 
-If you are looking for a way to monitor your MongoDB Driver for Node.js you may have a look at https://github.com/christiangalsterer/mongodb-driver-prometheus-exporter
+If you are looking for a way to monitor your MongoDB Driver for Node.js you may have a look at https://github.com/christiangalsterer/mongodb-driver-prometheus-exporter.
+
+If you are looking for a way to monitor node-postgres you may have a look at https://github.com/christiangalsterer/node-postgres-prometheus-exporter.
