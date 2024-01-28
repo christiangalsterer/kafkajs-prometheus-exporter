@@ -25,11 +25,11 @@ describe('tests mergeLabelNamesWithStandardLabels', () => {
 
 describe('tests mergeLabelsWithStandardLabels', () => {
   const defaultLabels = { foo: 'bar', alice: 3 }
-  const labels = { label1: 'value1', labels2: 2 }
+  const labels = { label1: 'value1', label2: 2, label3: undefined }
   const emptyLabels = {}
 
   test('test mergeLabelsWithStandardLabels with labels and no default labels', () => {
-    expect(mergeLabelsWithStandardLabels(labels)).toStrictEqual(labels)
+    expect(mergeLabelsWithStandardLabels(labels)).toStrictEqual({ label1: 'value1', label2: 2 })
   })
 
   test('test mergeLabelsWithStandardLabels with empty labels and no default labels', () => {
@@ -37,7 +37,7 @@ describe('tests mergeLabelsWithStandardLabels', () => {
   })
 
   test('test mergeLabelsWithStandardLabels with labels and default labels', () => {
-    expect(mergeLabelsWithStandardLabels(labels, defaultLabels)).toStrictEqual({ label1: 'value1', labels2: 2, foo: 'bar', alice: 3 })
+    expect(mergeLabelsWithStandardLabels(labels, defaultLabels)).toStrictEqual({ label1: 'value1', label2: 2, foo: 'bar', alice: 3 })
   })
 
   test('test mergeLabelsWithStandardLabels with empty labels and default labels', () => {

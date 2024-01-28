@@ -16,8 +16,14 @@ export function mergeLabelNamesWithStandardLabels (labelNames: string[], default
  * @param defaultLabels default labels to merge with
  * @returns merged labels
  */
-export function mergeLabelsWithStandardLabels (labels: Record<string, string | number>, defaultLabels?: Record<string, string | number>): Record<string, string | number> {
+export function mergeLabelsWithStandardLabels (labels: Record<string, string | number | undefined>, defaultLabels?: Record<string, string | number>): Record<string, string | number> {
   let merged: Record<string, string | number>
-  defaultLabels !== undefined ? merged = { ...labels, ...defaultLabels } : merged = labels
+  const filtered = Object.fromEntries(
+    Object.entries(labels)
+      .filter(([key, value]) => value !== undefined)
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      .map(([key, value]) => [key, value!])
+  ) as Record<string, string | number>
+  defaultLabels !== undefined ? merged = { ...filtered, ...defaultLabels } : merged = filtered
   return merged
 }
