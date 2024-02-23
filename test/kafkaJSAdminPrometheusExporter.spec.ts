@@ -12,6 +12,10 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
     clientId,
     brokers: ['localhost:9094']
   })
+  const metrics: string[] = [
+    'kafka_admin_connection_count', 'kafka_admin_connection_creation_total', 'kafka_admin_connection_close_total',
+    'kafka_admin_request_total', 'kafka_admin_request_size_total', 'kafka_admin_request_queue_size'
+  ]
 
   beforeEach(() => {
     register = new Registry()
@@ -21,25 +25,19 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
   test('test if all metrics are registered in registry', () => {
     // eslint-disable-next-line no-new
     new KafkaJSAdminPrometheusExporter(admin, register)
-    expect(register.getSingleMetric('kafka_admin_connection_count')).toBeDefined()
-    expect(register.getSingleMetric('kafka_admin_connection_creation_total')).toBeDefined()
-    expect(register.getSingleMetric('kafka_admin_connection_close_total')).toBeDefined()
-    expect(register.getSingleMetric('kafka_admin_request_total')).toBeDefined()
-    expect(register.getSingleMetric('kafka_admin_request_size_total')).toBeDefined()
-    expect(register.getSingleMetric('kafka_admin_request_queue_size')).toBeDefined()
-    expect(register.getMetricsAsArray().length).toBe(6)
+    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
+    metrics.forEach(metric => {
+      expect(register.getSingleMetric(metric)).toBeDefined()
+    })
   })
 
   test('test if all metrics are registered in registry with defaultLabels', () => {
     const options = { defaultLabels: { foo: 'bar', alice: 2 } }
     // eslint-disable-next-line no-new
     new KafkaJSAdminPrometheusExporter(admin, register, options)
-    expect(register.getSingleMetric('kafka_admin_connection_count')).toBeDefined()
-    expect(register.getSingleMetric('kafka_admin_connection_creation_total')).toBeDefined()
-    expect(register.getSingleMetric('kafka_admin_connection_close_total')).toBeDefined()
-    expect(register.getSingleMetric('kafka_admin_request_total')).toBeDefined()
-    expect(register.getSingleMetric('kafka_admin_request_size_total')).toBeDefined()
-    expect(register.getSingleMetric('kafka_admin_request_queue_size')).toBeDefined()
-    expect(register.getMetricsAsArray().length).toBe(6)
+    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
+    metrics.forEach(metric => {
+      expect(register.getSingleMetric(metric)).toBeDefined()
+    })
   })
 })
