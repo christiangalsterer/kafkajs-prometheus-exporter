@@ -44,9 +44,9 @@ describe('test if all metrics are created with the correct parameters', () => {
     // eslint-disable-next-line no-new
     new KafkaJSConsumerPrometheusExporter(consumer, register)
 
-    expect(Counter).toBeCalledTimes(7)
-    expect(Gauge).toBeCalledTimes(3)
-    expect(Histogram).toBeCalledTimes(2)
+    expect(Counter).toHaveBeenCalledTimes(7)
+    expect(Gauge).toHaveBeenCalledTimes(3)
+    expect(Histogram).toHaveBeenCalledTimes(2)
 
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_consumer_connection_creation_total',
@@ -139,9 +139,9 @@ describe('test if all metrics are created with the correct parameters', () => {
     // eslint-disable-next-line no-new
     new KafkaJSConsumerPrometheusExporter(consumer, register, options)
 
-    expect(Counter).toBeCalledTimes(7)
-    expect(Gauge).toBeCalledTimes(3)
-    expect(Histogram).toBeCalledTimes(2)
+    expect(Counter).toHaveBeenCalledTimes(7)
+    expect(Gauge).toHaveBeenCalledTimes(3)
+    expect(Histogram).toHaveBeenCalledTimes(2)
 
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_consumer_connection_creation_total',

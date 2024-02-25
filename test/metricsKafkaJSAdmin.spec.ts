@@ -38,8 +38,8 @@ describe('test if all metrics are created with the correct parameters', () => {
     // eslint-disable-next-line no-new
     new KafkaJSAdminPrometheusExporter(admin, register)
 
-    expect(Counter).toBeCalledTimes(4)
-    expect(Gauge).toBeCalledTimes(2)
+    expect(Counter).toHaveBeenCalledTimes(4)
+    expect(Gauge).toHaveBeenCalledTimes(2)
 
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_admin_connection_creation_total',
@@ -88,8 +88,8 @@ describe('test if all metrics are created with the correct parameters', () => {
     // eslint-disable-next-line no-new
     new KafkaJSAdminPrometheusExporter(admin, register, options)
 
-    expect(Counter).toBeCalledTimes(4)
-    expect(Gauge).toBeCalledTimes(2)
+    expect(Counter).toHaveBeenCalledTimes(4)
+    expect(Gauge).toHaveBeenCalledTimes(2)
 
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_admin_connection_creation_total',
