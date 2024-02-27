@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, test } from '@jest/globals'
 import { Registry } from 'prom-client'
 
 import { KafkaJSProducerPrometheusExporter } from '../src/kafkaJSProducerPrometheusExporter'
-import { Kafka, ProducerEvents, type Producer } from 'kafkajs'
+import { Kafka, type ProducerEvents, type Producer } from 'kafkajs'
 
 describe('tests kafkaJSProducerPrometheusExporter', () => {
   const clientId = 'myTestClientId'

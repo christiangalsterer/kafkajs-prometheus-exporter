@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, test } from '@jest/globals'
 import { Registry } from 'prom-client'
 
 import { KafkaJSConsumerPrometheusExporter } from '../src/kafkaJSConsumerPrometheusExporter'
-import { Kafka, type Consumer, ConsumerHeartbeatEvent, ConsumerRunConfig, ConsumerSubscribeTopic, ConsumerSubscribeTopics, GroupDescription, Logger, RemoveInstrumentationEventListener, TopicPartitionOffset, TopicPartitionOffsetAndMetadata, TopicPartitions, ConsumerEvents } from 'kafkajs'
+import { Kafka, type Consumer, type ConsumerEvents } from 'kafkajs'
 
 describe('tests kafkaJSConsumerPrometheusExporter', () => {
   let register: Registry
