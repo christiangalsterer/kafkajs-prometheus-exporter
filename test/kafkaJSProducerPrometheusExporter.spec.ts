@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, test } from '@jest/globals'
 import { Registry } from 'prom-client'
 
 import { KafkaJSProducerPrometheusExporter } from '../src/kafkaJSProducerPrometheusExporter'
-import { Kafka, type Producer } from 'kafkajs'
+import { Kafka, ProducerEvents, type Producer } from 'kafkajs'
 
 describe('tests kafkaJSProducerPrometheusExporter', () => {
   const clientId = 'myTestClientId'
@@ -38,6 +38,33 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
     expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
     metrics.forEach(metric => {
       expect(register.getSingleMetric(metric)).toBeDefined()
+    })
+  })
+
+  test('enableMetrics method should attach event listeners to producer client', () => {
+    const mockProducer: Producer = {
+      connect: jest.fn(),
+      disconnect: jest.fn(),
+      isIdempotent: jest.fn(),
+      on: jest.fn(),
+      send: jest.fn(),
+      sendBatch: jest.fn(),
+      transaction: jest.fn(),
+      logger: jest.fn(),
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      events: {} as ProducerEvents
+    }
+
+    const events: string[] = [
+      'producer.connect', 'producer.disconnect', 'producer.network.request', 'producer.network.request_queue_size'
+    ]
+
+    const exporter = new KafkaJSProducerPrometheusExporter(mockProducer, register)
+    exporter.enableMetrics()
+
+    expect(mockProducer.on).toHaveBeenCalledTimes(events.length)
+    events.forEach(event => {
+      expect(mockProducer.on).toHaveBeenCalledWith(event, expect.any(Function))
     })
   })
 })
