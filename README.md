@@ -36,8 +36,9 @@ The exporter provides the following metrics.
 |kafka_consumer_connection_close_total|The total number of connections closed with a broker||0.8.0|
 |kafka_consumer_connection_crashed_total|The total number of crashed connections with a broker|<ul><li>_group_id_: The id of the consumer group.</li><li>_error_: The error which caused the connection crash.</li><li>_restart_: Determines if the connection was automatically restarted.</li><ul>|0.8.0|
 |kafka_consumer_heartbeat_total|The total number of heartbeats with a broker|<ul><li>_group_id_: The id of the consumer group.</li><li>_member_id_: The member of the consumer group.</li><ul>|0.8.0|
-|kafka_consumer_request_queue_size|Size of the request queue.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
+|kafka_consumer_request_latency|The time taken for a request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
 |kafka_consumer_request_total|The total number of requests sent.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
+|kafka_consumer_request_queue_size|Size of the request queue.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_consumer_request_size_total|The size of any request sent.|<ul><li>_broker_: The broker</li><ul>|0.9.0|
 |kafka_consumer_fetch_latency|The time taken for a fetch request.||0.8.0|
 |kafka_consumer_fetch_total|The total number of fetch requests.||0.8.0|
@@ -389,6 +390,7 @@ _KafkaJSProducerExporterOptions_, _KafkaJSConsumerExporterOptions_ and _KafkaJSA
 
 |property|Description|Example|Since |
 |---|---|---|---|
+| consumerRequestLatencyHistogramBuckets | Buckets for the kafka_consumer_request_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
 | consumerBatchLatencyHistogramBuckets | Buckets for the kafka_consumer_batch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
 | consumerFetchLatencyHistogramBuckets | Buckets for the kafka_consumer_fetch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
 | defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} | 0.8.0|

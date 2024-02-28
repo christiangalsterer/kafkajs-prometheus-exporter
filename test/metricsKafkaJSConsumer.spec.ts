@@ -46,7 +46,7 @@ describe('test if all metrics are created with the correct parameters', () => {
 
     expect(Counter).toHaveBeenCalledTimes(7)
     expect(Gauge).toHaveBeenCalledTimes(3)
-    expect(Histogram).toHaveBeenCalledTimes(2)
+    expect(Histogram).toHaveBeenCalledTimes(3)
 
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_consumer_connection_creation_total',
@@ -79,6 +79,14 @@ describe('test if all metrics are created with the correct parameters', () => {
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_consumer_request_total',
       help: 'The total number of requests sent.',
+      labelNames: ['broker'],
+      registers: [register]
+    })
+
+    expect(Histogram).toHaveBeenCalledWith({
+      name: 'kafka_consumer_request_latency',
+      help: 'The time taken for processing a request.',
+      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
       labelNames: ['broker'],
       registers: [register]
     })
@@ -141,7 +149,7 @@ describe('test if all metrics are created with the correct parameters', () => {
 
     expect(Counter).toHaveBeenCalledTimes(7)
     expect(Gauge).toHaveBeenCalledTimes(3)
-    expect(Histogram).toHaveBeenCalledTimes(2)
+    expect(Histogram).toHaveBeenCalledTimes(3)
 
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_consumer_connection_creation_total',
@@ -174,6 +182,14 @@ describe('test if all metrics are created with the correct parameters', () => {
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_consumer_request_total',
       help: 'The total number of requests sent.',
+      labelNames: ['broker', 'foo', 'alice'],
+      registers: [register]
+    })
+
+    expect(Histogram).toHaveBeenCalledWith({
+      name: 'kafka_consumer_request_latency',
+      help: 'The time taken for processing a request.',
+      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
       labelNames: ['broker', 'foo', 'alice'],
       registers: [register]
     })
