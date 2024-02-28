@@ -2,7 +2,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/christiangalsterer/kafkajs-prometheus-exporter/badge.svg)](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/security/advisories)
 [![npm downloads](https://img.shields.io/npm/dt/@christiangalsterer/kafkajs-prometheus-exporter.svg)](https://www.npmjs.com/package/@christiangalsterer/kafkajs-prometheus-exporter)
 [![npm version](https://img.shields.io/npm/v/@christiangalsterer/kafkajs-prometheus-exporter.svg)](https://www.npmjs.com/package/@christiangalsterer/kafkajs-prometheus-exporter?activeTab=versions)
-[![npm licence](https://img.shields.io/npm/l/@christiangalsterer/kafkajs-prometheus-exporter.svg)](https://www.npmjs.com/package/@christiangalsterer/kafkajs-prometheus-exporter)
+[![npm license](https://img.shields.io/npm/l/@christiangalsterer/kafkajs-prometheus-exporter.svg)](https://www.npmjs.com/package/@christiangalsterer/kafkajs-prometheus-exporter)
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://developer.mend.io/github/christiangalsterer/kafkajs-prometheus-exporter)
 ![github stars](https://img.shields.io/github/stars/christiangalsterer/kafkajs-prometheus-exporter.svg)
 
@@ -87,7 +87,7 @@ kafka_consumer_connection_creation_total{client_id="nodejs-example-app",alice="b
 # HELP kafka_consumer_connection_crashed_total The total number of crashed connections with a broker
 # TYPE kafka_consumer_connection_crashed_total counter
 
-# HELP kafka_consumer_heartbeat_total The total numer of heartbeats with a broker
+# HELP kafka_consumer_heartbeat_total The total number of heartbeats with a broker
 # TYPE kafka_consumer_heartbeat_total counter
 kafka_consumer_heartbeat_total{client_id="nodejs-example-app",group_id="myGroupId",member_id="nodejs-example-app-e8962841-acad-4c88-a076-f4f4fa9f27bd",alice="bob"} 7
 
@@ -284,7 +284,7 @@ kafka_admin_request_size_total{client_id="nodejs-example-app",broker="broker1:90
 
 ## Add Dependency
 
-Add the following dependency to your project to download the packge from [npm](https://www.npmjs.com/package/@christiangalsterer/kafkajs-prometheus-exporter).
+Add the following dependency to your project to download the package from [npm](https://www.npmjs.com/package/@christiangalsterer/kafkajs-prometheus-exporter).
 
 ```sh
 npm i @christiangalsterer/kafkajs-prometheus-exporter
@@ -295,7 +295,7 @@ npm i @christiangalsterer/kafkajs-prometheus-exporter
 The following example illustrates how to use the exporter to enable monitoring for the KafkaJS.
 
 ```ts
-import { Kafka } from "kafkjs";
+import { Kafka } from "kafkajs";
 import { Registry, collectDefaultMetrics } from "prom-client";
 import { monitorKafkaJSProducer, monitorKafkaJSConsumer, monitorKafkaJSAdmin } from "@christiangalsterer/kafkajs-prometheus-exporter";
 
