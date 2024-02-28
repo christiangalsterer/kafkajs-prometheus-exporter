@@ -1,4 +1,4 @@
-import { type Registry, Gauge, Counter } from 'prom-client'
+import { type Registry, Gauge, Counter, Histogram } from 'prom-client'
 import type { DisconnectEvent, ConnectEvent, RequestQueueSizeEvent, Producer, RequestEvent } from 'kafkajs'
 import { type KafkaJSProducerExporterOptions } from './kafkaJSProducerExporterOptions'
 import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
@@ -10,11 +10,14 @@ export class KafkaJSProducerPrometheusExporter {
   private readonly producer: Producer
   private readonly register: Registry
   private readonly options: KafkaJSProducerExporterOptions
-  private readonly defaultOptions: KafkaJSProducerExporterOptions = {}
+  private readonly defaultOptions: KafkaJSProducerExporterOptions = {
+    producerRequestLatencyHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]
+  }
 
   private readonly producerActiveConnections: Gauge
   private readonly producerConnectionsCreatedTotal: Counter
   private readonly producerConnectionsClosedTotal: Counter
+  private readonly producerRequestLatency: Histogram
   private readonly producerRequestTotal: Counter
   private readonly producerRequestSizeTotal: Counter
   private readonly producerRequestQueueSize: Gauge
@@ -42,6 +45,14 @@ export class KafkaJSProducerPrometheusExporter {
       name: 'kafka_producer_connection_close_total',
       help: 'The total number of connections closed with a broker',
       labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
+      registers: [this.register]
+    })
+
+    this.producerRequestLatency = new Histogram({
+      name: 'kafka_producer_request_latency',
+      help: 'The time taken for processing a producer request.',
+      labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
+      buckets: this.options.producerRequestLatencyHistogramBuckets,
       registers: [this.register]
     })
 
@@ -87,6 +98,7 @@ export class KafkaJSProducerPrometheusExporter {
   onProducerRequest (event: RequestEvent): void {
     this.producerRequestTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels))
     this.producerRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
+    this.producerRequestLatency.observe(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.duration / 1000)
   }
 
   onProducerRequestQueueSize (event: RequestQueueSizeEvent): void {

@@ -22,6 +22,7 @@ The exporter provides the following metrics.
 |kafka_producer_connection_count|The current number of active connections established with a broker||0.8.0|
 |kafka_producer_connection_creation_total|The total number of connections established with a broker||0.8.0|
 |kafka_producer_connection_close_total|The total number of connections closed with a broker||0.8.0|
+|kafka_producer_request_latency|The time taken for processing a producer request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
 |kafka_producer_request_total|The total number of requests sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_producer_request_size_total|The size of any request sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.9.0|
 |kafka_producer_request_queue_size|Size of the request queue.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.8.0|
@@ -385,13 +386,14 @@ _KafkaJSProducerExporterOptions_, _KafkaJSConsumerExporterOptions_ and _KafkaJSA
 
 |property|Description|Example|Since |
 |---|---|---|---|
+| producerRequestLatencyHistogramBuckets | Buckets for the kafka_producer_request_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 3.1.0|
 | defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} | 0.8.0 |
 
 ## KafkaJSConsumerExporterOptions
 
 |property|Description|Example|Since |
 |---|---|---|---|
-| consumerRequestLatencyHistogramBuckets | Buckets for the kafka_consumer_request_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
+| consumerRequestLatencyHistogramBuckets | Buckets for the kafka_consumer_request_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 3.1.0|
 | consumerBatchLatencyHistogramBuckets | Buckets for the kafka_consumer_batch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
 | consumerFetchLatencyHistogramBuckets | Buckets for the kafka_consumer_fetch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
 | defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} | 0.8.0|
@@ -400,6 +402,7 @@ _KafkaJSProducerExporterOptions_, _KafkaJSConsumerExporterOptions_ and _KafkaJSA
 
 |property|Description|Example|Since |
 |---|---|---|---|
+| adminRequestLatencyHistogramBuckets | Buckets for the kafka_admin_request_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 3.1.0|
 | defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} | 1.0.0 |
 
 # Grafana Dashboard
@@ -428,7 +431,7 @@ The following table list the compatibility of exporter versions with different K
 |^1.0.0|^2.2.4|^14.2.0|
 |^2.0.0|^2.2.4|^14.2.0|
 |^3.0.0|^2.2.4|^15.0.0|
-
+|^3.1.0|^2.2.4|^15.0.0|
 
 # Contributions
 

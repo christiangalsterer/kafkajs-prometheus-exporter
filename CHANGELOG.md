@@ -12,12 +12,14 @@ The detailed changelog can be found [here](https://github.com/christiangalsterer
 ### Added
 
 - support for new metrics _kafka_admin_request_latency_sum_, _kafka_admin_request_latency_count_ and _kafka_admin_request_latency_bucket_. _kafka_admin_request_latency_count_ and _kafka_admin_request_total_ contain the same value.
+- support for new metrics _kafka_producer_request_latency_sum_, _kafka_producer_request_latency_count_ and _kafka_producer_request_latency_bucket_. _kafka_producer_request_latency_count_ and _kafka_producer_request_total_ contain the same value.
 - support for new metrics _kafka_consumer_request_latency_sum_, _kafka_consumer_request_latency_count_ and _kafka_consumer_request_latency_bucket_. _kafka_consumer_request_latency_count_ and _kafka_consumer_request_total_ contain the same value.
 
 ### Deprecated
 
 - _kafka_admin_request_total_ will be potentially removed in a future version in favor of _kafka_admin_request_latency_count_. It is recommended to already switch now to the new metric.
-- _kafka_consumer_request_total_ will be potentially removed in a future version in favor of _kafka_consumer_request_latency_count_. It is recommended to already now today to the new metric.
+- _kafka_producer_request_total_ will be potentially removed in a future version in favor of _kafka_producer_request_latency_count_. It is recommended to already switch now to the new metric.
+- _kafka_consumer_request_total_ will be potentially removed in a future version in favor of _kafka_consumer_request_latency_count_. It is recommended to already now to the new metric.
 
 ## [3.0.1] 2024-01-10
 
