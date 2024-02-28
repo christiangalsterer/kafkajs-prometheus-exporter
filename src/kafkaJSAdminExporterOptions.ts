@@ -6,7 +6,7 @@ import { type KafkaJSExporterOptions } from './kafkaJSExporterOptions'
 export interface KafkaJSAdminExporterOptions extends KafkaJSExporterOptions {
 
   /**
-   * Buckets for the kafka_admin_request_latency metric. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]
+   * Buckets for the kafka_admin_request_duration metric. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]
    */
-  adminRequestLatencyHistogramBuckets?: number[]
+  adminRequestDurationHistogramBuckets?: number[]
 }

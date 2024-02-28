@@ -12,7 +12,7 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
   })
   const metrics: string[] = [
     'kafka_consumer_connection_count', 'kafka_consumer_connection_creation_total', 'kafka_consumer_connection_close_total',
-    'kafka_consumer_connection_crashed_total', 'kafka_consumer_heartbeat_total', 'kafka_consumer_request_total', 'kafka_consumer_request_total',
+    'kafka_consumer_connection_crashed_total', 'kafka_consumer_heartbeat_total', 'kafka_consumer_request_duration', 'kafka_consumer_request_total',
     'kafka_consumer_request_size_total', 'kafka_consumer_request_queue_size', 'kafka_consumer_fetch_latency',
     'kafka_consumer_fetch_total', 'kafka_consumer_batch_size_total', 'kafka_consumer_batch_latency'
   ]

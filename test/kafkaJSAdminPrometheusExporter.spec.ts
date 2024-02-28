@@ -14,7 +14,7 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
   })
   const metrics: string[] = [
     'kafka_admin_connection_count', 'kafka_admin_connection_creation_total', 'kafka_admin_connection_close_total',
-    'kafka_admin_request_latency', 'kafka_admin_request_total', 'kafka_admin_request_size_total', 'kafka_admin_request_queue_size'
+    'kafka_admin_request_duration', 'kafka_admin_request_total', 'kafka_admin_request_size_total', 'kafka_admin_request_queue_size'
   ]
 
   beforeEach(() => {

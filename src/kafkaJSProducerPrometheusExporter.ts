@@ -11,13 +11,13 @@ export class KafkaJSProducerPrometheusExporter {
   private readonly register: Registry
   private readonly options: KafkaJSProducerExporterOptions
   private readonly defaultOptions: KafkaJSProducerExporterOptions = {
-    producerRequestLatencyHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]
+    producerRequestDurationHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]
   }
 
   private readonly producerActiveConnections: Gauge
   private readonly producerConnectionsCreatedTotal: Counter
   private readonly producerConnectionsClosedTotal: Counter
-  private readonly producerRequestLatency: Histogram
+  private readonly producerRequestDuration: Histogram
   private readonly producerRequestTotal: Counter
   private readonly producerRequestSizeTotal: Counter
   private readonly producerRequestQueueSize: Gauge
@@ -48,11 +48,11 @@ export class KafkaJSProducerPrometheusExporter {
       registers: [this.register]
     })
 
-    this.producerRequestLatency = new Histogram({
-      name: 'kafka_producer_request_latency',
+    this.producerRequestDuration = new Histogram({
+      name: 'kafka_producer_request_duration',
       help: 'The time taken for processing a producer request.',
       labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
-      buckets: this.options.producerRequestLatencyHistogramBuckets,
+      buckets: this.options.producerRequestDurationHistogramBuckets,
       registers: [this.register]
     })
 
@@ -98,7 +98,7 @@ export class KafkaJSProducerPrometheusExporter {
   onProducerRequest (event: RequestEvent): void {
     this.producerRequestTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels))
     this.producerRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
-    this.producerRequestLatency.observe(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.duration / 1000)
+    this.producerRequestDuration.observe(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.duration / 1000)
   }
 
   onProducerRequestQueueSize (event: RequestQueueSizeEvent): void {

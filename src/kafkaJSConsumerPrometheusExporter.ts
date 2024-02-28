@@ -11,7 +11,7 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly register: Registry
   private readonly options: KafkaJSConsumerExporterOptions
   private readonly defaultOptions: KafkaJSConsumerExporterOptions = {
-    consumerRequestLatencyHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+    consumerRequestDurationHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
     consumerBatchLatencyHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
     consumerFetchLatencyHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]
   }
@@ -28,7 +28,7 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly consumerBatchLatency: Histogram
   private readonly consumerRequestTotal: Counter
   private readonly consumerRequestSizeTotal: Counter
-  private readonly consumerRequestLatency: Histogram
+  private readonly consumerRequestDuration: Histogram
 
   constructor (consumer: Consumer, register: Registry, options?: KafkaJSConsumerExporterOptions) {
     this.consumer = consumer
@@ -121,11 +121,11 @@ export class KafkaJSConsumerPrometheusExporter {
       registers: [this.register]
     })
 
-    this.consumerRequestLatency = new Histogram({
-      name: 'kafka_consumer_request_latency',
+    this.consumerRequestDuration = new Histogram({
+      name: 'kafka_consumer_request_duration',
       help: 'The time taken for processing a consumer request.',
       labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
-      buckets: this.options.consumerRequestLatencyHistogramBuckets,
+      buckets: this.options.consumerRequestDurationHistogramBuckets,
       registers: [this.register]
     })
   }
@@ -162,7 +162,7 @@ export class KafkaJSConsumerPrometheusExporter {
   onConsumerRequest (event: RequestEvent): void {
     this.consumerRequestTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels))
     this.consumerRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
-    this.consumerRequestLatency.observe(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.duration / 1000)
+    this.consumerRequestDuration.observe(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.duration / 1000)
   }
 
   onConsumerRequestQueueSize (event: RequestQueueSizeEvent): void {
