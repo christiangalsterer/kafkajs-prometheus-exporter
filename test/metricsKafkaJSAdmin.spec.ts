@@ -2,7 +2,7 @@
 import { beforeEach } from '@jest/globals'
 import { KafkaJSAdminPrometheusExporter } from '../src/kafkaJSAdminPrometheusExporter'
 import { Kafka, type Admin } from 'kafkajs'
-import { Counter, Gauge, type Registry } from 'prom-client'
+import { Counter, Gauge, Histogram, type Registry } from 'prom-client'
 
 jest.mock('prom-client', () => ({
   Counter: jest.fn(() => {
@@ -12,6 +12,12 @@ jest.mock('prom-client', () => ({
     }
   }),
   Gauge: jest.fn(() => {
+    return {
+      set: jest.fn(),
+      get: jest.fn()
+    }
+  }),
+  Histogram: jest.fn(() => {
     return {
       set: jest.fn(),
       get: jest.fn()
@@ -40,6 +46,7 @@ describe('test if all metrics are created with the correct parameters', () => {
 
     expect(Counter).toHaveBeenCalledTimes(4)
     expect(Gauge).toHaveBeenCalledTimes(2)
+    expect(Histogram).toHaveBeenCalledTimes(1)
 
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_admin_connection_creation_total',
@@ -79,6 +86,14 @@ describe('test if all metrics are created with the correct parameters', () => {
     expect(Gauge).toHaveBeenCalledWith({
       name: 'kafka_admin_request_queue_size',
       help: 'Size of the request queue.',
+      labelNames: ['broker'],
+      registers: [register]
+    })
+
+    expect(Histogram).toHaveBeenCalledWith({
+      name: 'kafka_admin_request_latency',
+      help: 'The time taken for processing an admin request.',
+      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
       labelNames: ['broker'],
       registers: [register]
     })
@@ -90,6 +105,7 @@ describe('test if all metrics are created with the correct parameters', () => {
 
     expect(Counter).toHaveBeenCalledTimes(4)
     expect(Gauge).toHaveBeenCalledTimes(2)
+    expect(Histogram).toHaveBeenCalledTimes(1)
 
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_admin_connection_creation_total',
@@ -129,6 +145,14 @@ describe('test if all metrics are created with the correct parameters', () => {
     expect(Gauge).toHaveBeenCalledWith({
       name: 'kafka_admin_request_queue_size',
       help: 'Size of the request queue.',
+      labelNames: ['broker', 'foo', 'alice'],
+      registers: [register]
+    })
+
+    expect(Histogram).toHaveBeenCalledWith({
+      name: 'kafka_admin_request_latency',
+      help: 'The time taken for processing an admin request.',
+      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
       labelNames: ['broker', 'foo', 'alice'],
       registers: [register]
     })

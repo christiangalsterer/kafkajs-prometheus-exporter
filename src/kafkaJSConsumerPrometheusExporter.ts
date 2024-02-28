@@ -123,7 +123,7 @@ export class KafkaJSConsumerPrometheusExporter {
 
     this.consumerRequestLatency = new Histogram({
       name: 'kafka_consumer_request_latency',
-      help: 'The time taken for processing a request.',
+      help: 'The time taken for processing a consumer request.',
       labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
       buckets: this.options.consumerRequestLatencyHistogramBuckets,
       registers: [this.register]

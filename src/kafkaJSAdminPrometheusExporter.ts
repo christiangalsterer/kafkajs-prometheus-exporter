@@ -1,4 +1,4 @@
-import { type Registry, Gauge, Counter } from 'prom-client'
+import { type Registry, Gauge, Counter, Histogram } from 'prom-client'
 import type { DisconnectEvent, ConnectEvent, RequestQueueSizeEvent, Admin, RequestEvent } from 'kafkajs'
 import { type KafkaJSAdminExporterOptions } from './kafkaJSAdminExporterOptions'
 import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
@@ -10,12 +10,15 @@ export class KafkaJSAdminPrometheusExporter {
   private readonly admin: Admin
   private readonly register: Registry
   private readonly options: KafkaJSAdminExporterOptions
-  private readonly defaultOptions: KafkaJSAdminExporterOptions = {}
+  private readonly defaultOptions: KafkaJSAdminExporterOptions = {
+    adminRequestLatencyHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]
+  }
 
   private readonly adminActiveConnections: Gauge
   private readonly adminConnectionsCreatedTotal: Counter
   private readonly adminConnectionsClosedTotal: Counter
   private readonly adminRequestTotal: Counter
+  private readonly adminRequestLatency: Histogram
   private readonly adminRequestSizeTotal: Counter
   private readonly adminRequestQueueSize: Gauge
   /**
@@ -57,6 +60,14 @@ export class KafkaJSAdminPrometheusExporter {
       registers: [this.register]
     })
 
+    this.adminRequestLatency = new Histogram({
+      name: 'kafka_admin_request_latency',
+      help: 'The time taken for processing an admin request.',
+      labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
+      buckets: this.options.adminRequestLatencyHistogramBuckets,
+      registers: [this.register]
+    })
+
     this.adminRequestSizeTotal = new Counter({
       name: 'kafka_admin_request_size_total',
       help: 'The size of any request sent.',
@@ -92,6 +103,7 @@ export class KafkaJSAdminPrometheusExporter {
   onAdminRequest (event: RequestEvent): void {
     this.adminRequestTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels))
     this.adminRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
+    // this.adminRequestLatency.observe(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.duration / 1000)
   }
 
   onAdminRequestQueueSize (event: RequestQueueSizeEvent): void {

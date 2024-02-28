@@ -36,11 +36,11 @@ The exporter provides the following metrics.
 |kafka_consumer_connection_close_total|The total number of connections closed with a broker||0.8.0|
 |kafka_consumer_connection_crashed_total|The total number of crashed connections with a broker|<ul><li>_group_id_: The id of the consumer group.</li><li>_error_: The error which caused the connection crash.</li><li>_restart_: Determines if the connection was automatically restarted.</li><ul>|0.8.0|
 |kafka_consumer_heartbeat_total|The total number of heartbeats with a broker|<ul><li>_group_id_: The id of the consumer group.</li><li>_member_id_: The member of the consumer group.</li><ul>|0.8.0|
-|kafka_consumer_request_latency|The time taken for a request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
+|kafka_consumer_request_latency|The time taken for processing a consumer request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
 |kafka_consumer_request_total|The total number of requests sent.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_consumer_request_queue_size|Size of the request queue.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_consumer_request_size_total|The size of any request sent.|<ul><li>_broker_: The broker</li><ul>|0.9.0|
-|kafka_consumer_fetch_latency|The time taken for a fetch request.||0.8.0|
+|kafka_consumer_fetch_latency|The time taken for processing a fetch request.||0.8.0|
 |kafka_consumer_fetch_total|The total number of fetch requests.||0.8.0|
 |kafka_consumer_batch_size_total|The number of bytes received per partition per request|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.9.0|
 |kafka_consumer_batch_latency|The time taken for processing a batch.|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.8.0|
@@ -52,6 +52,7 @@ The exporter provides the following metrics.
 |kafka_admin_connection_count|The current number of active connections established with a broker||1.0.0|
 |kafka_admin_connection_creation_total|The total number of connections established with a broker||1.0.0|
 |kafka_admin_connection_close_total|The total number of connections closed with a broker||1.0.0|
+|kafka_admin_request_latency|The time taken for processing an admin request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
 |kafka_admin_request_total|The total number of requests sent.|<ul><li>_broker_: The broker</li><ul>|1.0.0|
 |kafka_admin_request_size_total|The size of any request sent.|<ul><li>_broker_: The broker</li><ul>|1.0.0|
 |kafka_admin_request_queue_size|Size of the request queue.|<ul><li>_broker_: The broker</li><ul>|1.0.0|

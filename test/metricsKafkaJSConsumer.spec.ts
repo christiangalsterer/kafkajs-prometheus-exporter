@@ -85,7 +85,7 @@ describe('test if all metrics are created with the correct parameters', () => {
 
     expect(Histogram).toHaveBeenCalledWith({
       name: 'kafka_consumer_request_latency',
-      help: 'The time taken for processing a request.',
+      help: 'The time taken for processing a consumer request.',
       buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
       labelNames: ['broker'],
       registers: [register]
@@ -188,7 +188,7 @@ describe('test if all metrics are created with the correct parameters', () => {
 
     expect(Histogram).toHaveBeenCalledWith({
       name: 'kafka_consumer_request_latency',
-      help: 'The time taken for processing a request.',
+      help: 'The time taken for processing a consumer request.',
       buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
       labelNames: ['broker', 'foo', 'alice'],
       registers: [register]
