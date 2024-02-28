@@ -41,10 +41,12 @@ The exporter provides the following metrics.
 |kafka_consumer_request_total|The total number of requests sent.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_consumer_request_queue_size|Size of the request queue.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_consumer_request_size_total|The size of any request sent.|<ul><li>_broker_: The broker</li><ul>|0.9.0|
-|kafka_consumer_fetch_latency|The time taken for processing a fetch request.||0.8.0|
+|kafka_consumer_fetch_duration|The time taken for processing a fetch request.||3.1.0|
+|**Deprecated** kafka_consumer_fetch_latency|The time taken for processing a fetch request.||0.8.0|
 |kafka_consumer_fetch_total|The total number of fetch requests.||0.8.0|
 |kafka_consumer_batch_size_total|The number of bytes received per partition per request|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.9.0|
-|kafka_consumer_batch_latency|The time taken for processing a batch.|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.8.0|
+|kafka_consumer_batch_duration|The time taken for processing a batch.|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|3.1.0|
+|**Deprecated**  kafka_consumer_batch_latency|The time taken for processing a batch.|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.8.0|
 
 ### Admin Metrics
 

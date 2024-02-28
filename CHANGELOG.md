@@ -11,6 +11,8 @@ The detailed changelog can be found [here](https://github.com/christiangalsterer
 
 ### Added
 
+- support for new metrics _kafka_consumer_fetch_duration_sum_, _kafka_consumer_fetch_duration_count_ and _kafka_consumer_fetch_duration_bucket_. These are replacements for the corresponding _kafka_consumer_fetch_latency.*_ metrics. See also the deprecation notices below.
+- support for new metrics _kafka_consumer_batch_duration_sum_, _kafka_consumer_batch_duration_count_ and _kafka_consumer_batch_duration_bucket_. These are replacements for the corresponding _kafka_consumer_batch_latency.*_ metrics. See also the deprecation notices below.
 - support for new metrics _kafka_admin_request_duration_sum_, _kafka_admin_request_duration_count_ and _kafka_admin_request_duration_bucket_. _kafka_admin_request_duration_count_ and _kafka_admin_request_total_ contain the same value.
 - support for new metrics _kafka_producer_request_duration_sum_, _kafka_producer_request_duration_count_ and _kafka_producer_request_duration_bucket_. _kafka_producer_request_duration_count_ and _kafka_producer_request_total_ contain the same value.
 - support for new metrics _kafka_consumer_request_duration_sum_, _kafka_consumer_request_duration_count_ and _kafka_consumer_request_duration_bucket_. _kafka_consumer_request_duration_count_ and _kafka_consumer_request_total_ contain the same value.
@@ -19,7 +21,9 @@ The detailed changelog can be found [here](https://github.com/christiangalsterer
 
 - _kafka_admin_request_total_ will be potentially removed in a future version in favor of _kafka_admin_request_duration_count_. It is recommended to already switch now to the new metric.
 - _kafka_producer_request_total_ will be potentially removed in a future version in favor of _kafka_producer_request_duration_count_. It is recommended to already switch now to the new metric.
-- _kafka_consumer_request_total_ will be potentially removed in a future version in favor of _kafka_consumer_request_duration_count_. It is recommended to already now to the new metric.
+- _kafka_consumer_request_total_ will be potentially removed in a future version in favor of _kafka_consumer_request_duration_count_. It is recommended to already switch now to the new metric.
+- _kafka_consumer_fetch_latency_count_, _kafka_consumer_fetch_latency_sum_ and _kafka_consumer_fetch_latency_buckets_ will be removed in the next major release and are replaced with _kafka_consumer_fetch_duration.*_ counterparts. It is recommended to already switch now to the new metrics.
+- _kafka_consumer_batch_latency_count_, _kafka_consumer_batch_latency_sum_ and _kafka_consumer_batch_latency_buckets_ will be removed in the next major release and are replaced with the _kafka_consumer_batch_duration.*_ counterparts. It is recommended to already switch now to the new metrics.
 
 ## [3.0.1] 2024-01-10
 

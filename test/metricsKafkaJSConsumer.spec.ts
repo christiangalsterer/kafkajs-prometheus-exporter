@@ -46,7 +46,7 @@ describe('test if all metrics are created with the correct parameters', () => {
 
     expect(Counter).toHaveBeenCalledTimes(7)
     expect(Gauge).toHaveBeenCalledTimes(3)
-    expect(Histogram).toHaveBeenCalledTimes(3)
+    expect(Histogram).toHaveBeenCalledTimes(5)
 
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_consumer_connection_creation_total',
@@ -66,6 +66,13 @@ describe('test if all metrics are created with the correct parameters', () => {
       name: 'kafka_consumer_connection_crashed_total',
       help: 'The total number of crashed connections with a broker',
       labelNames: ['group_id', 'error', 'restart'],
+      registers: [register]
+    })
+
+    expect(Gauge).toHaveBeenCalledWith({
+      name: 'kafka_consumer_connection_count',
+      help: 'The current number of active connections established with a broker',
+      labelNames: [],
       registers: [register]
     })
 
@@ -91,27 +98,6 @@ describe('test if all metrics are created with the correct parameters', () => {
       registers: [register]
     })
 
-    expect(Counter).toHaveBeenCalledWith({
-      name: 'kafka_consumer_fetch_total',
-      help: 'The total number of fetch requests.',
-      labelNames: [],
-      registers: [register]
-    })
-
-    expect(Counter).toHaveBeenCalledWith({
-      name: 'kafka_consumer_batch_size_total',
-      help: 'The number of bytes received per partition per request',
-      labelNames: ['topic', 'partition'],
-      registers: [register]
-    })
-
-    expect(Gauge).toHaveBeenCalledWith({
-      name: 'kafka_consumer_connection_count',
-      help: 'The current number of active connections established with a broker',
-      labelNames: [],
-      registers: [register]
-    })
-
     expect(Gauge).toHaveBeenCalledWith({
       name: 'kafka_consumer_request_size_total',
       help: 'The size of any request sent.',
@@ -123,6 +109,21 @@ describe('test if all metrics are created with the correct parameters', () => {
       name: 'kafka_consumer_request_queue_size',
       help: 'Size of the request queue.',
       labelNames: ['broker'],
+      registers: [register]
+    })
+
+    expect(Counter).toHaveBeenCalledWith({
+      name: 'kafka_consumer_fetch_total',
+      help: 'The total number of fetch requests.',
+      labelNames: [],
+      registers: [register]
+    })
+
+    expect(Histogram).toHaveBeenCalledWith({
+      name: 'kafka_consumer_fetch_duration',
+      help: 'The time taken for a fetch request.',
+      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      labelNames: [],
       registers: [register]
     })
 
@@ -141,6 +142,21 @@ describe('test if all metrics are created with the correct parameters', () => {
       labelNames: ['topic', 'partition'],
       registers: [register]
     })
+
+    expect(Histogram).toHaveBeenCalledWith({
+      name: 'kafka_consumer_batch_duration',
+      help: 'The time taken for processing a batch.',
+      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      labelNames: ['topic', 'partition'],
+      registers: [register]
+    })
+
+    expect(Counter).toHaveBeenCalledWith({
+      name: 'kafka_consumer_batch_size_total',
+      help: 'The number of bytes received per partition per request',
+      labelNames: ['topic', 'partition'],
+      registers: [register]
+    })
   })
 
   test('tests if all metrics are created with default labels', () => {
@@ -149,7 +165,7 @@ describe('test if all metrics are created with the correct parameters', () => {
 
     expect(Counter).toHaveBeenCalledTimes(7)
     expect(Gauge).toHaveBeenCalledTimes(3)
-    expect(Histogram).toHaveBeenCalledTimes(3)
+    expect(Histogram).toHaveBeenCalledTimes(5)
 
     expect(Counter).toHaveBeenCalledWith({
       name: 'kafka_consumer_connection_creation_total',
@@ -169,6 +185,13 @@ describe('test if all metrics are created with the correct parameters', () => {
       name: 'kafka_consumer_connection_crashed_total',
       help: 'The total number of crashed connections with a broker',
       labelNames: ['group_id', 'error', 'restart', 'foo', 'alice'],
+      registers: [register]
+    })
+
+    expect(Gauge).toHaveBeenCalledWith({
+      name: 'kafka_consumer_connection_count',
+      help: 'The current number of active connections established with a broker',
+      labelNames: ['foo', 'alice'],
       registers: [register]
     })
 
@@ -194,27 +217,6 @@ describe('test if all metrics are created with the correct parameters', () => {
       registers: [register]
     })
 
-    expect(Counter).toHaveBeenCalledWith({
-      name: 'kafka_consumer_fetch_total',
-      help: 'The total number of fetch requests.',
-      labelNames: ['foo', 'alice'],
-      registers: [register]
-    })
-
-    expect(Counter).toHaveBeenCalledWith({
-      name: 'kafka_consumer_batch_size_total',
-      help: 'The number of bytes received per partition per request',
-      labelNames: ['topic', 'partition', 'foo', 'alice'],
-      registers: [register]
-    })
-
-    expect(Gauge).toHaveBeenCalledWith({
-      name: 'kafka_consumer_connection_count',
-      help: 'The current number of active connections established with a broker',
-      labelNames: ['foo', 'alice'],
-      registers: [register]
-    })
-
     expect(Gauge).toHaveBeenCalledWith({
       name: 'kafka_consumer_request_size_total',
       help: 'The size of any request sent.',
@@ -226,6 +228,21 @@ describe('test if all metrics are created with the correct parameters', () => {
       name: 'kafka_consumer_request_queue_size',
       help: 'Size of the request queue.',
       labelNames: ['broker', 'foo', 'alice'],
+      registers: [register]
+    })
+
+    expect(Counter).toHaveBeenCalledWith({
+      name: 'kafka_consumer_fetch_total',
+      help: 'The total number of fetch requests.',
+      labelNames: ['foo', 'alice'],
+      registers: [register]
+    })
+
+    expect(Histogram).toHaveBeenCalledWith({
+      name: 'kafka_consumer_fetch_duration',
+      help: 'The time taken for a fetch request.',
+      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      labelNames: ['foo', 'alice'],
       registers: [register]
     })
 
@@ -241,6 +258,21 @@ describe('test if all metrics are created with the correct parameters', () => {
       name: 'kafka_consumer_batch_latency',
       help: 'The time taken for processing a batch.',
       buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      labelNames: ['topic', 'partition', 'foo', 'alice'],
+      registers: [register]
+    })
+
+    expect(Histogram).toHaveBeenCalledWith({
+      name: 'kafka_consumer_batch_duration',
+      help: 'The time taken for processing a batch.',
+      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      labelNames: ['topic', 'partition', 'foo', 'alice'],
+      registers: [register]
+    })
+
+    expect(Counter).toHaveBeenCalledWith({
+      name: 'kafka_consumer_batch_size_total',
+      help: 'The number of bytes received per partition per request',
       labelNames: ['topic', 'partition', 'foo', 'alice'],
       registers: [register]
     })

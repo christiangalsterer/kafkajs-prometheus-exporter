@@ -13,7 +13,9 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly defaultOptions: KafkaJSConsumerExporterOptions = {
     consumerRequestDurationHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
     consumerBatchLatencyHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
-    consumerFetchLatencyHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]
+    consumerBatchDurationHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+    consumerFetchLatencyHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+    consumerFetchDurationHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]
   }
 
   private readonly consumerActiveConnections: Gauge
@@ -23,9 +25,11 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly consumerHeartbeats: Counter
   private readonly consumerRequestQueueSize: Gauge
   private readonly consumerFetchLatency: Histogram
+  private readonly consumerFetchDuration: Histogram
   private readonly consumerFetchTotal: Counter
   private readonly consumerBatchSizeTotal: Counter
   private readonly consumerBatchLatency: Histogram
+  private readonly consumerBatchDuration: Histogram
   private readonly consumerRequestTotal: Counter
   private readonly consumerRequestSizeTotal: Counter
   private readonly consumerRequestDuration: Histogram
@@ -99,6 +103,14 @@ export class KafkaJSConsumerPrometheusExporter {
       registers: [this.register]
     })
 
+    this.consumerFetchLatency = new Histogram({
+      name: 'kafka_consumer_fetch_duration',
+      help: 'The time taken for a fetch request.',
+      labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
+      buckets: this.options.consumerFetchDurationHistogramBuckets,
+      registers: [this.register]
+    })
+
     this.consumerFetchTotal = new Counter({
       name: 'kafka_consumer_fetch_total',
       help: 'The total number of fetch requests.',
@@ -118,6 +130,14 @@ export class KafkaJSConsumerPrometheusExporter {
       help: 'The time taken for processing a batch.',
       labelNames: mergeLabelNamesWithStandardLabels(['topic', 'partition'], this.options.defaultLabels),
       buckets: this.options.consumerBatchLatencyHistogramBuckets,
+      registers: [this.register]
+    })
+
+    this.consumerBatchLatency = new Histogram({
+      name: 'kafka_consumer_batch_duration',
+      help: 'The time taken for processing a batch.',
+      labelNames: mergeLabelNamesWithStandardLabels(['topic', 'partition'], this.options.defaultLabels),
+      buckets: this.options.consumerBatchDurationHistogramBuckets,
       registers: [this.register]
     })
 
@@ -170,12 +190,14 @@ export class KafkaJSConsumerPrometheusExporter {
   }
 
   onConsumerFetch (event: ConsumerFetchEvent): void {
+    this.consumerFetchDuration.observe(mergeLabelsWithStandardLabels({}, this.options.defaultLabels), event.payload.duration / 1000)
     this.consumerFetchLatency.observe(mergeLabelsWithStandardLabels({}, this.options.defaultLabels), event.payload.duration / 1000)
     this.consumerFetchTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
   onConsumerEndBatch (event: ConsumerEndBatchProcessEvent): void {
     this.consumerBatchSizeTotal.inc(mergeLabelsWithStandardLabels({ topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels), event.payload.batchSize)
+    this.consumerBatchDuration.observe(mergeLabelsWithStandardLabels({ topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels), event.payload.duration / 1000)
     this.consumerBatchLatency.observe(mergeLabelsWithStandardLabels({ topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels), event.payload.duration / 1000)
   }
 }
