@@ -22,7 +22,7 @@ The exporter provides the following metrics.
 |kafka_producer_connection_count|The current number of active connections established with a broker||0.8.0|
 |kafka_producer_connection_creation_total|The total number of connections established with a broker||0.8.0|
 |kafka_producer_connection_close_total|The total number of connections closed with a broker||0.8.0|
-|kafka_producer_request_duration|The time taken for processing a producer request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
+|kafka_producer_request_duration_seconds|The time taken for processing a producer request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
 |kafka_producer_request_total|The total number of requests sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_producer_request_size_total|The size of any request sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.9.0|
 |kafka_producer_request_queue_size|Size of the request queue.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.8.0|
@@ -37,15 +37,15 @@ The exporter provides the following metrics.
 |kafka_consumer_connection_close_total|The total number of connections closed with a broker||0.8.0|
 |kafka_consumer_connection_crashed_total|The total number of crashed connections with a broker|<ul><li>_group_id_: The id of the consumer group.</li><li>_error_: The error which caused the connection crash.</li><li>_restart_: Determines if the connection was automatically restarted.</li><ul>|0.8.0|
 |kafka_consumer_heartbeat_total|The total number of heartbeats with a broker|<ul><li>_group_id_: The id of the consumer group.</li><li>_member_id_: The member of the consumer group.</li><ul>|0.8.0|
-|kafka_consumer_request_duration|The time taken for processing a consumer request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
+|kafka_consumer_request_duration_seconds|The time taken for processing a consumer request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
 |kafka_consumer_request_total|The total number of requests sent.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_consumer_request_queue_size|Size of the request queue.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_consumer_request_size_total|The size of any request sent.|<ul><li>_broker_: The broker</li><ul>|0.9.0|
-|kafka_consumer_fetch_duration|The time taken for processing a fetch request.||3.1.0|
+|kafka_consumer_fetch_duration_seconds|The time taken for processing a fetch request.||3.1.0|
 |**Deprecated** kafka_consumer_fetch_latency|The time taken for processing a fetch request.||0.8.0|
 |kafka_consumer_fetch_total|The total number of fetch requests.||0.8.0|
 |kafka_consumer_batch_size_total|The number of bytes received per partition per request|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.9.0|
-|kafka_consumer_batch_duration|The time taken for processing a batch.|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|3.1.0|
+|kafka_consumer_batch_duration_seconds|The time taken for processing a batch.|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|3.1.0|
 |**Deprecated**  kafka_consumer_batch_latency|The time taken for processing a batch.|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.8.0|
 
 ### Admin Metrics
@@ -55,7 +55,7 @@ The exporter provides the following metrics.
 |kafka_admin_connection_count|The current number of active connections established with a broker||1.0.0|
 |kafka_admin_connection_creation_total|The total number of connections established with a broker||1.0.0|
 |kafka_admin_connection_close_total|The total number of connections closed with a broker||1.0.0|
-|kafka_admin_request_duration|The time taken for processing an admin request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
+|kafka_admin_request_duration_seconds|The time taken for processing an admin request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
 |kafka_admin_request_total|The total number of requests sent.|<ul><li>_broker_: The broker</li><ul>|1.0.0|
 |kafka_admin_request_size_total|The size of any request sent.|<ul><li>_broker_: The broker</li><ul>|1.0.0|
 |kafka_admin_request_queue_size|Size of the request queue.|<ul><li>_broker_: The broker</li><ul>|1.0.0|
@@ -388,14 +388,14 @@ _KafkaJSProducerExporterOptions_, _KafkaJSConsumerExporterOptions_ and _KafkaJSA
 
 |property|Description|Example|Since |
 |---|---|---|---|
-| producerRequestDurationHistogramBuckets | Buckets for the kafka_producer_request_duration metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 3.1.0|
+| producerRequestDurationHistogramBuckets | Buckets for the kafka_producer_request_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 3.1.0|
 | defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} | 0.8.0 |
 
 ## KafkaJSConsumerExporterOptions
 
 |property|Description|Example|Since |
 |---|---|---|---|
-| consumerRequestDurationHistogramBuckets | Buckets for the kafka_consumer_request_duration metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 3.1.0|
+| consumerRequestDurationHistogramBuckets | Buckets for the kafka_consumer_request_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 3.1.0|
 | consumerBatchLatencyHistogramBuckets | Buckets for the kafka_consumer_batch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
 | consumerFetchLatencyHistogramBuckets | Buckets for the kafka_consumer_fetch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
 | defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} | 0.8.0|
@@ -404,7 +404,7 @@ _KafkaJSProducerExporterOptions_, _KafkaJSConsumerExporterOptions_ and _KafkaJSA
 
 |property|Description|Example|Since |
 |---|---|---|---|
-| adminRequestDurationHistogramBuckets | Buckets for the kafka_admin_request_duration metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 3.1.0|
+| adminRequestDurationHistogramBuckets | Buckets for the kafka_admin_request_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 3.1.0|
 | defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} | 1.0.0 |
 
 # Grafana Dashboard

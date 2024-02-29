@@ -61,7 +61,7 @@ export class KafkaJSAdminPrometheusExporter {
     })
 
     this.adminRequestDuration = new Histogram({
-      name: 'kafka_admin_request_duration',
+      name: 'kafka_admin_request_duration_seconds',
       help: 'The time taken for processing an admin request.',
       labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
       buckets: this.options.adminRequestDurationHistogramBuckets,

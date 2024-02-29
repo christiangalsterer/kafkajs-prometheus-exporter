@@ -84,7 +84,7 @@ describe('test if all metrics are created with the correct parameters', () => {
     })
 
     expect(Histogram).toHaveBeenCalledWith({
-      name: 'kafka_producer_request_duration',
+      name: 'kafka_producer_request_duration_seconds',
       help: 'The time taken for processing a producer request.',
       buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
       labelNames: ['broker'],
@@ -143,7 +143,7 @@ describe('test if all metrics are created with the correct parameters', () => {
     })
 
     expect(Histogram).toHaveBeenCalledWith({
-      name: 'kafka_producer_request_duration',
+      name: 'kafka_producer_request_duration_seconds',
       help: 'The time taken for processing a producer request.',
       buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
       labelNames: ['broker', 'foo', 'alice'],

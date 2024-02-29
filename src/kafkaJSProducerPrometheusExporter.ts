@@ -49,7 +49,7 @@ export class KafkaJSProducerPrometheusExporter {
     })
 
     this.producerRequestDuration = new Histogram({
-      name: 'kafka_producer_request_duration',
+      name: 'kafka_producer_request_duration_seconds',
       help: 'The time taken for processing a producer request.',
       labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
       buckets: this.options.producerRequestDurationHistogramBuckets,

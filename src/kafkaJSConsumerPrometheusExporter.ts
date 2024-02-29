@@ -104,7 +104,7 @@ export class KafkaJSConsumerPrometheusExporter {
     })
 
     this.consumerFetchLatency = new Histogram({
-      name: 'kafka_consumer_fetch_duration',
+      name: 'kafka_consumer_fetch_duration_seconds',
       help: 'The time taken for a fetch request.',
       labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
       buckets: this.options.consumerFetchDurationHistogramBuckets,
@@ -134,7 +134,7 @@ export class KafkaJSConsumerPrometheusExporter {
     })
 
     this.consumerBatchLatency = new Histogram({
-      name: 'kafka_consumer_batch_duration',
+      name: 'kafka_consumer_batch_duration_seconds',
       help: 'The time taken for processing a batch.',
       labelNames: mergeLabelNamesWithStandardLabels(['topic', 'partition'], this.options.defaultLabels),
       buckets: this.options.consumerBatchDurationHistogramBuckets,
@@ -142,7 +142,7 @@ export class KafkaJSConsumerPrometheusExporter {
     })
 
     this.consumerRequestDuration = new Histogram({
-      name: 'kafka_consumer_request_duration',
+      name: 'kafka_consumer_request_duration_seconds',
       help: 'The time taken for processing a consumer request.',
       labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
       buckets: this.options.consumerRequestDurationHistogramBuckets,
