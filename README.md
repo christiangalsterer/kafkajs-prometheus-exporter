@@ -22,7 +22,9 @@ The exporter provides the following metrics.
 |kafka_producer_connection_count|The current number of active connections established with a broker||0.8.0|
 |kafka_producer_connection_creation_total|The total number of connections established with a broker||0.8.0|
 |kafka_producer_connection_close_total|The total number of connections closed with a broker||0.8.0|
-|kafka_producer_request_duration_seconds|The time taken for processing a producer request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
+|kafka_producer_request_duration_seconds_bucket|The time taken for processing a producer request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
+|kafka_producer_request_duration_seconds_sum|The cumulated time for processing producer requests.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
+|kafka_producer_request_duration_seconds_count|The total number of producer requests.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
 |kafka_producer_request_total|The total number of requests sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_producer_request_size_total|The size of any request sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.9.0|
 |kafka_producer_request_queue_size|Size of the request queue.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.8.0|
@@ -37,15 +39,21 @@ The exporter provides the following metrics.
 |kafka_consumer_connection_close_total|The total number of connections closed with a broker||0.8.0|
 |kafka_consumer_connection_crashed_total|The total number of crashed connections with a broker|<ul><li>_group_id_: The id of the consumer group.</li><li>_error_: The error which caused the connection crash.</li><li>_restart_: Determines if the connection was automatically restarted.</li><ul>|0.8.0|
 |kafka_consumer_heartbeat_total|The total number of heartbeats with a broker|<ul><li>_group_id_: The id of the consumer group.</li><li>_member_id_: The member of the consumer group.</li><ul>|0.8.0|
-|kafka_consumer_request_duration_seconds|The time taken for processing a consumer request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
+|kafka_consumer_request_duration_seconds_bucket|The time taken for processing a consumer request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
+|kafka_consumer_request_duration_seconds_sum|The cumulated time for processing consumer requests.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
+|kafka_consumer_request_duration_seconds_count|The total number of consumer requests.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
 |kafka_consumer_request_total|The total number of requests sent.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_consumer_request_queue_size|Size of the request queue.|<ul><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_consumer_request_size_total|The size of any request sent.|<ul><li>_broker_: The broker</li><ul>|0.9.0|
-|kafka_consumer_fetch_duration_seconds|The time taken for processing a fetch request.||3.1.0|
+|kafka_consumer_fetch_duration_seconds_bucket|The time taken for processing a fetch request.||3.1.0|
+|kafka_consumer_fetch_duration_seconds_sum|The cumulated time for processing fetch requests.||3.1.0|
+|kafka_consumer_fetch_duration_seconds_count|The total number of fetch requests.||3.1.0|
 |**Deprecated** kafka_consumer_fetch_latency|The time taken for processing a fetch request.||0.8.0|
 |kafka_consumer_fetch_total|The total number of fetch requests.||0.8.0|
 |kafka_consumer_batch_size_total|The number of bytes received per partition per request|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.9.0|
-|kafka_consumer_batch_duration_seconds|The time taken for processing a batch.|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|3.1.0|
+|kafka_consumer_batch_duration_seconds_bucket|The time taken for processing a batch.|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|3.1.0|
+|kafka_consumer_batch_duration_seconds_sum|The cumulated time for processing batches.|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|3.1.0|
+|kafka_consumer_batch_duration_seconds_count|The total number of batches.|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|3.1.0|
 |**Deprecated**  kafka_consumer_batch_latency|The time taken for processing a batch.|<ul><li>_topic_: The topic from which the messages are consumed.</li><li>_partition_: The partition of the topic from which the messages are consumed.</li><ul>|0.8.0|
 
 ### Admin Metrics
@@ -55,7 +63,9 @@ The exporter provides the following metrics.
 |kafka_admin_connection_count|The current number of active connections established with a broker||1.0.0|
 |kafka_admin_connection_creation_total|The total number of connections established with a broker||1.0.0|
 |kafka_admin_connection_close_total|The total number of connections closed with a broker||1.0.0|
-|kafka_admin_request_duration_seconds|The time taken for processing an admin request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
+|kafka_admin_request_duration_seconds_bucket|The time taken for processing an admin request.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
+|kafka_admin_request_duration_seconds_sum|The cumulated time for processing admin requests.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
+|kafka_admin_request_duration_seconds_count|The total number of admin requests.|<ul><li>_broker_: The broker</li><ul>|3.1.0|
 |kafka_admin_request_total|The total number of requests sent.|<ul><li>_broker_: The broker</li><ul>|1.0.0|
 |kafka_admin_request_size_total|The size of any request sent.|<ul><li>_broker_: The broker</li><ul>|1.0.0|
 |kafka_admin_request_queue_size|Size of the request queue.|<ul><li>_broker_: The broker</li><ul>|1.0.0|
