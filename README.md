@@ -118,25 +118,25 @@ kafka_consumer_request_size_total{client_id="nodejs-example-app",broker="broker3
 # HELP kafka_consumer_request_queue_size Size of the request queue.
 # TYPE kafka_consumer_request_queue_size gauge
 
-# HELP kafka_consumer_fetch_latency The time taken for a fetch request.
-# TYPE kafka_consumer_fetch_latency histogram
-kafka_consumer_fetch_latency_bucket{le="0.001",client_id="nodejs-example-app",alice="bob"} 0
-kafka_consumer_fetch_latency_bucket{le="0.005",client_id="nodejs-example-app",alice="bob"} 0
-kafka_consumer_fetch_latency_bucket{le="0.01",client_id="nodejs-example-app",alice="bob"} 0
-kafka_consumer_fetch_latency_bucket{le="0.02",client_id="nodejs-example-app",alice="bob"} 0
-kafka_consumer_fetch_latency_bucket{le="0.03",client_id="nodejs-example-app",alice="bob"} 0
-kafka_consumer_fetch_latency_bucket{le="0.04",client_id="nodejs-example-app",alice="bob"} 0
-kafka_consumer_fetch_latency_bucket{le="0.05",client_id="nodejs-example-app",alice="bob"} 24
-kafka_consumer_fetch_latency_bucket{le="0.1",client_id="nodejs-example-app",alice="bob"} 79
-kafka_consumer_fetch_latency_bucket{le="0.2",client_id="nodejs-example-app",alice="bob"} 82
-kafka_consumer_fetch_latency_bucket{le="0.5",client_id="nodejs-example-app",alice="bob"} 84
-kafka_consumer_fetch_latency_bucket{le="1",client_id="nodejs-example-app",alice="bob"} 86
-kafka_consumer_fetch_latency_bucket{le="2",client_id="nodejs-example-app",alice="bob"} 86
-kafka_consumer_fetch_latency_bucket{le="5",client_id="nodejs-example-app",alice="bob"} 86
-kafka_consumer_fetch_latency_bucket{le="10",client_id="nodejs-example-app",alice="bob"} 86
-kafka_consumer_fetch_latency_bucket{le="+Inf",client_id="nodejs-example-app",alice="bob"} 86
-kafka_consumer_fetch_latency_sum{client_id="nodejs-example-app",alice="bob"} 6.728
-kafka_consumer_fetch_latency_count{client_id="nodejs-example-app",alice="bob"} 86
+# HELP kafka_consumer_fetch_duration_seconds The time taken for a fetch request.
+# TYPE kafka_consumer_fetch_duration_seconds histogram
+kafka_consumer_fetch_duration_seconds_bucket{le="0.001",client_id="nodejs-example-app",alice="bob"} 0
+kafka_consumer_fetch_duration_seconds_bucket{le="0.005",client_id="nodejs-example-app",alice="bob"} 0
+kafka_consumer_fetch_duration_seconds_bucket{le="0.01",client_id="nodejs-example-app",alice="bob"} 0
+kafka_consumer_fetch_duration_seconds_bucket{le="0.02",client_id="nodejs-example-app",alice="bob"} 0
+kafka_consumer_fetch_duration_seconds_bucket{le="0.03",client_id="nodejs-example-app",alice="bob"} 0
+kafka_consumer_fetch_duration_seconds_bucket{le="0.04",client_id="nodejs-example-app",alice="bob"} 0
+kafka_consumer_fetch_duration_seconds_bucket{le="0.05",client_id="nodejs-example-app",alice="bob"} 24
+kafka_consumer_fetch_duration_seconds_bucket{le="0.1",client_id="nodejs-example-app",alice="bob"} 79
+kafka_consumer_fetch_duration_seconds_bucket{le="0.2",client_id="nodejs-example-app",alice="bob"} 82
+kafka_consumer_fetch_duration_seconds_bucket{le="0.5",client_id="nodejs-example-app",alice="bob"} 84
+kafka_consumer_fetch_duration_seconds_bucket{le="1",client_id="nodejs-example-app",alice="bob"} 86
+kafka_consumer_fetch_duration_seconds_bucket{le="2",client_id="nodejs-example-app",alice="bob"} 86
+kafka_consumer_fetch_duration_seconds_bucket{le="5",client_id="nodejs-example-app",alice="bob"} 86
+kafka_consumer_fetch_duration_seconds_bucket{le="10",client_id="nodejs-example-app",alice="bob"} 86
+kafka_consumer_fetch_duration_seconds_bucket{le="+Inf",client_id="nodejs-example-app",alice="bob"} 86
+kafka_consumer_fetch_duration_seconds_sum{client_id="nodejs-example-app",alice="bob"} 6.728
+kafka_consumer_fetch_duration_seconds_count{client_id="nodejs-example-app",alice="bob"} 86
 
 # HELP kafka_consumer_fetch_total The total number of fetch requests.
 # TYPE kafka_consumer_fetch_total counter
@@ -150,93 +150,93 @@ kafka_consumer_batch_size_total{client_id="nodejs-example-app",topic="topic1",pa
 kafka_consumer_batch_size_total{client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 1
 kafka_consumer_batch_size_total{client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 1
 
-# HELP kafka_consumer_batch_latency The time taken for processing a batch.
-# TYPE kafka_consumer_batch_latency histogram
-kafka_consumer_batch_latency_bucket{le="0.001",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 21
-kafka_consumer_batch_latency_bucket{le="0.005",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.01",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.02",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.03",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.04",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.05",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.1",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.2",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.5",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="1",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="2",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="5",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="10",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="+Inf",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
-kafka_consumer_batch_latency_sum{client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 0.12200000000000003
-kafka_consumer_batch_latency_count{client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.001",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 26
-kafka_consumer_batch_latency_bucket{le="0.005",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.01",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.02",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.03",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.04",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.05",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.1",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.2",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.5",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="1",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="2",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="5",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="10",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="+Inf",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_sum{client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 0.024000000000000014
-kafka_consumer_batch_latency_count{client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.001",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 25
-kafka_consumer_batch_latency_bucket{le="0.005",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.01",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.02",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.03",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.04",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.05",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.1",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.2",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.5",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="1",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="2",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="5",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="10",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="+Inf",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_sum{client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 0.025000000000000012
-kafka_consumer_batch_latency_count{client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.001",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 21
-kafka_consumer_batch_latency_bucket{le="0.005",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.01",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.02",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.03",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.04",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.05",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.1",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.2",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.5",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="1",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="2",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="5",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="10",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="+Inf",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_sum{client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 0.039000000000000014
-kafka_consumer_batch_latency_count{client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
-kafka_consumer_batch_latency_bucket{le="0.001",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 26
-kafka_consumer_batch_latency_bucket{le="0.005",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.01",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.02",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.03",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.04",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.05",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.1",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.2",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="0.5",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="1",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="2",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="5",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="10",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_bucket{le="+Inf",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
-kafka_consumer_batch_latency_sum{client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 0.023000000000000013
-kafka_consumer_batch_latency_count{client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+# HELP kafka_consumer_batch_duration_seconds The time taken for processing a batch.
+# TYPE kafka_consumer_batch_duration_seconds histogram
+kafka_consumer_batch_duration_seconds_bucket{le="0.001",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 21
+kafka_consumer_batch_duration_seconds_bucket{le="0.005",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.01",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.02",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.03",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.04",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.05",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.1",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.2",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.5",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="1",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="2",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="5",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="10",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="+Inf",client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_sum{client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 0.12200000000000003
+kafka_consumer_batch_duration_seconds_count{client_id="nodejs-example-app",topic="topic1",partition="2",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.001",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 26
+kafka_consumer_batch_duration_seconds_bucket{le="0.005",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.01",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.02",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.03",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.04",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.05",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.1",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.2",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.5",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="1",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="2",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="5",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="10",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="+Inf",client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_sum{client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 0.024000000000000014
+kafka_consumer_batch_duration_seconds_count{client_id="nodejs-example-app",topic="topic1",partition="1",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.001",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 25
+kafka_consumer_batch_duration_seconds_bucket{le="0.005",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.01",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.02",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.03",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.04",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.05",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.1",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.2",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.5",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="1",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="2",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="5",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="10",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="+Inf",client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_sum{client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 0.025000000000000012
+kafka_consumer_batch_duration_seconds_count{client_id="nodejs-example-app",topic="topic1",partition="4",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.001",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 21
+kafka_consumer_batch_duration_seconds_bucket{le="0.005",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.01",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.02",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.03",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.04",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.05",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.1",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.2",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.5",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="1",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="2",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="5",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="10",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="+Inf",client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_sum{client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 0.039000000000000014
+kafka_consumer_batch_duration_seconds_count{client_id="nodejs-example-app",topic="topic1",partition="3",alice="bob"} 27
+kafka_consumer_batch_duration_seconds_bucket{le="0.001",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 26
+kafka_consumer_batch_duration_seconds_bucket{le="0.005",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.01",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.02",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.03",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.04",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.05",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.1",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.2",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="0.5",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="1",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="2",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="5",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="10",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_bucket{le="+Inf",client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
+kafka_consumer_batch_duration_seconds_sum{client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 0.023000000000000013
+kafka_consumer_batch_duration_seconds_count{client_id="nodejs-example-app",topic="topic1",partition="0",alice="bob"} 28
 
 # HELP kafka_producer_connection_count The current number of active connections established with a broker
 # TYPE kafka_producer_connection_count gauge
@@ -406,8 +406,10 @@ _KafkaJSProducerExporterOptions_, _KafkaJSConsumerExporterOptions_ and _KafkaJSA
 |property|Description|Example|Since |
 |---|---|---|---|
 | consumerRequestDurationHistogramBuckets | Buckets for the kafka_consumer_request_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 3.1.0|
-| consumerBatchLatencyHistogramBuckets | Buckets for the kafka_consumer_batch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
-| consumerFetchLatencyHistogramBuckets | Buckets for the kafka_consumer_fetch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
+| consumerBatchDurationHistogramBuckets | Buckets for the kafka_consumer_batch_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
+| **Deprecated** consumerBatchLatencyHistogramBuckets | Buckets for the kafka_consumer_batch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
+| consumerFetchDurationHistogramBuckets | Buckets for the kafka_consumer_fetch_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
+| **Deprecated** consumerFetchLatencyHistogramBuckets | Buckets for the kafka_consumer_fetch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
 | defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} | 0.8.0|
 
 ## KafkaJSAdminExporterOptions
