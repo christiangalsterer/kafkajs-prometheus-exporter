@@ -1,7 +1,7 @@
-import { type Registry } from 'prom-client'
 import { type Consumer } from 'kafkajs'
-import { KafkaJSConsumerPrometheusExporter } from './kafkaJSConsumerPrometheusExporter'
+import { type Registry } from 'prom-client'
 import { type KafkaJSConsumerExporterOptions } from './kafkaJSConsumerExporterOptions'
+import { KafkaJSConsumerPrometheusExporter } from './kafkaJSConsumerPrometheusExporter'
 
 /**
  * Exposes metrics for a KafkaJS consumer in prometheus format.

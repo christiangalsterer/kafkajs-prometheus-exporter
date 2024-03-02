@@ -1,9 +1,9 @@
-import { beforeEach, describe, expect, test, jest } from '@jest/globals'
+import { beforeEach, describe, expect, jest, test } from '@jest/globals'
 import { Registry } from 'prom-client'
 
-import { monitorKafkaJSConsumer } from '../src/monitorKafkaJSConsumer'
-import { KafkaJSConsumerPrometheusExporter } from '../src/kafkaJSConsumerPrometheusExporter'
 import { type Consumer } from 'kafkajs'
+import { KafkaJSConsumerPrometheusExporter } from '../src/kafkaJSConsumerPrometheusExporter'
+import { monitorKafkaJSConsumer } from '../src/monitorKafkaJSConsumer'
 
 jest.mock('../src/kafkaJSConsumerPrometheusExporter')
 const mockKafkaJSConsumerPrometheusExporter = jest.mocked(KafkaJSConsumerPrometheusExporter)

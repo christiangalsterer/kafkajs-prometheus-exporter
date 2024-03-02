@@ -1,7 +1,7 @@
-import { type Registry } from 'prom-client'
 import { type Producer } from 'kafkajs'
-import { KafkaJSProducerPrometheusExporter } from './kafkaJSProducerPrometheusExporter'
+import { type Registry } from 'prom-client'
 import { type KafkaJSProducerExporterOptions } from './kafkaJSProducerExporterOptions'
+import { KafkaJSProducerPrometheusExporter } from './kafkaJSProducerPrometheusExporter'
 
 /**
  * Exposes metrics for a KafkaJS producer in prometheus format.

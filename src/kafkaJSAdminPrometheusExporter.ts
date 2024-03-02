@@ -1,5 +1,5 @@
-import { type Registry, Gauge, Counter, Histogram } from 'prom-client'
-import type { DisconnectEvent, ConnectEvent, RequestQueueSizeEvent, Admin, RequestEvent } from 'kafkajs'
+import type { Admin, ConnectEvent, DisconnectEvent, RequestEvent, RequestQueueSizeEvent } from 'kafkajs'
+import { Counter, Gauge, Histogram, type Registry } from 'prom-client'
 import { type KafkaJSAdminExporterOptions } from './kafkaJSAdminExporterOptions'
 import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
 

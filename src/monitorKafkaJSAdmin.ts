@@ -1,7 +1,7 @@
-import { type Registry } from 'prom-client'
 import { type Admin } from 'kafkajs'
-import { KafkaJSAdminPrometheusExporter } from './kafkaJSAdminPrometheusExporter'
+import { type Registry } from 'prom-client'
 import { type KafkaJSAdminExporterOptions } from './kafkaJSAdminExporterOptions'
+import { KafkaJSAdminPrometheusExporter } from './kafkaJSAdminPrometheusExporter'
 
 /**
  * Exposes metrics for a KafkaJS admin in prometheus format.

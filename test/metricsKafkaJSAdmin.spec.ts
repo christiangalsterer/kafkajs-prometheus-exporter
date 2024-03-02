@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { beforeEach } from '@jest/globals'
-import { KafkaJSAdminPrometheusExporter } from '../src/kafkaJSAdminPrometheusExporter'
 import { Kafka, type Admin } from 'kafkajs'
 import { Counter, Gauge, Histogram, type Registry } from 'prom-client'
+import { KafkaJSAdminPrometheusExporter } from '../src/kafkaJSAdminPrometheusExporter'
 
 jest.mock('prom-client', () => ({
   Counter: jest.fn(() => {

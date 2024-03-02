@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, test } from '@jest/globals'
 import { Registry } from 'prom-client'
 
-import { KafkaJSAdminPrometheusExporter } from '../src/kafkaJSAdminPrometheusExporter'
 import { Kafka, type Admin, type AdminEvents } from 'kafkajs'
+import { KafkaJSAdminPrometheusExporter } from '../src/kafkaJSAdminPrometheusExporter'
 
 describe('tests KafkaJSAdminPrometheusExporter', () => {
   const clientId = 'myTestClientId'
