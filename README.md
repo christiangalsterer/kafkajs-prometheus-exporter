@@ -3,6 +3,8 @@
 [![npm downloads](https://img.shields.io/npm/dt/@christiangalsterer/kafkajs-prometheus-exporter.svg)](https://www.npmjs.com/package/@christiangalsterer/kafkajs-prometheus-exporter)
 [![npm version](https://img.shields.io/npm/v/@christiangalsterer/kafkajs-prometheus-exporter.svg)](https://www.npmjs.com/package/@christiangalsterer/kafkajs-prometheus-exporter?activeTab=versions)
 [![npm license](https://img.shields.io/npm/l/@christiangalsterer/kafkajs-prometheus-exporter.svg)](https://www.npmjs.com/package/@christiangalsterer/kafkajs-prometheus-exporter)
+![img](https://img.shields.io/badge/semver-2.0.0-green)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://developer.mend.io/github/christiangalsterer/kafkajs-prometheus-exporter)
 ![github stars](https://img.shields.io/github/stars/christiangalsterer/kafkajs-prometheus-exporter.svg)
 
