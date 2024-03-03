@@ -15,6 +15,7 @@ A prometheus exporter exposing metrics for [KafkaJS](https://kafka.js.org/).
 Metrics names follow the same naming convention used by [Kafka JMX MBeans](https://kafka.apache.org/documentation/#monitoring) and [micrometer](https://github.com/micrometer-metrics/micrometer). This allows to use the same metrics in dashboards and alerts across different technology stacks, e.g. when you use Spring Boot and Node.js in different applications.
 
 ## Available Metrics
+
 The exporter provides the following metrics.
 
 ### Producer Metrics
@@ -30,7 +31,6 @@ The exporter provides the following metrics.
 |kafka_producer_request_total|The total number of requests sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.8.0|
 |kafka_producer_request_size_total|The size of any request sent.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.9.0|
 |kafka_producer_request_queue_size|Size of the request queue.|<ul><li>_client_id_: An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name. The client_id is shared across multiple instances of the same application.</li><li>_broker_: The broker</li><ul>|0.8.0|
-
 
 ### Consumer Metrics
 
@@ -76,7 +76,7 @@ The exporter provides the following metrics.
 
 As documented in the [KafkaJS documentation](https://kafka.js.org/docs/configuration#client-id) the client-id is a logical identifier for an application which is shared across multiple instances of the same application. Until v2.0.0 of the exporter the client_id was a dedicated parameter for _monitorKafkaJSProducer_, _monitorKafkaJSConsumer_ and _monitorKafkaJSAdmin_ respectively, but was removed starting with v2.0.0, see [changelog](/CHANGELOG.md) for details.
 
-Until KafkaJS instrumentation events](https://kafka.js.org/docs/instrumentation-events) don't provide the client_id for all events it is **strongly** recommended to add the client_id as a default label as in the following example.
+Until KafkaJS instrumentation events](<https://kafka.js.org/docs/instrumentation-events>) don't provide the client_id for all events it is **strongly** recommended to add the client_id as a default label as in the following example.
 
 ```ts
     kafkaExporter.monitorKafkaJSProducer(producer, register, { defaultLabels: {client_id:'nodejs-example-app'} })
@@ -346,6 +346,7 @@ await producer.connect()
 await consumer.connect()
 await admin.connect()
 ```
+
 ## JavaScript
 
 The following example illustrates how to use the exporter to enable monitoring for KafkaJS.
@@ -393,7 +394,7 @@ await admin.connect()
 
 # Configuration
 
-The exporter can be configured via properties specified on the optional parameter of type 
+The exporter can be configured via properties specified on the optional parameter of type
 _KafkaJSProducerExporterOptions_, _KafkaJSConsumerExporterOptions_ and _KafkaJSAdminExporterOptions_ respectively.
 
 ## KafkaJSProducerExporterOptions
@@ -434,12 +435,12 @@ Here an example for KafkaJS consumer metrics:
 Here an example for KafkaJS admin metrics:
 ![Grafana:KafkaJS Admin Metrics](/docs/images/grafana_kafkajs_admin_1.png "Grafana: KafkaJS Admin Metrics")
 
-
 # Changelog
 
 The changes to project can be found in the [changelog](/CHANGELOG.md).
 
 # Compatibility
+
 The following table list the compatibility of exporter versions with different KafkaJS and prom-client versions.
 
 |Exporter Version|KafkaJS Version|prom-client version|
@@ -459,6 +460,6 @@ If you want to support this project, please add a link to your project and/or co
 
 # Related Projects
 
-If you are looking for a way to monitor your MongoDB Driver for Node.js you may have a look at https://github.com/christiangalsterer/mongodb-driver-prometheus-exporter.
+If you are looking for a way to monitor your MongoDB Driver for Node.js you may have a look at <https://github.com/christiangalsterer/mongodb-driver-prometheus-exporter>.
 
-If you are looking for a way to monitor node-postgres you may have a look at https://github.com/christiangalsterer/node-postgres-prometheus-exporter.
+If you are looking for a way to monitor node-postgres you may have a look at <https://github.com/christiangalsterer/node-postgres-prometheus-exporter>.
