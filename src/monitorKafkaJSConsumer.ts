@@ -1,5 +1,6 @@
 import { type Consumer } from 'kafkajs'
 import { type Registry } from 'prom-client'
+
 import { type KafkaJSConsumerExporterOptions } from './kafkaJSConsumerExporterOptions'
 import { KafkaJSConsumerPrometheusExporter } from './kafkaJSConsumerPrometheusExporter'
 

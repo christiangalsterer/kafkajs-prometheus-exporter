@@ -1,5 +1,6 @@
 import type { ConnectEvent, Consumer, ConsumerCrashEvent, ConsumerEndBatchProcessEvent, ConsumerFetchEvent, ConsumerHeartbeatEvent, DisconnectEvent, RequestEvent, RequestQueueSizeEvent } from 'kafkajs'
 import { Counter, Gauge, Histogram, type Registry } from 'prom-client'
+
 import { type KafkaJSConsumerExporterOptions } from './kafkaJSConsumerExporterOptions'
 import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
 

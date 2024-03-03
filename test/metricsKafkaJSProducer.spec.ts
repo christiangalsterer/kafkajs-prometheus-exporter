@@ -2,6 +2,7 @@
 import { beforeEach } from '@jest/globals'
 import { Kafka, type Producer } from 'kafkajs'
 import { Counter, Gauge, Histogram, type Registry } from 'prom-client'
+
 import { KafkaJSProducerPrometheusExporter } from '../src/kafkaJSProducerPrometheusExporter'
 
 jest.mock('prom-client', () => ({

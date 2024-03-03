@@ -1,4 +1,5 @@
 import { describe, expect, test } from '@jest/globals'
+
 import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from '../src/utils'
 
 describe('tests mergeLabelNamesWithStandardLabels', () => {

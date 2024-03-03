@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { beforeEach } from '@jest/globals'
-import { Kafka, type Consumer } from 'kafkajs'
+import { type Consumer, Kafka } from 'kafkajs'
 import { Counter, Gauge, Histogram, type Registry } from 'prom-client'
+
 import { KafkaJSConsumerPrometheusExporter } from '../src/kafkaJSConsumerPrometheusExporter'
 
 jest.mock('prom-client', () => ({

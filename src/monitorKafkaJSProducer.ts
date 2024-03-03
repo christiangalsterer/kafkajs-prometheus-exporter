@@ -1,5 +1,6 @@
 import { type Producer } from 'kafkajs'
 import { type Registry } from 'prom-client'
+
 import { type KafkaJSProducerExporterOptions } from './kafkaJSProducerExporterOptions'
 import { KafkaJSProducerPrometheusExporter } from './kafkaJSProducerPrometheusExporter'
 

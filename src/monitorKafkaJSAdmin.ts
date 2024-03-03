@@ -1,5 +1,6 @@
 import { type Admin } from 'kafkajs'
 import { type Registry } from 'prom-client'
+
 import { type KafkaJSAdminExporterOptions } from './kafkaJSAdminExporterOptions'
 import { KafkaJSAdminPrometheusExporter } from './kafkaJSAdminPrometheusExporter'
 

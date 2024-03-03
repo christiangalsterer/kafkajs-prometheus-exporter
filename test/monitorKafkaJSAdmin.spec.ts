@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, jest, test } from '@jest/globals'
+import { type Admin } from 'kafkajs'
 import { Registry } from 'prom-client'
 
-import { type Admin } from 'kafkajs'
 import { KafkaJSAdminPrometheusExporter } from '../src/kafkaJSAdminPrometheusExporter'
 import { monitorKafkaJSAdmin } from '../src/monitorKafkaJSAdmin'
 

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, jest, test } from '@jest/globals'
+import { type Consumer } from 'kafkajs'
 import { Registry } from 'prom-client'
 
-import { type Consumer } from 'kafkajs'
 import { KafkaJSConsumerPrometheusExporter } from '../src/kafkaJSConsumerPrometheusExporter'
 import { monitorKafkaJSConsumer } from '../src/monitorKafkaJSConsumer'
 
