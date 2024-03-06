@@ -22,7 +22,7 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
     consumer = kafka.consumer({ groupId: 'group1' })
   })
 
-  test('if all metrics are registered in registry', () => {
+  test('all metrics are registered in registry', () => {
     // eslint-disable-next-line no-new
     new KafkaJSConsumerPrometheusExporter(consumer, register)
     expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
@@ -31,7 +31,7 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
     })
   })
 
-  test('if all metrics are registered in registry with defaultLabels', () => {
+  test('all metrics are registered in registry with defaultLabels', () => {
     const options = { defaultLabels: { foo: 'bar', alice: 2 } }
     // eslint-disable-next-line no-new
     new KafkaJSConsumerPrometheusExporter(consumer, register, options)

@@ -26,7 +26,7 @@ jest.mock('prom-client', () => ({
   })
 }))
 
-describe('test if all metrics are created with the correct parameters', () => {
+describe('all metrics are created with the correct parameters', () => {
   const options = { defaultLabels: { foo: 'bar', alice: 2 } }
   const clientId = 'myTestClientId'
   const register: Registry = {} as Registry
@@ -41,7 +41,7 @@ describe('test if all metrics are created with the correct parameters', () => {
     producer = kafka.producer()
   })
 
-  test('tests if all metrics are created', () => {
+  test('if all metrics are created', () => {
     // eslint-disable-next-line no-new
     new KafkaJSProducerPrometheusExporter(producer, register)
 
@@ -93,7 +93,7 @@ describe('test if all metrics are created with the correct parameters', () => {
     })
   })
 
-  test('tests if all metrics are created with default labels', () => {
+  test('all metrics are created with default labels', () => {
     // eslint-disable-next-line no-new
     new KafkaJSProducerPrometheusExporter(producer, register, options)
 

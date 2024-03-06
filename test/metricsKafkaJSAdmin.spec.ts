@@ -26,7 +26,7 @@ jest.mock('prom-client', () => ({
   })
 }))
 
-describe('test if all metrics are created with the correct parameters', () => {
+describe('all metrics are created with the correct parameters', () => {
   const options = { defaultLabels: { foo: 'bar', alice: 2 } }
   const clientId = 'myTestClientId'
   const register: Registry = {} as Registry
@@ -41,7 +41,7 @@ describe('test if all metrics are created with the correct parameters', () => {
     admin = kafka.admin()
   })
 
-  test('tests if all metrics are created', () => {
+  test('all metrics are created', () => {
     // eslint-disable-next-line no-new
     new KafkaJSAdminPrometheusExporter(admin, register)
 
@@ -100,7 +100,7 @@ describe('test if all metrics are created with the correct parameters', () => {
     })
   })
 
-  test('tests if all metrics are created with default labels', () => {
+  test('all metrics are created with default labels', () => {
     // eslint-disable-next-line no-new
     new KafkaJSAdminPrometheusExporter(admin, register, options)
 

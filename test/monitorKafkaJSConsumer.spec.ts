@@ -17,20 +17,20 @@ describe('tests monitorKafkaConsumerJS', () => {
     mockKafkaJSConsumerPrometheusExporter.mockClear()
   })
 
-  test('tests if monitorKafkaJSConsumer called KafkaJSConsumerPrometheusExporter with mandatory parameter', () => {
+  test('monitorKafkaJSConsumer called KafkaJSConsumerPrometheusExporter with mandatory parameter', () => {
     monitorKafkaJSConsumer(kafkaConsumer, register)
     expect(mockKafkaJSConsumerPrometheusExporter).toHaveBeenCalledTimes(1)
     expect(mockKafkaJSConsumerPrometheusExporter).toHaveBeenCalledWith(kafkaConsumer, register, undefined)
   })
 
-  test('tests if monitorKafkaJSConsumer called KafkaJSConsumerPrometheusExporter with optional parameter', () => {
+  test('monitorKafkaJSConsumer called KafkaJSConsumerPrometheusExporter with optional parameter', () => {
     const options = { defaultLabels: { foo: 'bar', alice: 2 } }
     monitorKafkaJSConsumer(kafkaConsumer, register, options)
     expect(mockKafkaJSConsumerPrometheusExporter).toHaveBeenCalledTimes(1)
     expect(mockKafkaJSConsumerPrometheusExporter).toHaveBeenCalledWith(kafkaConsumer, register, options)
   })
 
-  test('tests if monitorKafkaJSConsumer called methods of KafkaJSConsumerPrometheusExporter instance', () => {
+  test('monitorKafkaJSConsumer called methods of KafkaJSConsumerPrometheusExporter instance', () => {
     monitorKafkaJSConsumer(kafkaConsumer, register)
     const mockKafkaJSConsumerPrometheusExporterInstance = mockKafkaJSConsumerPrometheusExporter.mock.instances[0]
     // eslint-disable-next-line jest/unbound-method
