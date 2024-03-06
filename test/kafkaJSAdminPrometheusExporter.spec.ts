@@ -22,7 +22,7 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
     admin = kafka.admin()
   })
 
-  test('test if all metrics are registered in registry', () => {
+  test('if all metrics are registered in registry', () => {
     // eslint-disable-next-line no-new
     new KafkaJSAdminPrometheusExporter(admin, register)
     expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
@@ -31,7 +31,7 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
     })
   })
 
-  test('test if all metrics are registered in registry with defaultLabels', () => {
+  test('if all metrics are registered in registry with defaultLabels', () => {
     const options = { defaultLabels: { foo: 'bar', alice: 2 } }
     // eslint-disable-next-line no-new
     new KafkaJSAdminPrometheusExporter(admin, register, options)

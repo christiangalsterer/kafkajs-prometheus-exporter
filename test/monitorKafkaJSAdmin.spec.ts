@@ -20,14 +20,14 @@ describe('tests monitorKafkaAdminJS', () => {
   test('tests if monitorKafkaJSAdmin called KafkaJSAdminPrometheusExporter with mandatory parameter', () => {
     monitorKafkaJSAdmin(kafkaAdmin, register)
     expect(mockKafkaJSAdminPrometheusExporter).toHaveBeenCalledTimes(1)
-    expect(mockKafkaJSAdminPrometheusExporter).toBeCalledWith(kafkaAdmin, register, undefined)
+    expect(mockKafkaJSAdminPrometheusExporter).toHaveBeenCalledWith(kafkaAdmin, register, undefined)
   })
 
   test('tests if monitorKafkaJSAdmin called KafkaJSAdminPrometheusExporter with optional parameter', () => {
     const options = { defaultLabels: { foo: 'bar', alice: 2 } }
     monitorKafkaJSAdmin(kafkaAdmin, register, options)
     expect(mockKafkaJSAdminPrometheusExporter).toHaveBeenCalledTimes(1)
-    expect(mockKafkaJSAdminPrometheusExporter).toBeCalledWith(kafkaAdmin, register, options)
+    expect(mockKafkaJSAdminPrometheusExporter).toHaveBeenCalledWith(kafkaAdmin, register, options)
   })
 
   test('tests if monitorKafkaJSAdmin called methods of KafkaJSAdminPrometheusExporter instance', () => {
