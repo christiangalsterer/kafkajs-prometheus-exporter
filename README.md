@@ -1,4 +1,5 @@
 [![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/christiangalsterer/kafkajs-prometheus-exporter/build.yaml)](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/actions/workflows/build.yaml)
+[![Coverage Status](https://coveralls.io/repos/github/christiangalsterer/kafkajs-prometheus-exporter/badge.svg?branch=main)](https://coveralls.io/github/christiangalsterer/kafkajs-prometheus-exporter?branch=main)
 [![Known Vulnerabilities](https://snyk.io/test/github/christiangalsterer/kafkajs-prometheus-exporter/badge.svg)](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/security/advisories)
 [![npm downloads](https://img.shields.io/npm/dt/@christiangalsterer/kafkajs-prometheus-exporter.svg)](https://www.npmjs.com/package/@christiangalsterer/kafkajs-prometheus-exporter)
 [![npm version](https://img.shields.io/npm/v/@christiangalsterer/kafkajs-prometheus-exporter.svg)](https://www.npmjs.com/package/@christiangalsterer/kafkajs-prometheus-exporter?activeTab=versions)
