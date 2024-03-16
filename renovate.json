@@ -8,7 +8,6 @@
     "addLabels": [
         "renovate"
     ],
-    "semanticCommitType": "build",
     "timezone": "Europe/Berlin",
     "packageRules": [
         {
