@@ -35,7 +35,6 @@
     "prometheus",
     "monitoring",
     "metrics",
-    "opentelemetry",
     "kafkajs prometheus",
     "kafkajs monitoring",
     "kafkajs metrics",
