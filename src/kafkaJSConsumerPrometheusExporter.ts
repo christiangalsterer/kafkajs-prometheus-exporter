@@ -104,7 +104,7 @@ export class KafkaJSConsumerPrometheusExporter {
       registers: [this.register]
     })
 
-    this.consumerFetchLatency = new Histogram({
+    this.consumerFetchDuration = new Histogram({
       name: 'kafka_consumer_fetch_duration_seconds',
       help: 'The time taken for a fetch request.',
       labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
