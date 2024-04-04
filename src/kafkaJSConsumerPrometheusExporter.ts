@@ -35,7 +35,7 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly consumerRequestSizeTotal: Counter
   private readonly consumerRequestDuration: Histogram
 
-  constructor (consumer: Consumer, register: Registry, options?: KafkaJSConsumerExporterOptions) {
+  constructor(consumer: Consumer, register: Registry, options?: KafkaJSConsumerExporterOptions) {
     this.consumer = consumer
     this.register = register
     this.options = { ...this.defaultOptions, ...options }
@@ -134,7 +134,7 @@ export class KafkaJSConsumerPrometheusExporter {
       registers: [this.register]
     })
 
-    this.consumerBatchLatency = new Histogram({
+    this.consumerBatchDuration = new Histogram({
       name: 'kafka_consumer_batch_duration_seconds',
       help: 'The time taken for processing a batch.',
       labelNames: mergeLabelNamesWithStandardLabels(['topic', 'partition'], this.options.defaultLabels),
@@ -151,7 +151,7 @@ export class KafkaJSConsumerPrometheusExporter {
     })
   }
 
-  public enableMetrics (): void {
+  public enableMetrics(): void {
     this.consumer.on('consumer.connect', event => { this.onConsumerConnect(event) })
     this.consumer.on('consumer.disconnect', event => { this.onConsumerDisconnect(event) })
     this.consumer.on('consumer.crash', event => { this.onConsumerCrashed(event) })
@@ -162,41 +162,41 @@ export class KafkaJSConsumerPrometheusExporter {
     this.consumer.on('consumer.end_batch_process', event => { this.onConsumerEndBatch(event) })
   }
 
-  onConsumerConnect (event: ConnectEvent): void {
+  onConsumerConnect(event: ConnectEvent): void {
     this.consumerActiveConnections.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
     this.consumerConnectionsCreatedTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
-  onConsumerDisconnect (event: DisconnectEvent): void {
+  onConsumerDisconnect(event: DisconnectEvent): void {
     this.consumerActiveConnections.dec(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
     this.consumerConnectionsClosedTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
-  onConsumerCrashed (event: ConsumerCrashEvent): void {
+  onConsumerCrashed(event: ConsumerCrashEvent): void {
     this.consumerConnectionsCrashedTotal.inc(mergeLabelsWithStandardLabels({ group_id: event.payload.groupId, error: event.payload.error.name, restart: event.payload.restart.valueOf().toString() }, this.options.defaultLabels))
   }
 
-  onConsumerHeartbeat (event: ConsumerHeartbeatEvent): void {
+  onConsumerHeartbeat(event: ConsumerHeartbeatEvent): void {
     this.consumerHeartbeats.inc(mergeLabelsWithStandardLabels({ group_id: event.payload.groupId, member_id: event.payload.memberId }, this.options.defaultLabels))
   }
 
-  onConsumerRequest (event: RequestEvent): void {
+  onConsumerRequest(event: RequestEvent): void {
     this.consumerRequestTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels))
     this.consumerRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
     this.consumerRequestDuration.observe(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.duration / 1000)
   }
 
-  onConsumerRequestQueueSize (event: RequestQueueSizeEvent): void {
+  onConsumerRequestQueueSize(event: RequestQueueSizeEvent): void {
     this.consumerRequestQueueSize.set(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.queueSize)
   }
 
-  onConsumerFetch (event: ConsumerFetchEvent): void {
+  onConsumerFetch(event: ConsumerFetchEvent): void {
     this.consumerFetchDuration.observe(mergeLabelsWithStandardLabels({}, this.options.defaultLabels), event.payload.duration / 1000)
     this.consumerFetchLatency.observe(mergeLabelsWithStandardLabels({}, this.options.defaultLabels), event.payload.duration / 1000)
     this.consumerFetchTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
-  onConsumerEndBatch (event: ConsumerEndBatchProcessEvent): void {
+  onConsumerEndBatch(event: ConsumerEndBatchProcessEvent): void {
     this.consumerBatchSizeTotal.inc(mergeLabelsWithStandardLabels({ topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels), event.payload.batchSize)
     this.consumerBatchDuration.observe(mergeLabelsWithStandardLabels({ topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels), event.payload.duration / 1000)
     this.consumerBatchLatency.observe(mergeLabelsWithStandardLabels({ topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels), event.payload.duration / 1000)

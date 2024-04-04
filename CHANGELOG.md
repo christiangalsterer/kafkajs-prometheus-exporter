@@ -11,7 +11,8 @@ The detailed changelog can be found [here](https://github.com/christiangalsterer
 
 ### Fixed
 
-- Wrong missing initialization for _kafka_consumer_fetch_duration_seconds_ [(issue #91)](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/issues/91)
+- Missing initialization for _kafka_consumer_fetch_duration_seconds_ [(issue #91)](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/issues/91)
+- Missing initialization for _kafka_consumer_batch_duration_seconds_
 
 ## [3.1.0] 2024-02-29
 
