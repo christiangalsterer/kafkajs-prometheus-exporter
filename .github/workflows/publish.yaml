@@ -1,0 +1,13 @@
+name: Release
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    uses:
+      christiangalsterer/github-actions/.github/workflows/node_npm_publish.yaml@main
+    secrets: inherit
