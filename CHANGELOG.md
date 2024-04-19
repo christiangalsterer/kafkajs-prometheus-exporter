@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/compare/v3.1.1...v4.0.0) (2024-04-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* add support for auto rebase pull requests
+
+### Continuous Integration
+
+* add support for auto rebase pull requests ([43851a2](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/43851a25e46c9666a76e453cba3cec2292ca2d6a))
+
 ## [3.1.1] 2024-04-04
 
 The detailed changelog can be found [here](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/compare/v3.1.0...v3.1.1).
