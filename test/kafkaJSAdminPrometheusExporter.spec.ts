@@ -13,8 +13,13 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
     brokers: ['localhost:9094']
   })
   const metrics: string[] = [
-    'kafka_admin_connection_count', 'kafka_admin_connection_creation_total', 'kafka_admin_connection_close_total',
-    'kafka_admin_request_duration_seconds', 'kafka_admin_request_total', 'kafka_admin_request_size_total', 'kafka_admin_request_queue_size'
+    'kafka_admin_connection_count',
+    'kafka_admin_connection_creation_total',
+    'kafka_admin_connection_close_total',
+    'kafka_admin_request_duration_seconds',
+    'kafka_admin_request_total',
+    'kafka_admin_request_size_total',
+    'kafka_admin_request_queue_size'
   ]
 
   beforeEach(() => {
@@ -74,7 +79,10 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
     }
 
     const events: string[] = [
-      'admin.connect', 'admin.disconnect', 'admin.network.request', 'admin.network.request_queue_size'
+      'admin.connect',
+      'admin.disconnect',
+      'admin.network.request',
+      'admin.network.request_queue_size'
     ]
 
     const exporter = new KafkaJSAdminPrometheusExporter(mockAdmin, register)
@@ -83,6 +91,17 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
     expect(mockAdmin.on).toHaveBeenCalledTimes(events.length)
     events.forEach(e => {
       expect(mockAdmin.on).toHaveBeenCalledWith(e, expect.any(Function))
+    })
+  })
+
+  test('registered metrics are taken from the registry', () => {
+    // eslint-disable-next-line no-new
+    new KafkaJSAdminPrometheusExporter(admin, register)
+    // eslint-disable-next-line no-new
+    new KafkaJSAdminPrometheusExporter(admin, register)
+    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
+    metrics.forEach((metric) => {
+      expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
 })

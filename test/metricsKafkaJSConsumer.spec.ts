@@ -39,6 +39,7 @@ describe('all metrics are created with the correct parameters', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     consumer = kafka.consumer({ groupId: 'group1' })
+    register.getSingleMetric = jest.fn(() => undefined)
   })
 
   test('all metrics are created', () => {

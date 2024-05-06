@@ -11,10 +11,21 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
     brokers: ['localhost:9094']
   })
   const metrics: string[] = [
-    'kafka_consumer_connection_count', 'kafka_consumer_connection_creation_total', 'kafka_consumer_connection_close_total',
-    'kafka_consumer_connection_crashed_total', 'kafka_consumer_heartbeat_total', 'kafka_consumer_request_duration_seconds', 'kafka_consumer_request_total',
-    'kafka_consumer_request_size_total', 'kafka_consumer_request_queue_size', 'kafka_consumer_fetch_duration_seconds', 'kafka_consumer_fetch_latency',
-    'kafka_consumer_fetch_total', 'kafka_consumer_batch_size_total', 'kafka_consumer_batch_duration_seconds', 'kafka_consumer_batch_latency'
+    'kafka_consumer_connection_count',
+    'kafka_consumer_connection_creation_total',
+    'kafka_consumer_connection_close_total',
+    'kafka_consumer_connection_crashed_total',
+    'kafka_consumer_heartbeat_total',
+    'kafka_consumer_request_duration_seconds',
+    'kafka_consumer_request_total',
+    'kafka_consumer_request_size_total',
+    'kafka_consumer_request_queue_size',
+    'kafka_consumer_fetch_duration_seconds',
+    'kafka_consumer_fetch_latency',
+    'kafka_consumer_fetch_total',
+    'kafka_consumer_batch_size_total',
+    'kafka_consumer_batch_duration_seconds',
+    'kafka_consumer_batch_latency'
   ]
 
   beforeEach(() => {
@@ -61,8 +72,14 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
     }
 
     const events: string[] = [
-      'consumer.connect', 'consumer.disconnect', 'consumer.crash', 'consumer.heartbeat',
-      'consumer.network.request', 'consumer.network.request_queue_size', 'consumer.fetch', 'consumer.end_batch_process'
+      'consumer.connect',
+      'consumer.disconnect',
+      'consumer.crash',
+      'consumer.heartbeat',
+      'consumer.network.request',
+      'consumer.network.request_queue_size',
+      'consumer.fetch',
+      'consumer.end_batch_process'
     ]
 
     const exporter = new KafkaJSConsumerPrometheusExporter(mockConsumer, register)
@@ -71,6 +88,17 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
     expect(mockConsumer.on).toHaveBeenCalledTimes(events.length)
     events.forEach(event => {
       expect(mockConsumer.on).toHaveBeenCalledWith(event, expect.any(Function))
+    })
+  })
+
+  test('registered metrics are taken from the registry', () => {
+    // eslint-disable-next-line no-new
+    new KafkaJSConsumerPrometheusExporter(consumer, register)
+    // eslint-disable-next-line no-new
+    new KafkaJSConsumerPrometheusExporter(consumer, register)
+    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
+    metrics.forEach((metric) => {
+      expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
 })
