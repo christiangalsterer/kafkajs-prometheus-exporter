@@ -13,8 +13,13 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
     brokers: ['localhost:9094']
   })
   const metrics: string[] = [
-    'kafka_producer_connection_count', 'kafka_producer_connection_creation_total', 'kafka_producer_connection_close_total',
-    'kafka_producer_request_duration_seconds', 'kafka_producer_request_total', 'kafka_producer_request_size_total', 'kafka_producer_request_queue_size'
+    'kafka_producer_connection_count',
+    'kafka_producer_connection_creation_total',
+    'kafka_producer_connection_close_total',
+    'kafka_producer_request_duration_seconds',
+    'kafka_producer_request_total',
+    'kafka_producer_request_size_total',
+    'kafka_producer_request_queue_size'
   ]
 
   beforeEach(() => {
@@ -56,7 +61,10 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
     }
 
     const events: string[] = [
-      'producer.connect', 'producer.disconnect', 'producer.network.request', 'producer.network.request_queue_size'
+      'producer.connect',
+      'producer.disconnect',
+      'producer.network.request',
+      'producer.network.request_queue_size'
     ]
 
     const exporter = new KafkaJSProducerPrometheusExporter(mockProducer, register)
@@ -65,6 +73,17 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
     expect(mockProducer.on).toHaveBeenCalledTimes(events.length)
     events.forEach(event => {
       expect(mockProducer.on).toHaveBeenCalledWith(event, expect.any(Function))
+    })
+  })
+
+  test('registered metrics are taken from the registry', () => {
+    // eslint-disable-next-line no-new
+    new KafkaJSProducerPrometheusExporter(producer, register)
+    // eslint-disable-next-line no-new
+    new KafkaJSProducerPrometheusExporter(producer, register)
+    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
+    metrics.forEach((metric) => {
+      expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
 })

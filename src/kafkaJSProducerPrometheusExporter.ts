@@ -23,60 +23,77 @@ export class KafkaJSProducerPrometheusExporter {
   private readonly producerRequestSizeTotal: Counter
   private readonly producerRequestQueueSize: Gauge
 
+  private readonly KAFKA_PRODUCER_CONNECTION_COUNT = 'kafka_producer_connection_count'
+  private readonly KAFKA_PRODUCER_CONNECTION_CREATION_TOTAL = 'kafka_producer_connection_creation_total'
+  private readonly KAFKA_PRODUCER_CONNECTION_CLOSE_TOTAL = 'kafka_producer_connection_close_total'
+  private readonly KAFKA_PRODUCER_REQUEST_DURATION_SECONDS = 'kafka_producer_request_duration_seconds'
+  private readonly KAFKA_PRODUCER_REQUEST_TOTAL = 'kafka_producer_request_total'
+  private readonly KAFKA_PRODUCER_REQUEST_SIZE_TOTAL = 'kafka_producer_request_size_total'
+  private readonly KAFKA_PRODUCER_REQUEST_QUEUE_SIZE = 'kafka_producer_request_queue_size'
+
   constructor (producer: Producer, register: Registry, options?: KafkaJSProducerExporterOptions) {
     this.producer = producer
     this.register = register
     this.options = { ...this.defaultOptions, ...options }
 
-    this.producerActiveConnections = new Gauge({
-      name: 'kafka_producer_connection_count',
-      help: 'The current number of active connections established with a broker',
-      labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
-      registers: [this.register]
-    })
+    this.producerActiveConnections = (this.register.getSingleMetric(this.KAFKA_PRODUCER_CONNECTION_COUNT) ??
+      new Gauge({
+        name: this.KAFKA_PRODUCER_CONNECTION_COUNT,
+        help: 'The current number of active connections established with a broker',
+        labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
+        registers: [this.register]
+      })) as Gauge
 
-    this.producerConnectionsCreatedTotal = new Counter({
-      name: 'kafka_producer_connection_creation_total',
-      help: 'The total number of connections established with a broker',
-      labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
-      registers: [this.register]
-    })
+    this.producerConnectionsCreatedTotal = (this.register.getSingleMetric(
+      this.KAFKA_PRODUCER_CONNECTION_CREATION_TOTAL
+    ) ??
+      new Counter({
+        name: this.KAFKA_PRODUCER_CONNECTION_CREATION_TOTAL,
+        help: 'The total number of connections established with a broker',
+        labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
+        registers: [this.register]
+      })) as Counter
 
-    this.producerConnectionsClosedTotal = new Counter({
-      name: 'kafka_producer_connection_close_total',
-      help: 'The total number of connections closed with a broker',
-      labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
-      registers: [this.register]
-    })
+    this.producerConnectionsClosedTotal = (this.register.getSingleMetric(this.KAFKA_PRODUCER_CONNECTION_CLOSE_TOTAL) ??
+      new Counter({
+        name: this.KAFKA_PRODUCER_CONNECTION_CLOSE_TOTAL,
+        help: 'The total number of connections closed with a broker',
+        labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
+        registers: [this.register]
+      })) as Counter
 
-    this.producerRequestDuration = new Histogram({
-      name: 'kafka_producer_request_duration_seconds',
-      help: 'The time taken for processing a producer request.',
-      labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
-      buckets: this.options.producerRequestDurationHistogramBuckets,
-      registers: [this.register]
-    })
+    this.producerRequestDuration = (this.register.getSingleMetric(this.KAFKA_PRODUCER_REQUEST_DURATION_SECONDS) ??
+      new Histogram({
+        name: this.KAFKA_PRODUCER_REQUEST_DURATION_SECONDS,
+        help: 'The time taken for processing a producer request.',
+        labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
+        buckets: this.options.producerRequestDurationHistogramBuckets,
+        registers: [this.register]
+      })) as Histogram
 
-    this.producerRequestTotal = new Counter({
-      name: 'kafka_producer_request_total',
-      help: 'The total number of requests sent.',
-      labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
-      registers: [this.register]
-    })
+    this.producerRequestTotal = (this.register.getSingleMetric(this.KAFKA_PRODUCER_REQUEST_TOTAL) ??
+      new Counter({
+        name: this.KAFKA_PRODUCER_REQUEST_TOTAL,
+        help: 'The total number of requests sent.',
+        labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
+        registers: [this.register]
+      })) as Counter
 
-    this.producerRequestSizeTotal = new Counter({
-      name: 'kafka_producer_request_size_total',
-      help: 'The size of any request sent.',
-      labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
-      registers: [this.register]
-    })
+    this.producerRequestSizeTotal = (this.register.getSingleMetric(this.KAFKA_PRODUCER_REQUEST_SIZE_TOTAL) ??
+      new Counter({
+        name: this.KAFKA_PRODUCER_REQUEST_SIZE_TOTAL,
+        help: 'The size of any request sent.',
+        labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
+        registers: [this.register]
+      })) as Counter
 
-    this.producerRequestQueueSize = new Gauge({
-      name: 'kafka_producer_request_queue_size',
-      help: 'Size of the request queue.',
-      labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
-      registers: [this.register]
-    })
+    this.producerRequestQueueSize = (this.register.getSingleMetric(this.KAFKA_PRODUCER_REQUEST_QUEUE_SIZE) ??
+      new Gauge({
+        name: this.KAFKA_PRODUCER_REQUEST_QUEUE_SIZE,
+        help: 'Size of the request queue.',
+        labelNames: mergeLabelNamesWithStandardLabels(['broker'], this.options.defaultLabels),
+        registers: [this.register]
+      })) as Gauge
   }
 
   public enableMetrics (): void {
@@ -97,12 +114,23 @@ export class KafkaJSProducerPrometheusExporter {
   }
 
   onProducerRequest (event: RequestEvent): void {
-    this.producerRequestTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels))
-    this.producerRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
-    this.producerRequestDuration.observe(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.duration / 1000)
+    this.producerRequestTotal.inc(
+      mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels)
+    )
+    this.producerRequestSizeTotal.inc(
+      mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels),
+      event.payload.size
+    )
+    this.producerRequestDuration.observe(
+      mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels),
+      event.payload.duration / 1000
+    )
   }
 
   onProducerRequestQueueSize (event: RequestQueueSizeEvent): void {
-    this.producerRequestQueueSize.set(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.queueSize)
+    this.producerRequestQueueSize.set(
+      mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels),
+      event.payload.queueSize
+    )
   }
 }

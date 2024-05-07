@@ -39,6 +39,7 @@ describe('all metrics are created with the correct parameters', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     producer = kafka.producer()
+    register.getSingleMetric = jest.fn(() => undefined)
   })
 
   test('if all metrics are created', () => {
