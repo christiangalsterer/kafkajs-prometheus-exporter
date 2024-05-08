@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/compare/v3.1.1...v3.2.0) (2024-05-07)
+
+
+### Features
+
+* add support for re-registering metrics ([#98](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/issues/98)) ([ed4d11f](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/ed4d11f2b9815e7ca14f9325dc0fad5fc478c44a))
+
 ## [3.1.1] 2024-04-04
 
 The detailed changelog can be found [here](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/compare/v3.1.0...v3.1.1).
