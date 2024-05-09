@@ -22,6 +22,7 @@ export class KafkaJSAdminPrometheusExporter {
   private readonly adminRequestDuration: Histogram
   private readonly adminRequestSizeTotal: Counter
   private readonly adminRequestQueueSize: Gauge
+
   private readonly KAFKA_ADMIN_CONNECTION_COUNT = 'kafka_admin_connection_count'
   private readonly KAFKA_ADMIN_CONNECTION_CREATION_TOTAL = 'kafka_admin_connection_creation_total'
   private readonly KAFKA_ADMIN_CONNECTION_CLOSE_TOTAL = 'kafka_admin_connection_close_total'
@@ -29,6 +30,7 @@ export class KafkaJSAdminPrometheusExporter {
   private readonly KAFKA_ADMIN_REQUEST_DURATION_SECONDS = 'kafka_admin_request_duration_seconds'
   private readonly KAFKA_ADMIN_REQUEST_SIZE_TOTAL = 'kafka_admin_request_size_total'
   private readonly KAFKA_ADMIN_REQUEST_QUEUE_SIZE = 'kafka_admin_request_queue_size'
+
   /**
    * Creates a new exporter
    * @param admin the admin client to monitor
