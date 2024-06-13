@@ -37,7 +37,7 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
     // eslint-disable-next-line no-new
     new KafkaJSConsumerPrometheusExporter(consumer, register)
     expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
@@ -47,7 +47,7 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
     // eslint-disable-next-line no-new
     new KafkaJSConsumerPrometheusExporter(consumer, register, options)
     expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
@@ -86,7 +86,7 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
     exporter.enableMetrics()
 
     expect(mockConsumer.on).toHaveBeenCalledTimes(events.length)
-    events.forEach(event => {
+    events.forEach((event) => {
       expect(mockConsumer.on).toHaveBeenCalledWith(event, expect.any(Function))
     })
   })

@@ -4,9 +4,9 @@
  * @param defaultLabels default labels to merge with
  * @returns array of merged label names
  */
-export function mergeLabelNamesWithStandardLabels (labelNames: string[], defaultLabels?: Record<string, string | number>): string[] {
+export function mergeLabelNamesWithStandardLabels(labelNames: string[], defaultLabels?: Record<string, string | number>): string[] {
   let merged: string[]
-  defaultLabels !== undefined ? merged = labelNames.concat(Object.keys(defaultLabels)) : merged = labelNames
+  defaultLabels !== undefined ? (merged = labelNames.concat(Object.keys(defaultLabels))) : (merged = labelNames)
   return merged
 }
 
@@ -16,7 +16,10 @@ export function mergeLabelNamesWithStandardLabels (labelNames: string[], default
  * @param defaultLabels default labels to merge with
  * @returns merged labels
  */
-export function mergeLabelsWithStandardLabels (labels: Record<string, string | number | undefined>, defaultLabels?: Record<string, string | number>): Record<string, string | number> {
+export function mergeLabelsWithStandardLabels(
+  labels: Record<string, string | number | undefined>,
+  defaultLabels?: Record<string, string | number>
+): Record<string, string | number> {
   let merged: Record<string, string | number>
   const filtered = Object.fromEntries(
     Object.entries(labels)
@@ -24,6 +27,6 @@ export function mergeLabelsWithStandardLabels (labels: Record<string, string | n
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       .map(([key, value]) => [key, value!])
   ) as Record<string, string | number>
-  defaultLabels !== undefined ? merged = { ...filtered, ...defaultLabels } : merged = filtered
+  defaultLabels !== undefined ? (merged = { ...filtered, ...defaultLabels }) : (merged = filtered)
   return merged
 }

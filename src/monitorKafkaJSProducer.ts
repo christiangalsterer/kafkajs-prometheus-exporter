@@ -11,7 +11,7 @@ import { KafkaJSProducerPrometheusExporter } from './kafkaJSProducerPrometheusEx
  * @param register The prometheus registry used to expose the metrics.
  * @param options Optional parameter to configure the exporter
  */
-export function monitorKafkaJSProducer (producer: Producer, register: Registry, options?: KafkaJSProducerExporterOptions): void {
+export function monitorKafkaJSProducer(producer: Producer, register: Registry, options?: KafkaJSProducerExporterOptions): void {
   const exporter = new KafkaJSProducerPrometheusExporter(producer, register, options)
   exporter.enableMetrics()
 }

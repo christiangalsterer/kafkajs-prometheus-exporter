@@ -8,6 +8,7 @@
 [![semver](https://img.shields.io/badge/semver-2.0.0-green)](https://semver.org)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![renovate](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://developer.mend.io/github/christiangalsterer/kafkajs-prometheus-exporter)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 ![github stars](https://img.shields.io/github/stars/christiangalsterer/kafkajs-prometheus-exporter.svg)
 
 # Prometheus Exporter for KafkaJS
@@ -403,25 +404,25 @@ _KafkaJSProducerExporterOptions_, _KafkaJSConsumerExporterOptions_ and _KafkaJSA
 
 |property|Description|Example|Since |
 |---|---|---|---|
-| producerRequestDurationHistogramBuckets | Buckets for the kafka_producer_request_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 3.1.0|
+| producerRequestDurationHistogramBuckets | Buckets for the kafka_producer_request_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10] | [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10]| 3.1.0|
 | defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} | 0.8.0 |
 
 ## KafkaJSConsumerExporterOptions
 
 |property|Description|Example|Since |
 |---|---|---|---|
-| consumerRequestDurationHistogramBuckets | Buckets for the kafka_consumer_request_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 3.1.0|
-| consumerBatchDurationHistogramBuckets | Buckets for the kafka_consumer_batch_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
-| **Deprecated** consumerBatchLatencyHistogramBuckets | Buckets for the kafka_consumer_batch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
-| consumerFetchDurationHistogramBuckets | Buckets for the kafka_consumer_fetch_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
-| **Deprecated** consumerFetchLatencyHistogramBuckets | Buckets for the kafka_consumer_fetch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 0.8.0|
+| consumerRequestDurationHistogramBuckets | Buckets for the kafka_consumer_request_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10] | [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10]| 3.1.0|
+| consumerBatchDurationHistogramBuckets | Buckets for the kafka_consumer_batch_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10] | [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10]| 0.8.0|
+| **Deprecated** consumerBatchLatencyHistogramBuckets | Buckets for the kafka_consumer_batch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10] | [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10]| 0.8.0|
+| consumerFetchDurationHistogramBuckets | Buckets for the kafka_consumer_fetch_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10] | [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10]| 0.8.0|
+| **Deprecated** consumerFetchLatencyHistogramBuckets | Buckets for the kafka_consumer_fetch_latency metric in seconds. Default buckets are [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10] | [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10]| 0.8.0|
 | defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} | 0.8.0|
 
 ## KafkaJSAdminExporterOptions
 
 |property|Description|Example|Since |
 |---|---|---|---|
-| adminRequestDurationHistogramBuckets | Buckets for the kafka_admin_request_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10] | [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]| 3.1.0|
+| adminRequestDurationHistogramBuckets | Buckets for the kafka_admin_request_duration_seconds metric in seconds. Default buckets are [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10] | [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1, 2, 5, 10]| 3.1.0|
 | defaultLabels | Default labels added to each metrics. | {'foo':'bar', 'alice': 3} | 1.0.0 |
 
 # Grafana Dashboard

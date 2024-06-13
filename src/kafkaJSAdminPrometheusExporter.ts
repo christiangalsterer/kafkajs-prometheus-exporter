@@ -12,7 +12,7 @@ export class KafkaJSAdminPrometheusExporter {
   private readonly register: Registry
   private readonly options: KafkaJSAdminExporterOptions
   private readonly defaultOptions: KafkaJSAdminExporterOptions = {
-    adminRequestDurationHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]
+    adminRequestDurationHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10]
   }
 
   private readonly adminActiveConnections: Gauge
@@ -37,7 +37,7 @@ export class KafkaJSAdminPrometheusExporter {
    * @param register the register to use to export the metrics
    * @param options optional configuration options
    */
-  constructor (admin: Admin, register: Registry, options?: KafkaJSAdminExporterOptions) {
+  constructor(admin: Admin, register: Registry, options?: KafkaJSAdminExporterOptions) {
     this.admin = admin
     this.register = register
     this.options = { ...this.defaultOptions, ...options }
@@ -100,38 +100,41 @@ export class KafkaJSAdminPrometheusExporter {
       })) as Gauge
   }
 
-  public enableMetrics (): void {
-    this.admin.on('admin.connect', event => { this.onAdminConnect(event) })
-    this.admin.on('admin.disconnect', event => { this.onAdminDisconnect(event) })
-    this.admin.on('admin.network.request', event => { this.onAdminRequest(event) })
-    this.admin.on('admin.network.request_queue_size', event => { this.onAdminRequestQueueSize(event) })
+  public enableMetrics(): void {
+    this.admin.on('admin.connect', (event) => {
+      this.onAdminConnect(event)
+    })
+    this.admin.on('admin.disconnect', (event) => {
+      this.onAdminDisconnect(event)
+    })
+    this.admin.on('admin.network.request', (event) => {
+      this.onAdminRequest(event)
+    })
+    this.admin.on('admin.network.request_queue_size', (event) => {
+      this.onAdminRequestQueueSize(event)
+    })
   }
 
-  onAdminConnect (event: ConnectEvent): void {
+  onAdminConnect(event: ConnectEvent): void {
     this.adminActiveConnections.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
     this.adminConnectionsCreatedTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
-  onAdminDisconnect (event: DisconnectEvent): void {
+  onAdminDisconnect(event: DisconnectEvent): void {
     this.adminActiveConnections.dec(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
     this.adminConnectionsClosedTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
-  onAdminRequest (event: RequestEvent): void {
-    this.adminRequestTotal.inc(
-      mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels)
-    )
-    this.adminRequestSizeTotal.inc(
-      mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels),
-      event.payload.size
-    )
+  onAdminRequest(event: RequestEvent): void {
+    this.adminRequestTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels))
+    this.adminRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
     this.adminRequestDuration.observe(
       mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels),
       event.payload.duration / 1000
     )
   }
 
-  onAdminRequestQueueSize (event: RequestQueueSizeEvent): void {
+  onAdminRequestQueueSize(event: RequestQueueSizeEvent): void {
     this.adminRequestQueueSize.set(
       mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels),
       event.payload.queueSize

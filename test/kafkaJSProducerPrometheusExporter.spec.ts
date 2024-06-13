@@ -31,7 +31,7 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
     // eslint-disable-next-line no-new
     new KafkaJSProducerPrometheusExporter(producer, register)
     expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
@@ -41,7 +41,7 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
     // eslint-disable-next-line no-new
     new KafkaJSProducerPrometheusExporter(producer, register, options)
     expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
@@ -60,18 +60,13 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
       events: {} as ProducerEvents
     }
 
-    const events: string[] = [
-      'producer.connect',
-      'producer.disconnect',
-      'producer.network.request',
-      'producer.network.request_queue_size'
-    ]
+    const events: string[] = ['producer.connect', 'producer.disconnect', 'producer.network.request', 'producer.network.request_queue_size']
 
     const exporter = new KafkaJSProducerPrometheusExporter(mockProducer, register)
     exporter.enableMetrics()
 
     expect(mockProducer.on).toHaveBeenCalledTimes(events.length)
-    events.forEach(event => {
+    events.forEach((event) => {
       expect(mockProducer.on).toHaveBeenCalledWith(event, expect.any(Function))
     })
   })

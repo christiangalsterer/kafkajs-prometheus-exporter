@@ -31,7 +31,7 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
     // eslint-disable-next-line no-new
     new KafkaJSAdminPrometheusExporter(admin, register)
     expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
@@ -41,7 +41,7 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
     // eslint-disable-next-line no-new
     new KafkaJSAdminPrometheusExporter(admin, register, options)
     expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach(metric => {
+    metrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
@@ -78,18 +78,13 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
       events: {} as AdminEvents
     }
 
-    const events: string[] = [
-      'admin.connect',
-      'admin.disconnect',
-      'admin.network.request',
-      'admin.network.request_queue_size'
-    ]
+    const events: string[] = ['admin.connect', 'admin.disconnect', 'admin.network.request', 'admin.network.request_queue_size']
 
     const exporter = new KafkaJSAdminPrometheusExporter(mockAdmin, register)
     exporter.enableMetrics()
 
     expect(mockAdmin.on).toHaveBeenCalledTimes(events.length)
-    events.forEach(e => {
+    events.forEach((e) => {
       expect(mockAdmin.on).toHaveBeenCalledWith(e, expect.any(Function))
     })
   })

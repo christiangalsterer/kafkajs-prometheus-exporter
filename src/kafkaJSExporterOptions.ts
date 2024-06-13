@@ -2,7 +2,6 @@
  * Optional parameter to configure the exporter.
  */
 export interface KafkaJSExporterOptions {
-
   /**
    * Default labels for all metrics, e.g. {'foo':'bar', alice: 3}
    */

@@ -95,7 +95,7 @@ describe('all metrics are created with the correct parameters', () => {
     expect(Histogram).toHaveBeenCalledWith({
       name: 'kafka_consumer_request_duration_seconds',
       help: 'The time taken for processing a consumer request.',
-      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      buckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
       labelNames: ['broker'],
       registers: [register]
     })
@@ -124,7 +124,7 @@ describe('all metrics are created with the correct parameters', () => {
     expect(Histogram).toHaveBeenCalledWith({
       name: 'kafka_consumer_fetch_duration_seconds',
       help: 'The time taken for a fetch request.',
-      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      buckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
       labelNames: [],
       registers: [register]
     })
@@ -132,7 +132,7 @@ describe('all metrics are created with the correct parameters', () => {
     expect(Histogram).toHaveBeenCalledWith({
       name: 'kafka_consumer_fetch_latency',
       help: 'The time taken for a fetch request.',
-      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      buckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
       labelNames: [],
       registers: [register]
     })
@@ -140,7 +140,7 @@ describe('all metrics are created with the correct parameters', () => {
     expect(Histogram).toHaveBeenCalledWith({
       name: 'kafka_consumer_batch_latency',
       help: 'The time taken for processing a batch.',
-      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      buckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
       labelNames: ['topic', 'partition'],
       registers: [register]
     })
@@ -148,7 +148,7 @@ describe('all metrics are created with the correct parameters', () => {
     expect(Histogram).toHaveBeenCalledWith({
       name: 'kafka_consumer_batch_duration_seconds',
       help: 'The time taken for processing a batch.',
-      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      buckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
       labelNames: ['topic', 'partition'],
       registers: [register]
     })
@@ -214,7 +214,7 @@ describe('all metrics are created with the correct parameters', () => {
     expect(Histogram).toHaveBeenCalledWith({
       name: 'kafka_consumer_request_duration_seconds',
       help: 'The time taken for processing a consumer request.',
-      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      buckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
       labelNames: ['broker', 'foo', 'alice'],
       registers: [register]
     })
@@ -243,7 +243,7 @@ describe('all metrics are created with the correct parameters', () => {
     expect(Histogram).toHaveBeenCalledWith({
       name: 'kafka_consumer_fetch_duration_seconds',
       help: 'The time taken for a fetch request.',
-      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      buckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
       labelNames: ['foo', 'alice'],
       registers: [register]
     })
@@ -251,7 +251,7 @@ describe('all metrics are created with the correct parameters', () => {
     expect(Histogram).toHaveBeenCalledWith({
       name: 'kafka_consumer_fetch_latency',
       help: 'The time taken for a fetch request.',
-      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      buckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
       labelNames: ['foo', 'alice'],
       registers: [register]
     })
@@ -259,7 +259,7 @@ describe('all metrics are created with the correct parameters', () => {
     expect(Histogram).toHaveBeenCalledWith({
       name: 'kafka_consumer_batch_latency',
       help: 'The time taken for processing a batch.',
-      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      buckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
       labelNames: ['topic', 'partition', 'foo', 'alice'],
       registers: [register]
     })
@@ -267,7 +267,7 @@ describe('all metrics are created with the correct parameters', () => {
     expect(Histogram).toHaveBeenCalledWith({
       name: 'kafka_consumer_batch_duration_seconds',
       help: 'The time taken for processing a batch.',
-      buckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
+      buckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
       labelNames: ['topic', 'partition', 'foo', 'alice'],
       registers: [register]
     })

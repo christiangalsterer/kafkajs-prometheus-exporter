@@ -22,11 +22,11 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly register: Registry
   private readonly options: KafkaJSConsumerExporterOptions
   private readonly defaultOptions: KafkaJSConsumerExporterOptions = {
-    consumerRequestDurationHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
-    consumerBatchLatencyHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
-    consumerBatchDurationHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
-    consumerFetchLatencyHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10],
-    consumerFetchDurationHistogramBuckets: [0.001, 0.005, 0.010, 0.020, 0.030, 0.040, 0.050, 0.100, 0.200, 0.500, 1.0, 2.0, 5.0, 10]
+    consumerRequestDurationHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
+    consumerBatchLatencyHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
+    consumerBatchDurationHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
+    consumerFetchLatencyHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
+    consumerFetchDurationHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10]
   }
 
   private readonly consumerActiveConnections: Gauge
@@ -61,7 +61,7 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly KAFKA_CONSUMER_BATCH_DURATION_SECONDS = 'kafka_consumer_batch_duration_seconds'
   private readonly KAFKA_CONSUMER_REQUEST_DURATION_SECONDS = 'kafka_consumer_request_duration_seconds'
 
-  constructor (consumer: Consumer, register: Registry, options?: KafkaJSConsumerExporterOptions) {
+  constructor(consumer: Consumer, register: Registry, options?: KafkaJSConsumerExporterOptions) {
     this.consumer = consumer
     this.register = register
     this.options = { ...this.defaultOptions, ...options }
@@ -74,9 +74,7 @@ export class KafkaJSConsumerPrometheusExporter {
         registers: [this.register]
       })) as Gauge
 
-    this.consumerConnectionsCreatedTotal = (this.register.getSingleMetric(
-      this.KAFKA_CONSUMER_CONNECTION_CREATION_TOTAL
-    ) ??
+    this.consumerConnectionsCreatedTotal = (this.register.getSingleMetric(this.KAFKA_CONSUMER_CONNECTION_CREATION_TOTAL) ??
       new Counter({
         name: this.KAFKA_CONSUMER_CONNECTION_CREATION_TOTAL,
         help: 'The total number of connections established with a broker',
@@ -92,9 +90,7 @@ export class KafkaJSConsumerPrometheusExporter {
         registers: [this.register]
       })) as Counter
 
-    this.consumerConnectionsCrashedTotal = (this.register.getSingleMetric(
-      this.KAFKA_CONSUMER_CONNECTION_CRASHED_TOTAL
-    ) ??
+    this.consumerConnectionsCrashedTotal = (this.register.getSingleMetric(this.KAFKA_CONSUMER_CONNECTION_CRASHED_TOTAL) ??
       new Counter({
         name: this.KAFKA_CONSUMER_CONNECTION_CRASHED_TOTAL,
         help: 'The total number of crashed connections with a broker',
@@ -196,28 +192,44 @@ export class KafkaJSConsumerPrometheusExporter {
       })) as Histogram
   }
 
-  public enableMetrics (): void {
-    this.consumer.on('consumer.connect', event => { this.onConsumerConnect(event) })
-    this.consumer.on('consumer.disconnect', event => { this.onConsumerDisconnect(event) })
-    this.consumer.on('consumer.crash', event => { this.onConsumerCrashed(event) })
-    this.consumer.on('consumer.heartbeat', event => { this.onConsumerHeartbeat(event) })
-    this.consumer.on('consumer.network.request', event => { this.onConsumerRequest(event) })
-    this.consumer.on('consumer.network.request_queue_size', event => { this.onConsumerRequestQueueSize(event) })
-    this.consumer.on('consumer.fetch', event => { this.onConsumerFetch(event) })
-    this.consumer.on('consumer.end_batch_process', event => { this.onConsumerEndBatch(event) })
+  public enableMetrics(): void {
+    this.consumer.on('consumer.connect', (event) => {
+      this.onConsumerConnect(event)
+    })
+    this.consumer.on('consumer.disconnect', (event) => {
+      this.onConsumerDisconnect(event)
+    })
+    this.consumer.on('consumer.crash', (event) => {
+      this.onConsumerCrashed(event)
+    })
+    this.consumer.on('consumer.heartbeat', (event) => {
+      this.onConsumerHeartbeat(event)
+    })
+    this.consumer.on('consumer.network.request', (event) => {
+      this.onConsumerRequest(event)
+    })
+    this.consumer.on('consumer.network.request_queue_size', (event) => {
+      this.onConsumerRequestQueueSize(event)
+    })
+    this.consumer.on('consumer.fetch', (event) => {
+      this.onConsumerFetch(event)
+    })
+    this.consumer.on('consumer.end_batch_process', (event) => {
+      this.onConsumerEndBatch(event)
+    })
   }
 
-  onConsumerConnect (event: ConnectEvent): void {
+  onConsumerConnect(event: ConnectEvent): void {
     this.consumerActiveConnections.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
     this.consumerConnectionsCreatedTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
-  onConsumerDisconnect (event: DisconnectEvent): void {
+  onConsumerDisconnect(event: DisconnectEvent): void {
     this.consumerActiveConnections.dec(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
     this.consumerConnectionsClosedTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
-  onConsumerCrashed (event: ConsumerCrashEvent): void {
+  onConsumerCrashed(event: ConsumerCrashEvent): void {
     this.consumerConnectionsCrashedTotal.inc(
       mergeLabelsWithStandardLabels(
         {
@@ -230,68 +242,45 @@ export class KafkaJSConsumerPrometheusExporter {
     )
   }
 
-  onConsumerHeartbeat (event: ConsumerHeartbeatEvent): void {
+  onConsumerHeartbeat(event: ConsumerHeartbeatEvent): void {
     this.consumerHeartbeats.inc(
-      mergeLabelsWithStandardLabels(
-        { group_id: event.payload.groupId, member_id: event.payload.memberId },
-        this.options.defaultLabels
-      )
+      mergeLabelsWithStandardLabels({ group_id: event.payload.groupId, member_id: event.payload.memberId }, this.options.defaultLabels)
     )
   }
 
-  onConsumerRequest (event: RequestEvent): void {
-    this.consumerRequestTotal.inc(
-      mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels)
-    )
-    this.consumerRequestSizeTotal.inc(
-      mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels),
-      event.payload.size
-    )
+  onConsumerRequest(event: RequestEvent): void {
+    this.consumerRequestTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels))
+    this.consumerRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
     this.consumerRequestDuration.observe(
       mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels),
       event.payload.duration / 1000
     )
   }
 
-  onConsumerRequestQueueSize (event: RequestQueueSizeEvent): void {
+  onConsumerRequestQueueSize(event: RequestQueueSizeEvent): void {
     this.consumerRequestQueueSize.set(
       mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels),
       event.payload.queueSize
     )
   }
 
-  onConsumerFetch (event: ConsumerFetchEvent): void {
-    this.consumerFetchDuration.observe(
-      mergeLabelsWithStandardLabels({}, this.options.defaultLabels),
-      event.payload.duration / 1000
-    )
-    this.consumerFetchLatency.observe(
-      mergeLabelsWithStandardLabels({}, this.options.defaultLabels),
-      event.payload.duration / 1000
-    )
+  onConsumerFetch(event: ConsumerFetchEvent): void {
+    this.consumerFetchDuration.observe(mergeLabelsWithStandardLabels({}, this.options.defaultLabels), event.payload.duration / 1000)
+    this.consumerFetchLatency.observe(mergeLabelsWithStandardLabels({}, this.options.defaultLabels), event.payload.duration / 1000)
     this.consumerFetchTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
-  onConsumerEndBatch (event: ConsumerEndBatchProcessEvent): void {
+  onConsumerEndBatch(event: ConsumerEndBatchProcessEvent): void {
     this.consumerBatchSizeTotal.inc(
-      mergeLabelsWithStandardLabels(
-        { topic: event.payload.topic, partition: event.payload.partition },
-        this.options.defaultLabels
-      ),
+      mergeLabelsWithStandardLabels({ topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels),
       event.payload.batchSize
     )
     this.consumerBatchDuration.observe(
-      mergeLabelsWithStandardLabels(
-        { topic: event.payload.topic, partition: event.payload.partition },
-        this.options.defaultLabels
-      ),
+      mergeLabelsWithStandardLabels({ topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels),
       event.payload.duration / 1000
     )
     this.consumerBatchLatency.observe(
-      mergeLabelsWithStandardLabels(
-        { topic: event.payload.topic, partition: event.payload.partition },
-        this.options.defaultLabels
-      ),
+      mergeLabelsWithStandardLabels({ topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels),
       event.payload.duration / 1000
     )
   }
