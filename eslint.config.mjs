@@ -15,7 +15,7 @@ export default [
     },
     rules: {
       '@typescript-eslint/no-non-null-assertion': 'warn',
-      '@typescript-eslint/init-declarations': "off",
+      '@typescript-eslint/init-declarations': 'off',
       'import/first': 'error',
       'import/newline-after-import': 'error',
       'import/no-duplicates': 'error',
