@@ -1,4 +1,4 @@
-import { type KafkaJSExporterOptions } from './kafkaJSExporterOptions'
+import type { KafkaJSExporterOptions } from './kafkaJSExporterOptions'
 
 /**
  * Optional parameter to configure the exporter.

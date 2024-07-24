@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, jest, test } from '@jest/globals'
-import { type Producer } from 'kafkajs'
+import type { Producer } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { KafkaJSProducerPrometheusExporter } from '../src/kafkaJSProducerPrometheusExporter'

@@ -11,7 +11,7 @@ import type {
 } from 'kafkajs'
 import { Counter, Gauge, Histogram, type Registry } from 'prom-client'
 
-import { type KafkaJSConsumerExporterOptions } from './kafkaJSConsumerExporterOptions'
+import type { KafkaJSConsumerExporterOptions } from './kafkaJSConsumerExporterOptions'
 import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
 
 /**
