@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from '@jest/globals'
 import { KafkaContainer, type StartedKafkaContainer } from '@testcontainers/kafka'
-import { type Admin, type Consumer,Kafka, type Producer } from 'kafkajs'
+import { type Admin, type Consumer, Kafka, type Producer } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { monitorKafkaJSConsumer } from '../src/monitorKafkaJSConsumer'
@@ -9,7 +9,7 @@ describe('it monitorKafkaJSConsumer', () => {
   const clientId = 'myTestClientId'
   const KAFKA_PORT = 9093
   const KAFKA_TEST_TOPIC = 'test-topic'
-  const KAFKA_GROUP_ID = "test-group-id"
+  const KAFKA_GROUP_ID = 'test-group-id'
   let register: Registry
   let admin: Admin
   let consumer: Consumer
@@ -29,20 +29,17 @@ describe('it monitorKafkaJSConsumer', () => {
     await admin.connect()
     await admin.createTopics({
       waitForLeaders: true,
-      topics: [
-        { topic: KAFKA_TEST_TOPIC, numPartitions: 1, replicationFactor: 1 }
-      ]
+      topics: [{ topic: KAFKA_TEST_TOPIC, numPartitions: 1, replicationFactor: 1 }]
     })
-    
-    await admin.disconnect()
 
+    await admin.disconnect()
   }, 60000)
 
   afterAll(async () => {
     await kafkaContainer.stop()
   })
 
-  beforeEach( async () => {
+  beforeEach(async () => {
     register = new Registry()
     consumer = kafka.consumer({ groupId: KAFKA_GROUP_ID })
     await consumer.subscribe({ topics: [KAFKA_TEST_TOPIC], fromBeginning: true })
@@ -72,24 +69,22 @@ describe('it monitorKafkaJSConsumer', () => {
     expect(kafkaConsumerConnectionCloseTotal?.values.at(0)?.value).toEqual(1)
   })
 
-   test('it kafka consumer request metrics', async () => {
+  test('it kafka consumer request metrics', async () => {
     await consumer.connect()
     await producer.connect()
     await producer.send({
-        topic: KAFKA_TEST_TOPIC,
-        messages: [
-          { value: 'Hello KafkaJS user!, Message 1' }
-        ]
+      topic: KAFKA_TEST_TOPIC,
+      messages: [{ value: 'Hello KafkaJS user!, Message 1' }]
     })
 
     await consumer.run({
-        eachMessage: async ({  }) => {
-          const kafkaConsumerRequestTotal = await register.getSingleMetric('kafka_consumer_request_total')?.get()
-          expect(kafkaConsumerRequestTotal?.type).toEqual('counter')
-          expect(kafkaConsumerRequestTotal?.values.length).toEqual(1)
-          expect(kafkaConsumerRequestTotal?.values.at(0)?.value).toBeGreaterThan(0)  
-        }
-      })
+      eachMessage: async () => {
+        const kafkaConsumerRequestTotal = await register.getSingleMetric('kafka_consumer_request_total')?.get()
+        expect(kafkaConsumerRequestTotal?.type).toEqual('counter')
+        expect(kafkaConsumerRequestTotal?.values.length).toEqual(1)
+        expect(kafkaConsumerRequestTotal?.values.at(0)?.value).toBeGreaterThan(0)
+      }
+    })
 
     await consumer.disconnect()
     await producer.disconnect()
