@@ -73,6 +73,7 @@ describe('it monitorKafkaJSConsumer', () => {
   })
 
    test('it kafka consumer request metrics', async () => {
+    await consumer.connect()
     await producer.connect()
     await producer.send({
         topic: KAFKA_TEST_TOPIC,
