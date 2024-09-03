@@ -5,11 +5,11 @@ import { Registry } from 'prom-client'
 import { KafkaJSProducerPrometheusExporter } from '../src/kafkaJSProducerPrometheusExporter'
 
 describe('tests kafkaJSProducerPrometheusExporter', () => {
-  const clientId = 'myTestClientId'
+  const KAFKA_CLIENT_ID = 'myTestClientId'
   let register: Registry
   let producer: Producer
   const kafka = new Kafka({
-    clientId,
+    clientId: KAFKA_CLIENT_ID,
     brokers: ['localhost:9094']
   })
   const metrics: string[] = [

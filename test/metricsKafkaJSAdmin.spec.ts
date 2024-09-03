@@ -28,10 +28,10 @@ jest.mock('prom-client', () => ({
 
 describe('all metrics are created with the correct parameters', () => {
   const options = { defaultLabels: { foo: 'bar', alice: 2 } }
-  const clientId = 'myTestClientId'
+  const KAFKA_CLIENT_ID = 'myTestClientId'
   const register: Registry = {} as Registry
   const kafka = new Kafka({
-    clientId,
+    clientId: KAFKA_CLIENT_ID,
     brokers: ['localhost:9094']
   })
   let admin: Admin
