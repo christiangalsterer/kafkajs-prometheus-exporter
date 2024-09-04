@@ -28,12 +28,10 @@ describe('it monitorKafkaJSConsumer', () => {
     await kafkaContainer.stop()
   })
 
-  beforeEach(async () => {
+  beforeEach(() => {
     register = new Registry()
     consumer = kafka.consumer({ groupId: KAFKA_GROUP_ID })
-    await consumer.subscribe({ topics: [KAFKA_TEST_TOPIC], fromBeginning: true })
     producer = kafka.producer()
-
     monitorKafkaJSConsumer(consumer, register)
   })
 
@@ -60,6 +58,7 @@ describe('it monitorKafkaJSConsumer', () => {
 
   test('it kafka consumer request metrics', async () => {
     await consumer.connect()
+    await consumer.subscribe({ topics: [KAFKA_TEST_TOPIC], fromBeginning: true })
     await producer.connect()
     const KAFKA_MESSAGE = 'Hello from the KafkaJS user!'
     await producer.send({
