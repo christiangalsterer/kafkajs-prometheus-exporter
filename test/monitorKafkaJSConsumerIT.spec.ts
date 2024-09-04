@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from '@jest/globals'
 import { KafkaContainer, type StartedKafkaContainer } from '@testcontainers/kafka'
-import { type Admin, type Consumer, Kafka, type Producer } from 'kafkajs'
+import { type Consumer, Kafka, type Producer } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { monitorKafkaJSConsumer } from '../src/monitorKafkaJSConsumer'
@@ -11,7 +11,7 @@ describe('it monitorKafkaJSConsumer', () => {
   const KAFKA_TEST_TOPIC = 'test-topic'
   const KAFKA_GROUP_ID = 'test-group'
   let register: Registry
-  let admin: Admin
+  // let admin: Admin
   let consumer: Consumer
   let producer: Producer
   let kafka: Kafka
@@ -79,17 +79,20 @@ describe('it monitorKafkaJSConsumer', () => {
     })
 
     const consumedMessage = await new Promise((resolve) => {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       consumer.run({
-        eachMessage: async ({ message }) => { resolve(message.value?.toString()); },
-      });
-    });
+        // eslint-disable-next-line @typescript-eslint/require-await
+        eachMessage: async ({ message }) => {
+          resolve(message.value?.toString())
+        }
+      })
+    })
 
     const kafkaConsumerRequestTotal = await register.getSingleMetric('kafka_consumer_request_total')?.get()
     expect(kafkaConsumerRequestTotal?.type).toEqual('counter')
     expect(kafkaConsumerRequestTotal?.values.length).toEqual(1)
     expect(kafkaConsumerRequestTotal?.values.at(0)?.value).toBeGreaterThan(0)
     expect(consumedMessage).toBe(KAFKA_MESSAGE)
-
 
     // await consumer.run({
     //   eachMessage: async () => {
