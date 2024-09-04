@@ -6,7 +6,7 @@ import { Registry } from 'prom-client'
 import { monitorKafkaJSProducer } from '../src/monitorKafkaJSProducer'
 
 describe('it monitorKafkaJSProducer', () => {
-  const KAFKA_CLIENT_ID = 'myTestClientId'
+  const clientId = 'myTestClientId'
   const KAFKA_PORT = 9093
   const KAFKA_TEST_TOPIC = 'test-topic'
   let register: Registry
@@ -19,7 +19,7 @@ describe('it monitorKafkaJSProducer', () => {
     kafkaContainer = await new KafkaContainer().withExposedPorts(KAFKA_PORT).start()
     const broker: string = kafkaContainer.getHost() + ':' + kafkaContainer.getMappedPort(KAFKA_PORT).toString()
     kafka = new Kafka({
-      clientId: KAFKA_CLIENT_ID,
+      clientId,
       brokers: [broker]
     })
 
