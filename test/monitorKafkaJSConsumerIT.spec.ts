@@ -11,7 +11,6 @@ describe('it monitorKafkaJSConsumer', () => {
   const KAFKA_TEST_TOPIC = 'test-topic'
   const KAFKA_GROUP_ID = 'test-group'
   let register: Registry
-  // let admin: Admin
   let consumer: Consumer
   let producer: Producer
   let kafka: Kafka
@@ -23,16 +22,6 @@ describe('it monitorKafkaJSConsumer', () => {
       clientId,
       brokers: [`${kafkaContainer.getHost()}:${kafkaContainer.getMappedPort(KAFKA_PORT).toString()}`]
     })
-
-    // admin = kafka.admin()
-    // await admin.connect()
-    // console.log(await admin.describeCluster())
-    // await admin.createTopics({
-    //   waitForLeaders: true,
-    //   topics: [{ topic: KAFKA_TEST_TOPIC, numPartitions: 1, replicationFactor: 1 }]
-    // })
-
-    // await admin.disconnect()
   }, 60000)
 
   afterAll(async () => {
@@ -92,7 +81,7 @@ describe('it monitorKafkaJSConsumer', () => {
     expect(kafkaConsumerRequestTotal?.type).toEqual('counter')
     expect(kafkaConsumerRequestTotal?.values.length).toEqual(1)
     expect(kafkaConsumerRequestTotal?.values.at(0)?.value).toBeGreaterThan(0)
-    expect(consumedMessage).toBe(KAFKA_MESSAGE)
+    expect(consumedMessage).toEqual(KAFKA_MESSAGE)
 
     // await consumer.run({
     //   eachMessage: async () => {

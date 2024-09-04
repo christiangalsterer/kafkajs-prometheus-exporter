@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, test } from '@jest/globals'
 import { KafkaContainer, type StartedKafkaContainer } from '@testcontainers/kafka'
-import { type Admin, Kafka, type Producer } from 'kafkajs'
+import { Kafka, type Producer } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { monitorKafkaJSProducer } from '../src/monitorKafkaJSProducer'
@@ -10,7 +10,6 @@ describe('it monitorKafkaJSProducer', () => {
   const KAFKA_PORT = 9093
   const KAFKA_TEST_TOPIC = 'test-topic'
   let register: Registry
-  let admin: Admin
   let producer: Producer
   let kafka: Kafka
   let kafkaContainer: StartedKafkaContainer
@@ -21,15 +20,6 @@ describe('it monitorKafkaJSProducer', () => {
       clientId,
       brokers: [`${kafkaContainer.getHost()}:${kafkaContainer.getMappedPort(KAFKA_PORT).toString()}`]
     })
-
-    admin = kafka.admin()
-    await admin.connect()
-    await admin.createTopics({
-      waitForLeaders: true,
-      topics: [{ topic: KAFKA_TEST_TOPIC, numPartitions: 1, replicationFactor: 1 }]
-    })
-
-    await admin.disconnect()
   }, 60000)
 
   afterAll(async () => {
@@ -68,7 +58,7 @@ describe('it monitorKafkaJSProducer', () => {
     await producer.connect()
     await producer.send({
       topic: KAFKA_TEST_TOPIC,
-      messages: [{ value: 'Hello KafkaJS user!, Message 1' }]
+      messages: [{ value: 'Hello from the KafkaJS user!' }]
     })
 
     const kafkaProducerRequestTotal = await register.getSingleMetric('kafka_producer_request_total')?.get()
