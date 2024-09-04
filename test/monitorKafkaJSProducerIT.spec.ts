@@ -17,10 +17,9 @@ describe('it monitorKafkaJSProducer', () => {
 
   beforeAll(async () => {
     kafkaContainer = await new KafkaContainer().withExposedPorts(KAFKA_PORT).start()
-    const broker: string = kafkaContainer.getHost() + ':' + kafkaContainer.getMappedPort(KAFKA_PORT).toString()
     kafka = new Kafka({
       clientId,
-      brokers: [broker]
+      brokers: [`${kafkaContainer.getHost()}:${kafkaContainer.getMappedPort(KAFKA_PORT).toString()}`]
     })
 
     admin = kafka.admin()

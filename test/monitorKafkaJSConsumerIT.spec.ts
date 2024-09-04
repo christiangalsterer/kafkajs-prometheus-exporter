@@ -9,7 +9,7 @@ describe('it monitorKafkaJSConsumer', () => {
   const clientId = 'myTestClientId'
   const KAFKA_PORT = 9093
   const KAFKA_TEST_TOPIC = 'test-topic'
-  const KAFKA_GROUP_ID = 'test-group-id'
+  const KAFKA_GROUP_ID = 'test-group'
   let register: Registry
   let admin: Admin
   let consumer: Consumer
@@ -18,19 +18,20 @@ describe('it monitorKafkaJSConsumer', () => {
   let kafkaContainer: StartedKafkaContainer
 
   beforeAll(async () => {
+    process.env.DEBUG = 'testcontainers*'
     kafkaContainer = await new KafkaContainer().withExposedPorts(KAFKA_PORT).start()
-    const broker: string = kafkaContainer.getHost() + ':' + kafkaContainer.getMappedPort(KAFKA_PORT).toString()
     kafka = new Kafka({
       clientId,
-      brokers: [broker]
+      brokers: [`${kafkaContainer.getHost()}:${kafkaContainer.getMappedPort(KAFKA_PORT).toString()}`]
     })
 
     admin = kafka.admin()
     await admin.connect()
-    await admin.createTopics({
-      waitForLeaders: true,
-      topics: [{ topic: KAFKA_TEST_TOPIC, numPartitions: 1, replicationFactor: 1 }]
-    })
+    console.log(await admin.describeCluster())
+    // await admin.createTopics({
+    //   waitForLeaders: true,
+    //   topics: [{ topic: KAFKA_TEST_TOPIC, numPartitions: 1, replicationFactor: 1 }]
+    // })
 
     await admin.disconnect()
   }, 60000)
@@ -74,7 +75,7 @@ describe('it monitorKafkaJSConsumer', () => {
     await producer.connect()
     await producer.send({
       topic: KAFKA_TEST_TOPIC,
-      messages: [{ value: 'Hello KafkaJS user!, Message 1' }]
+      messages: [{ value: 'Hello from the KafkaJS user!' }]
     })
 
     await consumer.run({
