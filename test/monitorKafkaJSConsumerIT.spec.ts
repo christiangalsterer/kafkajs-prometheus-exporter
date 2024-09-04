@@ -18,22 +18,21 @@ describe('it monitorKafkaJSConsumer', () => {
   let kafkaContainer: StartedKafkaContainer
 
   beforeAll(async () => {
-    process.env.DEBUG = 'testcontainers*'
     kafkaContainer = await new KafkaContainer().withExposedPorts(KAFKA_PORT).start()
     kafka = new Kafka({
       clientId,
       brokers: [`${kafkaContainer.getHost()}:${kafkaContainer.getMappedPort(KAFKA_PORT).toString()}`]
     })
 
-    admin = kafka.admin()
-    await admin.connect()
-    console.log(await admin.describeCluster())
+    // admin = kafka.admin()
+    // await admin.connect()
+    // console.log(await admin.describeCluster())
     // await admin.createTopics({
     //   waitForLeaders: true,
     //   topics: [{ topic: KAFKA_TEST_TOPIC, numPartitions: 1, replicationFactor: 1 }]
     // })
 
-    await admin.disconnect()
+    // await admin.disconnect()
   }, 60000)
 
   afterAll(async () => {
@@ -73,19 +72,33 @@ describe('it monitorKafkaJSConsumer', () => {
   test('it kafka consumer request metrics', async () => {
     await consumer.connect()
     await producer.connect()
+    const KAFKA_MESSAGE = 'Hello from the KafkaJS user!'
     await producer.send({
       topic: KAFKA_TEST_TOPIC,
-      messages: [{ value: 'Hello from the KafkaJS user!' }]
+      messages: [{ value: KAFKA_MESSAGE }]
     })
 
-    await consumer.run({
-      eachMessage: async () => {
-        const kafkaConsumerRequestTotal = await register.getSingleMetric('kafka_consumer_request_total')?.get()
-        expect(kafkaConsumerRequestTotal?.type).toEqual('counter')
-        expect(kafkaConsumerRequestTotal?.values.length).toEqual(1)
-        expect(kafkaConsumerRequestTotal?.values.at(0)?.value).toBeGreaterThan(0)
-      }
-    })
+    const consumedMessage = await new Promise((resolve) => {
+      consumer.run({
+        eachMessage: async ({ message }) => { resolve(message.value?.toString()); },
+      });
+    });
+
+    const kafkaConsumerRequestTotal = await register.getSingleMetric('kafka_consumer_request_total')?.get()
+    expect(kafkaConsumerRequestTotal?.type).toEqual('counter')
+    expect(kafkaConsumerRequestTotal?.values.length).toEqual(1)
+    expect(kafkaConsumerRequestTotal?.values.at(0)?.value).toBeGreaterThan(0)
+    expect(consumedMessage).toBe(KAFKA_MESSAGE)
+
+
+    // await consumer.run({
+    //   eachMessage: async () => {
+    //     const kafkaConsumerRequestTotal = await register.getSingleMetric('kafka_consumer_request_total')?.get()
+    //     expect(kafkaConsumerRequestTotal?.type).toEqual('counter')
+    //     expect(kafkaConsumerRequestTotal?.values.length).toEqual(1000)
+    //     expect(kafkaConsumerRequestTotal?.values.at(0)?.value).toBeGreaterThan(0)
+    //   }
+    // })
 
     await consumer.disconnect()
     await producer.disconnect()
