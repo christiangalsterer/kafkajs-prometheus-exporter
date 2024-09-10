@@ -135,7 +135,7 @@ export class KafkaJSConsumerPrometheusExporter {
         name: this.KAFKA_CONSUMER_FETCH_LATENCY,
         help: 'The time taken for a fetch request.',
         labelNames: mergeLabelNamesWithStandardLabels([], this.options.defaultLabels),
-        buckets: this.options.consumerFetchLatencyHistogramBuckets,
+        buckets: this.options.consumerBatchDurationHistogramBuckets,
         registers: [this.register]
       })) as Histogram
 
@@ -169,7 +169,7 @@ export class KafkaJSConsumerPrometheusExporter {
         name: this.KAFKA_CONSUMER_BATCH_LATENCY,
         help: 'The time taken for processing a batch.',
         labelNames: mergeLabelNamesWithStandardLabels(['topic', 'partition'], this.options.defaultLabels),
-        buckets: this.options.consumerBatchLatencyHistogramBuckets,
+        buckets: this.options.consumerBatchDurationHistogramBuckets,
         registers: [this.register]
       })) as Histogram
 
