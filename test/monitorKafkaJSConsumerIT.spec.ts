@@ -30,7 +30,7 @@ describe('it monitorKafkaJSConsumer', () => {
 
   beforeEach(() => {
     register = new Registry()
-    consumer = kafka.consumer({ groupId: KAFKA_GROUP_ID })
+    consumer = kafka.consumer({ groupId: KAFKA_GROUP_ID, allowAutoTopicCreation: true })
     producer = kafka.producer()
     monitorKafkaJSConsumer(consumer, register)
   })
