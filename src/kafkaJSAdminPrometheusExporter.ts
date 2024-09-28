@@ -4,14 +4,18 @@ import { Counter, Gauge, Histogram, type Registry } from 'prom-client'
 import type { KafkaJSAdminExporterOptions } from './kafkaJSAdminExporterOptions'
 import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
 
+const MILLISECONDS_IN_A_SECOND = 1000
+
 /**
  * Exports metrics for a Kafka admin client
  */
 export class KafkaJSAdminPrometheusExporter {
+  private static readonly SECOND_IN_MILLISECOND = 1000
   private readonly admin: Admin
   private readonly register: Registry
   private readonly options: KafkaJSAdminExporterOptions
   private readonly defaultOptions: KafkaJSAdminExporterOptions = {
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     adminRequestDurationHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10]
   }
 
@@ -130,7 +134,7 @@ export class KafkaJSAdminPrometheusExporter {
     this.adminRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
     this.adminRequestDuration.observe(
       mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels),
-      event.payload.duration / 1000
+      event.payload.duration / MILLISECONDS_IN_A_SECOND
     )
   }
 

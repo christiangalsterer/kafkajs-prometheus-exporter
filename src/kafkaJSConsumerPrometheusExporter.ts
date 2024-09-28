@@ -14,6 +14,7 @@ import { Counter, Gauge, Histogram, type Registry } from 'prom-client'
 import type { KafkaJSConsumerExporterOptions } from './kafkaJSConsumerExporterOptions'
 import { mergeLabelNamesWithStandardLabels, mergeLabelsWithStandardLabels } from './utils'
 
+const MILLISECONDS_IN_A_SECOND = 1000
 /**
  * Exports metrics for a Kafka consumer
  */
@@ -22,10 +23,15 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly register: Registry
   private readonly options: KafkaJSConsumerExporterOptions
   private readonly defaultOptions: KafkaJSConsumerExporterOptions = {
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     consumerRequestDurationHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     consumerBatchLatencyHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     consumerBatchDurationHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     consumerFetchLatencyHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     consumerFetchDurationHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10]
   }
 
@@ -253,7 +259,7 @@ export class KafkaJSConsumerPrometheusExporter {
     this.consumerRequestSizeTotal.inc(mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels), event.payload.size)
     this.consumerRequestDuration.observe(
       mergeLabelsWithStandardLabels({ broker: event.payload.broker }, this.options.defaultLabels),
-      event.payload.duration / 1000
+      event.payload.duration / MILLISECONDS_IN_A_SECOND
     )
   }
 
@@ -265,8 +271,14 @@ export class KafkaJSConsumerPrometheusExporter {
   }
 
   onConsumerFetch(event: ConsumerFetchEvent): void {
-    this.consumerFetchDuration.observe(mergeLabelsWithStandardLabels({}, this.options.defaultLabels), event.payload.duration / 1000)
-    this.consumerFetchLatency.observe(mergeLabelsWithStandardLabels({}, this.options.defaultLabels), event.payload.duration / 1000)
+    this.consumerFetchDuration.observe(
+      mergeLabelsWithStandardLabels({}, this.options.defaultLabels),
+      event.payload.duration / MILLISECONDS_IN_A_SECOND
+    )
+    this.consumerFetchLatency.observe(
+      mergeLabelsWithStandardLabels({}, this.options.defaultLabels),
+      event.payload.duration / MILLISECONDS_IN_A_SECOND
+    )
     this.consumerFetchTotal.inc(mergeLabelsWithStandardLabels({}, this.options.defaultLabels))
   }
 
@@ -277,11 +289,11 @@ export class KafkaJSConsumerPrometheusExporter {
     )
     this.consumerBatchDuration.observe(
       mergeLabelsWithStandardLabels({ topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels),
-      event.payload.duration / 1000
+      event.payload.duration / MILLISECONDS_IN_A_SECOND
     )
     this.consumerBatchLatency.observe(
       mergeLabelsWithStandardLabels({ topic: event.payload.topic, partition: event.payload.partition }, this.options.defaultLabels),
-      event.payload.duration / 1000
+      event.payload.duration / MILLISECONDS_IN_A_SECOND
     )
   }
 }
