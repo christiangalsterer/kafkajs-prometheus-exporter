@@ -85,6 +85,13 @@ describe('all metrics are created with the correct parameters', () => {
       registers: [register]
     })
 
+    expect(Gauge).toHaveBeenCalledWith({
+      name: 'kafka_producer_request_queue_size',
+      help: 'Size of the request queue.',
+      labelNames: ['broker'],
+      registers: [register]
+    })
+
     expect(Histogram).toHaveBeenCalledWith({
       name: 'kafka_producer_request_duration_seconds',
       help: 'The time taken for processing a producer request.',
