@@ -3,6 +3,7 @@ import { type Admin, type AdminEvents, Kafka } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { KafkaJSAdminPrometheusExporter } from '../src/kafkaJSAdminPrometheusExporter'
+import { adminMetrics } from './consts'
 
 describe('tests KafkaJSAdminPrometheusExporter', () => {
   const KAFKA_CLIENT_ID = 'myTestClientId'
@@ -12,15 +13,6 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
     clientId: KAFKA_CLIENT_ID,
     brokers: ['localhost:9094']
   })
-  const metrics: string[] = [
-    'kafka_admin_connection_count',
-    'kafka_admin_connection_creation_total',
-    'kafka_admin_connection_close_total',
-    'kafka_admin_request_duration_seconds',
-    'kafka_admin_request_total',
-    'kafka_admin_request_size_total',
-    'kafka_admin_request_queue_size'
-  ]
 
   beforeEach(() => {
     register = new Registry()
@@ -30,8 +22,8 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
   test('all metrics are registered in registry', () => {
     // eslint-disable-next-line no-new
     new KafkaJSAdminPrometheusExporter(admin, register)
-    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach((metric) => {
+    expect(register.getMetricsAsArray()).toHaveLength(adminMetrics.length)
+    adminMetrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
@@ -40,8 +32,8 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
     const options = { defaultLabels: { foo: 'bar', alice: 2 } }
     // eslint-disable-next-line no-new
     new KafkaJSAdminPrometheusExporter(admin, register, options)
-    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach((metric) => {
+    expect(register.getMetricsAsArray()).toHaveLength(adminMetrics.length)
+    adminMetrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
@@ -94,8 +86,8 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
     new KafkaJSAdminPrometheusExporter(admin, register)
     // eslint-disable-next-line no-new
     new KafkaJSAdminPrometheusExporter(admin, register)
-    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach((metric) => {
+    expect(register.getMetricsAsArray()).toHaveLength(adminMetrics.length)
+    adminMetrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })

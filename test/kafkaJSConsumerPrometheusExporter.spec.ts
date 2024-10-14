@@ -3,6 +3,7 @@ import { type Consumer, type ConsumerEvents, Kafka } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { KafkaJSConsumerPrometheusExporter } from '../src/kafkaJSConsumerPrometheusExporter'
+import { consumerMetrics } from './consts'
 
 describe('tests kafkaJSConsumerPrometheusExporter', () => {
   let register: Registry
@@ -10,23 +11,6 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
   const kafka = new Kafka({
     brokers: ['localhost:9094']
   })
-  const metrics: string[] = [
-    'kafka_consumer_connection_count',
-    'kafka_consumer_connection_creation_total',
-    'kafka_consumer_connection_close_total',
-    'kafka_consumer_connection_crashed_total',
-    'kafka_consumer_heartbeat_total',
-    'kafka_consumer_request_duration_seconds',
-    'kafka_consumer_request_total',
-    'kafka_consumer_request_size_total',
-    'kafka_consumer_request_queue_size',
-    'kafka_consumer_fetch_duration_seconds',
-    'kafka_consumer_fetch_latency',
-    'kafka_consumer_fetch_total',
-    'kafka_consumer_batch_size_total',
-    'kafka_consumer_batch_duration_seconds',
-    'kafka_consumer_batch_latency'
-  ]
 
   beforeEach(() => {
     register = new Registry()
@@ -36,8 +20,8 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
   test('all metrics are registered in registry', () => {
     // eslint-disable-next-line no-new
     new KafkaJSConsumerPrometheusExporter(consumer, register)
-    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach((metric) => {
+    expect(register.getMetricsAsArray()).toHaveLength(consumerMetrics.length)
+    consumerMetrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
@@ -46,8 +30,8 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
     const options = { defaultLabels: { foo: 'bar', alice: 2 } }
     // eslint-disable-next-line no-new
     new KafkaJSConsumerPrometheusExporter(consumer, register, options)
-    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach((metric) => {
+    expect(register.getMetricsAsArray()).toHaveLength(consumerMetrics.length)
+    consumerMetrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
@@ -96,8 +80,8 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
     new KafkaJSConsumerPrometheusExporter(consumer, register)
     // eslint-disable-next-line no-new
     new KafkaJSConsumerPrometheusExporter(consumer, register)
-    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach((metric) => {
+    expect(register.getMetricsAsArray()).toHaveLength(consumerMetrics.length)
+    consumerMetrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })

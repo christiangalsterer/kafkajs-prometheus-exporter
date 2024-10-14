@@ -4,6 +4,7 @@ import { Kafka, type Producer } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { monitorKafkaJSProducer } from '../src/monitorKafkaJSProducer'
+import { producerMetrics } from './consts'
 
 describe('it monitorKafkaJSProducer', () => {
   const clientId = 'myTestClientId'
@@ -27,10 +28,10 @@ describe('it monitorKafkaJSProducer', () => {
   })
 
   beforeEach(() => {
+    const options = { defaultLabels: { foo: 'bar', alice: 2 } }
     register = new Registry()
     producer = kafka.producer()
-
-    monitorKafkaJSProducer(producer, register)
+    monitorKafkaJSProducer(producer, register, options)
   })
 
   test('it kafka producer connection metrics', async () => {
@@ -67,5 +68,24 @@ describe('it monitorKafkaJSProducer', () => {
     expect(kafkaProducerRequestTotal?.values.at(0)?.value).toBeGreaterThan(0)
 
     await producer.disconnect()
+  })
+
+  test.each(producerMetrics)('it kafka producer metric "%s" is emitted with default labels', async (metric) => {
+    const expectedLabels = { foo: 'bar', alice: 2 }
+
+    await producer.connect()
+    await producer.send({
+      topic: KAFKA_TEST_TOPIC,
+      messages: [{ value: 'Hello from the KafkaJS user!' }]
+    })
+    await producer.disconnect()
+
+    const metrics = await register.getMetricsAsJSON()
+    console.log(metrics.length)
+    for (const metric of metrics) {
+      for (const value of metric.values) {
+        expect(value.labels).toMatchObject(expectedLabels)
+      }
+    }
   })
 })

@@ -3,6 +3,7 @@ import { Kafka, type Producer, type ProducerEvents } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { KafkaJSProducerPrometheusExporter } from '../src/kafkaJSProducerPrometheusExporter'
+import { producerMetrics } from './consts'
 
 describe('tests kafkaJSProducerPrometheusExporter', () => {
   const KAFKA_CLIENT_ID = 'myTestClientId'
@@ -12,15 +13,6 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
     clientId: KAFKA_CLIENT_ID,
     brokers: ['localhost:9094']
   })
-  const metrics: string[] = [
-    'kafka_producer_connection_count',
-    'kafka_producer_connection_creation_total',
-    'kafka_producer_connection_close_total',
-    'kafka_producer_request_duration_seconds',
-    'kafka_producer_request_total',
-    'kafka_producer_request_size_total',
-    'kafka_producer_request_queue_size'
-  ]
 
   beforeEach(() => {
     register = new Registry()
@@ -30,8 +22,8 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
   test('all metrics are registered in registry', () => {
     // eslint-disable-next-line no-new
     new KafkaJSProducerPrometheusExporter(producer, register)
-    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach((metric) => {
+    expect(register.getMetricsAsArray()).toHaveLength(producerMetrics.length)
+    producerMetrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
@@ -40,8 +32,8 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
     const options = { defaultLabels: { foo: 'bar', alice: 2 } }
     // eslint-disable-next-line no-new
     new KafkaJSProducerPrometheusExporter(producer, register, options)
-    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach((metric) => {
+    expect(register.getMetricsAsArray()).toHaveLength(producerMetrics.length)
+    producerMetrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })
@@ -76,8 +68,8 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
     new KafkaJSProducerPrometheusExporter(producer, register)
     // eslint-disable-next-line no-new
     new KafkaJSProducerPrometheusExporter(producer, register)
-    expect(register.getMetricsAsArray()).toHaveLength(metrics.length)
-    metrics.forEach((metric) => {
+    expect(register.getMetricsAsArray()).toHaveLength(producerMetrics.length)
+    producerMetrics.forEach((metric) => {
       expect(register.getSingleMetric(metric)).toBeDefined()
     })
   })

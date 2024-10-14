@@ -4,6 +4,7 @@ import { type Consumer, Kafka, type Producer } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { monitorKafkaJSConsumer } from '../src/monitorKafkaJSConsumer'
+import { consumerMetrics } from './consts'
 
 describe('it monitorKafkaJSConsumer', () => {
   const clientId = 'myTestClientId'
@@ -29,10 +30,11 @@ describe('it monitorKafkaJSConsumer', () => {
   })
 
   beforeEach(() => {
+    const options = { defaultLabels: { foo: 'bar', alice: 2 } }
     register = new Registry()
     consumer = kafka.consumer({ groupId: KAFKA_GROUP_ID, allowAutoTopicCreation: true })
     producer = kafka.producer()
-    monitorKafkaJSConsumer(consumer, register)
+    monitorKafkaJSConsumer(consumer, register, options)
   })
 
   test('it kafka consumer connection metrics', async () => {
@@ -93,5 +95,29 @@ describe('it monitorKafkaJSConsumer', () => {
 
     await consumer.disconnect()
     await producer.disconnect()
+  })
+
+  test.each(consumerMetrics)('it kafka consumer metric "%s" is emitted with default labels', async (metric) => {
+    const expectedLabels = { foo: 'bar', alice: 2 }
+
+    await consumer.connect()
+    await consumer.subscribe({ topics: [KAFKA_TEST_TOPIC], fromBeginning: true })
+    await producer.connect()
+    const KAFKA_MESSAGE = 'Hello from the KafkaJS user!'
+    await producer.send({
+      topic: KAFKA_TEST_TOPIC,
+      messages: [{ value: KAFKA_MESSAGE }]
+    })
+
+    await consumer.disconnect()
+    await producer.disconnect()
+
+    const metrics = await register.getMetricsAsJSON()
+    console.log(metrics.length)
+    for (const metric of metrics) {
+      for (const value of metric.values) {
+        expect(value.labels).toMatchObject(expectedLabels)
+      }
+    }
   })
 })

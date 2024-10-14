@@ -4,6 +4,7 @@ import { type Admin, Kafka } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { monitorKafkaJSAdmin } from '../src/monitorKafkaJSAdmin'
+import { adminMetrics } from './consts'
 
 describe('it monitorKafkaJSAdmin', () => {
   const clientId = 'myTestClientId'
@@ -27,9 +28,10 @@ describe('it monitorKafkaJSAdmin', () => {
   })
 
   beforeEach(() => {
+    const options = { defaultLabels: { foo: 'bar', alice: 2 } }
     register = new Registry()
     admin = kafka.admin()
-    monitorKafkaJSAdmin(admin, register)
+    monitorKafkaJSAdmin(admin, register, options)
   })
 
   test('it kafka admin connection metrics', async () => {
@@ -68,5 +70,22 @@ describe('it monitorKafkaJSAdmin', () => {
     expect(topics.length).toEqual(1)
 
     await admin.disconnect()
+  })
+
+  test.each(adminMetrics)('it kafka admin metric "%s" is emitted with default labels', async (metric) => {
+    const expectedLabels = { foo: 'bar', alice: 2 }
+
+    await admin.connect()
+    await admin.createTopics({
+      waitForLeaders: true,
+      topics: [{ topic: KAFKA_TEST_TOPIC, numPartitions: 1, replicationFactor: 1 }]
+    })
+    await admin.disconnect()
+    const metrics = await register.getMetricsAsJSON()
+    for (const metric of metrics) {
+      for (const value of metric.values) {
+        expect(value.labels).toMatchObject(expectedLabels)
+      }
+    }
   })
 })
