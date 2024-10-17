@@ -3,7 +3,7 @@ import { type Admin, type AdminEvents, Kafka } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { KafkaJSAdminPrometheusExporter } from '../src/kafkaJSAdminPrometheusExporter'
-import { adminMetrics } from './consts'
+import { adminMetrics } from './const'
 
 describe('tests KafkaJSAdminPrometheusExporter', () => {
   const KAFKA_CLIENT_ID = 'myTestClientId'

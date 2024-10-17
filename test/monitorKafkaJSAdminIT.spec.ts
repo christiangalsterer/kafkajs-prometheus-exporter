@@ -4,7 +4,7 @@ import { type Admin, Kafka } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { monitorKafkaJSAdmin } from '../src/monitorKafkaJSAdmin'
-import { adminMetrics } from './consts'
+import { adminMetrics } from './const'
 
 describe('it monitorKafkaJSAdmin', () => {
   const clientId = 'myTestClientId'
