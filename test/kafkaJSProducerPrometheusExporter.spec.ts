@@ -3,7 +3,7 @@ import { Kafka, type Producer, type ProducerEvents } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { KafkaJSProducerPrometheusExporter } from '../src/kafkaJSProducerPrometheusExporter'
-import { producerMetrics } from './const'
+import { producerMetrics } from './constants'
 
 describe('tests kafkaJSProducerPrometheusExporter', () => {
   const KAFKA_CLIENT_ID = 'myTestClientId'

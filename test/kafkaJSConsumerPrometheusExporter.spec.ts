@@ -3,7 +3,7 @@ import { type Consumer, type ConsumerEvents, Kafka } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { KafkaJSConsumerPrometheusExporter } from '../src/kafkaJSConsumerPrometheusExporter'
-import { consumerMetrics } from './const'
+import { consumerMetrics } from './constants'
 
 describe('tests kafkaJSConsumerPrometheusExporter', () => {
   let register: Registry

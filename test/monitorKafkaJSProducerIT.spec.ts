@@ -4,7 +4,7 @@ import { Kafka, type Producer } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { monitorKafkaJSProducer } from '../src/monitorKafkaJSProducer'
-import { producerMetrics } from './const'
+import { producerMetrics } from './constants'
 
 describe('it monitorKafkaJSProducer', () => {
   const clientId = 'myTestClientId'
