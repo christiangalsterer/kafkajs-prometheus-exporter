@@ -6,24 +6,18 @@ import { Counter, Gauge, Histogram, type Registry } from 'prom-client'
 import { KafkaJSProducerPrometheusExporter } from '../src/kafkaJSProducerPrometheusExporter'
 
 jest.mock('prom-client', () => ({
-  Counter: jest.fn(() => {
-    return {
-      set: jest.fn(),
-      get: jest.fn()
-    }
-  }),
-  Gauge: jest.fn(() => {
-    return {
-      set: jest.fn(),
-      get: jest.fn()
-    }
-  }),
-  Histogram: jest.fn(() => {
-    return {
-      set: jest.fn(),
-      get: jest.fn()
-    }
-  })
+  Counter: jest.fn(() => ({
+    set: jest.fn(),
+    get: jest.fn()
+  })),
+  Gauge: jest.fn(() => ({
+    set: jest.fn(),
+    get: jest.fn()
+  })),
+  Histogram: jest.fn(() => ({
+    set: jest.fn(),
+    get: jest.fn()
+  }))
 }))
 
 describe('all metrics are created with the correct parameters', () => {
