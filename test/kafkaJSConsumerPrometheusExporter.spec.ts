@@ -51,7 +51,7 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
       pause: jest.fn(),
       paused: jest.fn(),
       resume: jest.fn(),
-      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
       events: {} as ConsumerEvents
     }
 

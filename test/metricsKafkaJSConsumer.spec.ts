@@ -23,6 +23,7 @@ jest.mock('prom-client', () => ({
 describe('all metrics are created with the correct parameters', () => {
   const options = { defaultLabels: { foo: 'bar', alice: 2 } }
   const KAFKA_CLIENT_ID = 'myTestClientId'
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
   const register: Registry = {} as Registry
   const kafka = new Kafka({
     clientId: KAFKA_CLIENT_ID,

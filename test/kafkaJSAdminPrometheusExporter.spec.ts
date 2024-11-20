@@ -66,7 +66,7 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
       listPartitionReassignments: jest.fn(),
       logger: jest.fn(),
       on: jest.fn(),
-      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
       events: {} as AdminEvents
     }
 

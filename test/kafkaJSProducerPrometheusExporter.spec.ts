@@ -48,7 +48,7 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
       sendBatch: jest.fn(),
       transaction: jest.fn(),
       logger: jest.fn(),
-      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
       events: {} as ProducerEvents
     }
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-type-assertion */
 import type { Admin, ConnectEvent, DisconnectEvent, RequestEvent, RequestQueueSizeEvent } from 'kafkajs'
 import { Counter, Gauge, Histogram, type Registry } from 'prom-client'
 

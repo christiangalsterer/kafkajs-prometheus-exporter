@@ -34,7 +34,7 @@ describe('tests monitorKafkaConsumerJS', () => {
     monitorKafkaJSConsumer(kafkaConsumer, register)
     // eslint-disable-next-line @typescript-eslint/prefer-destructuring
     const mockKafkaJSConsumerPrometheusExporterInstance = mockKafkaJSConsumerPrometheusExporter.mock.instances[0]
-    // eslint-disable-next-line jest/unbound-method
+    // eslint-disable-next-line jest/unbound-method, @typescript-eslint/no-unsafe-type-assertion
     const monitorEnableMetrics = mockKafkaJSConsumerPrometheusExporterInstance.enableMetrics as jest.Mock
     expect(monitorEnableMetrics).toHaveBeenCalledTimes(1)
   })
