@@ -9,7 +9,8 @@ jest.mock('../src/kafkaJSAdminPrometheusExporter')
 const mockKafkaJSAdminPrometheusExporter = jest.mocked(KafkaJSAdminPrometheusExporter)
 
 describe('tests monitorKafkaAdminJS', () => {
-  let kafkaAdmin: Admin
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/consistent-type-assertions
+  const kafkaAdmin: Admin = {} as Admin
   let register: Registry
 
   beforeEach(() => {

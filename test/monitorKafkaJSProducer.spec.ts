@@ -9,7 +9,8 @@ jest.mock('../src/kafkaJSProducerPrometheusExporter')
 const mockKafkaJSProducerPrometheusExporter = jest.mocked(KafkaJSProducerPrometheusExporter)
 
 describe('tests monitorKafkaProducerJS', () => {
-  let kafkaProducer: Producer
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
+  const kafkaProducer: Producer = {} as Producer
   let register: Registry
 
   beforeEach(() => {
