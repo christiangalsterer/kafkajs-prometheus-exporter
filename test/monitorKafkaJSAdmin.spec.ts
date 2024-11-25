@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, jest, test } from '@jest/globals'
-import type { Admin } from 'kafkajs'
+import { type Admin, Kafka } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { KafkaJSAdminPrometheusExporter } from '../src/kafkaJSAdminPrometheusExporter'
@@ -9,8 +9,12 @@ jest.mock('../src/kafkaJSAdminPrometheusExporter')
 const mockKafkaJSAdminPrometheusExporter = jest.mocked(KafkaJSAdminPrometheusExporter)
 
 describe('tests monitorKafkaAdminJS', () => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion, @typescript-eslint/consistent-type-assertions
-  const kafkaAdmin: Admin = {} as Admin
+  const KAFKA_CLIENT_ID = 'myTestClientId'
+  const kafka = new Kafka({
+    clientId: KAFKA_CLIENT_ID,
+    brokers: ['localhost:9094']
+  })
+  const kafkaAdmin: Admin = kafka.admin()
   let register: Registry
 
   beforeEach(() => {

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, jest, test } from '@jest/globals'
-import type { Consumer } from 'kafkajs'
+import { type Consumer, Kafka } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { KafkaJSConsumerPrometheusExporter } from '../src/kafkaJSConsumerPrometheusExporter'
@@ -9,8 +9,10 @@ jest.mock('../src/kafkaJSConsumerPrometheusExporter')
 const mockKafkaJSConsumerPrometheusExporter = jest.mocked(KafkaJSConsumerPrometheusExporter)
 
 describe('tests monitorKafkaConsumerJS', () => {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
-  const kafkaConsumer: Consumer = {} as Consumer
+  const kafka = new Kafka({
+    brokers: ['localhost:9094']
+  })
+  const kafkaConsumer: Consumer = kafka.consumer({ groupId: 'group1' })
   let register: Registry
 
   beforeEach(() => {

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, jest, test } from '@jest/globals'
-import type { Producer } from 'kafkajs'
+import { Kafka, type Producer } from 'kafkajs'
 import { Registry } from 'prom-client'
 
 import { KafkaJSProducerPrometheusExporter } from '../src/kafkaJSProducerPrometheusExporter'
@@ -9,8 +9,12 @@ jest.mock('../src/kafkaJSProducerPrometheusExporter')
 const mockKafkaJSProducerPrometheusExporter = jest.mocked(KafkaJSProducerPrometheusExporter)
 
 describe('tests monitorKafkaProducerJS', () => {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions, @typescript-eslint/no-unsafe-type-assertion
-  const kafkaProducer: Producer = {} as Producer
+  const KAFKA_CLIENT_ID = 'myTestClientId'
+  const kafka = new Kafka({
+    clientId: KAFKA_CLIENT_ID,
+    brokers: ['localhost:9094']
+  })
+  const kafkaProducer: Producer = kafka.producer()
   let register: Registry
 
   beforeEach(() => {
