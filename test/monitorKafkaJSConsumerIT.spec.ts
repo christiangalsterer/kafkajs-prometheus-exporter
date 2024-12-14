@@ -68,6 +68,7 @@ describe('it monitorKafkaJSConsumer', () => {
       messages: [{ value: KAFKA_MESSAGE }]
     })
 
+    // eslint-disable-next-line promise/avoid-new
     const consumedMessage = await new Promise((resolve) => {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       consumer.run({
@@ -79,6 +80,7 @@ describe('it monitorKafkaJSConsumer', () => {
     })
 
     const kafkaConsumerRequestTotal = await register.getSingleMetric('kafka_consumer_request_total')?.get()
+    
     expect(kafkaConsumerRequestTotal?.type).toEqual('counter')
     expect(kafkaConsumerRequestTotal?.values.length).toEqual(1)
     expect(kafkaConsumerRequestTotal?.values.at(0)?.value).toBeGreaterThan(0)
@@ -93,6 +95,7 @@ describe('it monitorKafkaJSConsumer', () => {
     //   }
     // })
 
+    await consumer.disconnect()
     await consumer.disconnect()
     await producer.disconnect()
   })
