@@ -80,7 +80,7 @@ describe('it monitorKafkaJSConsumer', () => {
     })
 
     const kafkaConsumerRequestTotal = await register.getSingleMetric('kafka_consumer_request_total')?.get()
-    
+
     expect(kafkaConsumerRequestTotal?.type).toEqual('counter')
     expect(kafkaConsumerRequestTotal?.values.length).toEqual(1)
     expect(kafkaConsumerRequestTotal?.values.at(0)?.value).toBeGreaterThan(0)
