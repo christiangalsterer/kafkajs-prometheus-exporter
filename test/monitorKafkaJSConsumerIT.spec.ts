@@ -96,7 +96,6 @@ describe('it monitorKafkaJSConsumer', () => {
     // })
 
     await consumer.disconnect()
-    await consumer.disconnect()
     await producer.disconnect()
   })
 
