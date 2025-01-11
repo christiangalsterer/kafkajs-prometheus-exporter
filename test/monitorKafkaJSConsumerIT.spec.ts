@@ -115,7 +115,6 @@ describe('it monitorKafkaJSConsumer', () => {
     await producer.disconnect()
 
     const metrics = await register.getMetricsAsJSON()
-    console.log(metrics.length)
     for (const metric of metrics) {
       for (const value of metric.values) {
         expect(value.labels).toMatchObject(expectedLabels)
