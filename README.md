@@ -340,7 +340,7 @@ monitorKafkaJSProducer(producer, register, { defaultLabels: {client_id: clientId
 monitorKafkaJSConsumer(consumer, register, { defaultLabels: {client_id: clientId} })
 
 // monitor KafkaJS admin
-kafkaExporter.monitorKafkaJSAdmin(admin, register, { defaultLabels: {client_id: clientId} })
+monitorKafkaJSAdmin(admin, register, { defaultLabels: {client_id: clientId} })
 
 ...
 
