@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.0.0 (2025-05-17)
+
+
+### Features
+
+* add support for node coveralls reports ([9fbbf89](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/9fbbf89e25344df93a2b0bcfa356becfcc3d0385))
+* add support for re-registering metrics ([#98](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/issues/98)) ([ed4d11f](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/ed4d11f2b9815e7ca14f9325dc0fad5fc478c44a))
+* use duration instead of latency in grafana dashboard ([c0dff16](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/c0dff165e5bfae58b6a43bb6c28839c55a0f56e3))
+
+
+### Bug Fixes
+
+* **91:** init consumerFetchDuration ([#92](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/issues/92)) ([f7f5c55](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/f7f5c55294fc3d56790bb49caa7a037c70ac5f51))
+* missing initialization for kafka_consumer_batch_duration_seconds metric ([39fd4fa](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/39fd4fa1f81c8df9a6a18e24e7140d55d7565af1))
+* use duration instead of latency as the more correct term for .*request_duration metrics ([d9e90b1](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/d9e90b14616c20472476ae4e82bda556fbe2acb2))
+* use duration instead of latency as the more correct term for .*request_duration metrics ([93b07da](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/93b07dadef839fef3e7fa987f3f110d2218b6278))
+* wrong entrypoint after migration to single tsconfig file ([3751531](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/37515318e1139e54642bf98fef39a56f8f22df07))
+
+
+### Reverts
+
+* release 3.1.1 ([8f7239a](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/8f7239af21dad08c8129d4fda25d7d6c609e5d91))
+* release 3.1.1 ([2922c4a](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/2922c4abb646eb6ac464d84d78a95e331a3f0810))
+
 ## [3.2.0](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/compare/v3.1.1...v3.2.0) (2024-05-07)
 
 
