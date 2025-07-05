@@ -16,7 +16,7 @@ describe('it monitorKafkaJSAdmin', () => {
   let kafkaContainer: StartedKafkaContainer
 
   beforeAll(async () => {
-    kafkaContainer = await new KafkaContainer('confluentinc/cp-kafka:7.2.2').withExposedPorts(KAFKA_PORT).start()
+    kafkaContainer = await new KafkaContainer('confluentinc/cp-kafka:latest').withExposedPorts(KAFKA_PORT).start()
     kafka = new Kafka({
       clientId,
       brokers: [`${kafkaContainer.getHost()}:${kafkaContainer.getMappedPort(KAFKA_PORT).toString()}`]
