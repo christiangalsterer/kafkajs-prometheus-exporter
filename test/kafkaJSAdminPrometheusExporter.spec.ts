@@ -70,7 +70,12 @@ describe('tests KafkaJSAdminPrometheusExporter', () => {
       events: {} as AdminEvents
     }
 
-    const events: string[] = ['admin.connect', 'admin.disconnect', 'admin.network.request', 'admin.network.request_queue_size']
+    const events: Array<'admin.connect' | 'admin.disconnect' | 'admin.network.request' | 'admin.network.request_queue_size'> = [
+      'admin.connect',
+      'admin.disconnect',
+      'admin.network.request',
+      'admin.network.request_queue_size'
+    ]
 
     const exporter = new KafkaJSAdminPrometheusExporter(mockAdmin, register)
     exporter.enableMetrics()

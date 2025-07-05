@@ -55,7 +55,16 @@ describe('tests kafkaJSConsumerPrometheusExporter', () => {
       events: {} as ConsumerEvents
     }
 
-    const events: string[] = [
+    const events: Array<
+      | 'consumer.connect'
+      | 'consumer.disconnect'
+      | 'consumer.crash'
+      | 'consumer.heartbeat'
+      | 'consumer.network.request'
+      | 'consumer.network.request_queue_size'
+      | 'consumer.fetch'
+      | 'consumer.end_batch_process'
+    > = [
       'consumer.connect',
       'consumer.disconnect',
       'consumer.crash',

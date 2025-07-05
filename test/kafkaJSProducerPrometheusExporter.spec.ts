@@ -52,7 +52,12 @@ describe('tests kafkaJSProducerPrometheusExporter', () => {
       events: {} as ProducerEvents
     }
 
-    const events: string[] = ['producer.connect', 'producer.disconnect', 'producer.network.request', 'producer.network.request_queue_size']
+    const events: Array<'producer.connect' | 'producer.disconnect' | 'producer.network.request' | 'producer.network.request_queue_size'> = [
+      'producer.connect',
+      'producer.disconnect',
+      'producer.network.request',
+      'producer.network.request_queue_size'
+    ]
 
     const exporter = new KafkaJSProducerPrometheusExporter(mockProducer, register)
     exporter.enableMetrics()
