@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 3.2.1 (2025-09-14)
+
+
+### Features
+
+* add support for node coveralls reports ([9fbbf89](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/9fbbf89e25344df93a2b0bcfa356becfcc3d0385))
+* add support for re-registering metrics ([#98](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/issues/98)) ([ed4d11f](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/ed4d11f2b9815e7ca14f9325dc0fad5fc478c44a))
+
+
+### Bug Fixes
+
+* **91:** init consumerFetchDuration ([#92](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/issues/92)) ([f7f5c55](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/f7f5c55294fc3d56790bb49caa7a037c70ac5f51))
+* missing initialization for kafka_consumer_batch_duration_seconds metric ([39fd4fa](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/39fd4fa1f81c8df9a6a18e24e7140d55d7565af1))
+* wrong entrypoint after migration to single tsconfig file ([3751531](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/37515318e1139e54642bf98fef39a56f8f22df07))
+
+
+### Reverts
+
+* release 3.1.1 ([8f7239a](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/8f7239af21dad08c8129d4fda25d7d6c609e5d91))
+* release 3.1.1 ([2922c4a](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/2922c4abb646eb6ac464d84d78a95e331a3f0810))
+
+
+### Miscellaneous Chores
+
+* release 3.2.1 ([ef770f8](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/commit/ef770f8ff7859ca3425ecb268a2b52cb29223f6f))
+
 ## [3.2.0](https://github.com/christiangalsterer/kafkajs-prometheus-exporter/compare/v3.1.1...v3.2.0) (2024-05-07)
 
 
