@@ -18,5 +18,5 @@ permissions:
 
 jobs:
   snyk:
-    uses: christiangalsterer/github-actions/.github/workflows/node_snyk.yaml@pnpm
+    uses: christiangalsterer/github-actions/.github/workflows/node_snyk.yaml@main
     secrets: inherit
