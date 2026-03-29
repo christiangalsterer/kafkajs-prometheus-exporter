@@ -11,7 +11,6 @@ const MILLISECONDS_IN_A_SECOND = 1000
  * Exports metrics for a Kafka admin client
  */
 export class KafkaJSAdminPrometheusExporter {
-  private static readonly SECOND_IN_MILLISECOND = 1000
   private readonly admin: Admin
   private readonly register: Registry
   private readonly options: KafkaJSAdminExporterOptions
