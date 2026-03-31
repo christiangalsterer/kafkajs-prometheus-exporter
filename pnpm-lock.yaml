@@ -19,8 +19,8 @@ importers:
         specifier: 30.3.0
         version: 30.3.0
       '@testcontainers/kafka':
-        specifier: 11.12.0
-        version: 11.12.0
+        specifier: 11.13.0
+        version: 11.13.0
       '@types/jest':
         specifier: 30.0.0
         version: 30.0.0
@@ -43,8 +43,8 @@ importers:
         specifier: 3.8.1
         version: 3.8.1
       renovate:
-        specifier: 43.76.2
-        version: 43.76.2(typanion@3.14.0)
+        specifier: 43.77.7
+        version: 43.77.7(typanion@3.14.0)
       ts-jest:
         specifier: 29.4.6
         version: 29.4.6(@babel/core@7.28.5)(@jest/transform@30.3.0)(@jest/types@30.3.0)(babel-jest@30.3.0(@babel/core@7.28.5))(jest-util@30.3.0)(jest@30.3.0(@types/node@25.0.3))(typescript@5.9.3)
@@ -1200,8 +1200,8 @@ packages:
     resolution: {integrity: sha512-4BAffykYOgO+5nzBWYwE3W90sBgLJoUPRWWcL8wlyiM8IB8ipJz3UMJ9KXQd1RKQXpKp8Tutn80HZtWsu2u76w==}
     engines: {node: '>=10'}
 
-  '@testcontainers/kafka@11.12.0':
-    resolution: {integrity: sha512-8MxF9+Kzw+4/+xzORAFg/DrNEr74Gcrc6l8Wcw9Wp2jcH1wXWRsZ7tsTtsedz69q4gyZZRv/1pZa2SPLxXwuxw==}
+  '@testcontainers/kafka@11.13.0':
+    resolution: {integrity: sha512-EhzrYkEIXAmmtTn3o41U2jIKHTxhBoB8yA+z/ll1d9ZKkYcBNm9EDJL8RFrKA73zurc9wjnwQCbErLSFrnYNoQ==}
 
   '@thi.ng/api@7.2.0':
     resolution: {integrity: sha512-4NcwHXxwPF/JgJG/jSFd9rjfQNguF0QrHvd6e+CEf4T0sFChqetW6ZmJ6/a2X+noDVntgulegA+Bx0HHzw+Tyw==}
@@ -4129,8 +4129,8 @@ packages:
   remark@15.0.1:
     resolution: {integrity: sha512-Eht5w30ruCXgFmxVUSlNWQ9iiimq07URKeFS3hNc8cUWy1llX4KDWfyEDZRycMc+znsN9Ux5/tJ/BFdgdOwA3A==}
 
-  renovate@43.76.2:
-    resolution: {integrity: sha512-awvPF9NliX+9eaa5BZWxoRKtNeVMeplItkV0JELd8x3K8iueZg9mUqykaT02RX8nwEAn1ExbVPHvRky3IORUXQ==}
+  renovate@43.77.7:
+    resolution: {integrity: sha512-UELYLvnzS/5L5LsUngsDwEDApVaVVQxbG6Tm8CccZhC2cZXyuCvohnXB4OWcZ21ej7ooPj73UH4owfjk7fqVjA==}
     engines: {node: ^24.11.0, pnpm: ^10.0.0}
     hasBin: true
 
@@ -4308,8 +4308,8 @@ packages:
   simple-get@4.0.1:
     resolution: {integrity: sha512-brv7p5WgH0jmQJr1ZDDfKDOSeWWg+OVypG99A/5vYGPqJ6pxiaHLy8nxtFjBA7oMa01ebA9gfh1uMCFqOuXxvA==}
 
-  simple-git@3.32.3:
-    resolution: {integrity: sha512-56a5oxFdWlsGygOXHWrG+xjj5w9ZIt2uQbzqiIGdR/6i5iococ7WQ/bNPzWxCJdEUGUCmyMH0t9zMpRJTaKxmw==}
+  simple-git@3.33.0:
+    resolution: {integrity: sha512-D4V/tGC2sjsoNhoMybKyGoE+v8A60hRawKQ1iFRA1zwuDgGZCBJ4ByOzZ5J8joBbi4Oam0qiPH+GhzmSBwbJng==}
 
   slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
@@ -6934,7 +6934,7 @@ snapshots:
     dependencies:
       defer-to-connect: 2.0.1
 
-  '@testcontainers/kafka@11.12.0':
+  '@testcontainers/kafka@11.13.0':
     dependencies:
       compare-versions: 6.1.1
       testcontainers: 11.13.0
@@ -10577,7 +10577,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  renovate@43.76.2(typanion@3.14.0):
+  renovate@43.77.7(typanion@3.14.0):
     dependencies:
       '@aws-sdk/client-codecommit': 3.1000.0
       '@aws-sdk/client-ec2': 3.1000.0
@@ -10684,7 +10684,7 @@ snapshots:
       semver-stable: 3.0.0
       semver-utils: 1.1.4
       shlex: 3.0.0
-      simple-git: 3.32.3
+      simple-git: 3.33.0
       slugify: 1.6.6
       source-map-support: 0.5.21
       strip-json-comments: 5.0.3
@@ -10889,7 +10889,7 @@ snapshots:
       simple-concat: 1.0.1
     optional: true
 
-  simple-git@3.32.3:
+  simple-git@3.33.0:
     dependencies:
       '@kwsites/file-exists': 1.1.1
       '@kwsites/promise-deferred': 1.1.1
