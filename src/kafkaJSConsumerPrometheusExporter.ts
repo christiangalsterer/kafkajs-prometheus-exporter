@@ -26,11 +26,11 @@ export class KafkaJSConsumerPrometheusExporter {
   private readonly defaultOptions: KafkaJSConsumerExporterOptions = {
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     consumerRequestDurationHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers, @typescript-eslint/no-deprecated
     consumerBatchLatencyHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     consumerBatchDurationHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
-    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers, @typescript-eslint/no-deprecated
     consumerFetchLatencyHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10],
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     consumerFetchDurationHistogramBuckets: [0.001, 0.005, 0.01, 0.02, 0.03, 0.04, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10]
